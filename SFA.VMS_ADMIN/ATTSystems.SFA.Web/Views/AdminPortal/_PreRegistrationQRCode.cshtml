@@ -1,0 +1,72 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+
+<style>
+    .modal-backdrop {
+        opacity: 0.3 !important
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        /*width: 100%;*/
+    }
+
+    @@media (max-width: 480px) {
+        #btnWidth {
+            width: 100%
+        }
+    }
+</style>
+
+<div class="modal fade" id="qrcoderegisterModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="" id="addForm" method="post">
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+
+                            <div class="col-md-8" style="border:1px solid grey;text-align:center;border-radius:10px;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                                <br />
+                                <h4 style="color:#E9510E">Secure Digital Identity Access</h4>
+                                <br /><br />
+                                <img src="~/Images/QR_Code.png" height="200" width="200" style="" />
+                                <br /> <br />
+                                <p>
+                                    Validity Period:
+                                </p>
+                                <p>
+                                    From 14 Nov 2023 08:30 PM
+                                </p>
+                                <p>
+                                    To 15 Nov 2023 10:30 AM
+                                </p>
+                                <br /><br /><br /><br />
+                            </div>
+
+                            <br /><br /><br /><br />
+
+
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

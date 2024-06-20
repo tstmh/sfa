@@ -1,0 +1,284 @@
+﻿@model ATTSystems.NetCore.Model.ViewModel.UserViewModel
+
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="~/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<script src="~/js/select2.full.min.js"></script>
+<link href="~/css/select2.min.css" rel="stylesheet" />
+<script src="~/js/select2-data.js"></script>
+<script src="~/js/jquery.validate.js"></script>
+<script src='~/js/admin.js'></script>
+
+@*<link rel="stylesheet" href="~/css/bootstrap-3.4.1.min.css"/>
+
+<script src="~/js/bootstrap-3.4.1.min.js"></script>*@
+<style>
+
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+</style>
+
+<style>
+    .modal-backdrop {
+        opacity: 0.1 !important
+    }
+
+    .toggle-password {
+        cursor: pointer;
+        position: absolute;
+        right: 10px; /* Adjust the distance from the right edge */
+        top: 50%; /* Position it vertically in the middle */
+        transform: translateY(-50%);
+        color: #38425e; /* Set the color to match the desired color */
+    }
+
+    .toggle-passwordd {
+        cursor: pointer;
+        position: absolute;
+        right: 10px; /* Adjust the distance from the right edge */
+        top: 70%; /* Position it vertically in the middle */
+        transform: translateY(-50%);
+        color: #38425e; /* Set the color to match the desired color */
+    }
+
+    .slash::before {
+        content: "/";
+        cursor: pointer;
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #38425e;
+    }
+
+    .slashh::before {
+        content: "/";
+        cursor: pointer;
+        position: absolute;
+        right: 6px;
+        top: 53%;
+        transform: translateY(-50%);
+        color: #38425e;
+        height: 20px;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+</style>
+@Html.Hidden("@ViewBag.pswdlenght")
+
+<div class="modal" id="addUserModal" role="dialog" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <form id="addUserForm" method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">User Name @* <span class="spanRequired">*</span> *@</label>
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", id = "uname", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @*  <div class="form-group form-float">
+                            <div class="form-line">
+                            <label class="form-label">Password @* <span class="spanRequired">*</span> *@</label>
+                            @* @Html.PasswordFor(model => model.Password, new { @class = "form-control", id = "pwd", autocomplete = "off", type="password" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            </div>*@
+
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">Password <span class="spanRequired">*</span></label>
+                                    <div class="password-wrapper">
+                                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", id = "pwd", autocomplete = "off", type="password" })
+                                        <span class="toggle-password slash" onclick="togglePasswordVisibility()">
+                                            &#128065;
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">Confirm Password @* <span class="spanRequired">*</span> *@</label>
+                                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", id = "cpwd" })
+                                    <span class="toggle-passwordd slashh" onclick="toggleConfirmPasswordVisibility()">
+                                        &#128065;
+                                    </span>
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">Email Address</label>
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group p-t-5">
+                                <label class="form-label">Role@* <span class="spanRequired">*</span> *@</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="roleSelect" multiple="multiple" name="multirole" class="multiselect-ui form-control">
+                                            @foreach (var role in Model.RoleList)
+                                            {
+                                                <option value="@role.Id">@role.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row clearfix js-sweetalert divModalFooterButton">
+                        <button type="button" class="btn" id="btnUserSave" style="color:#fff; background: #E9510E">Save</button>
+                        <button type="button" class="btn" data-dismiss="modal" id="btnclose" style="background: grey;color:white">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#roleSelect").select2({
+            placeholder: 'Choose',
+            allowClear: true,
+            fontsize: 100,
+        });
+
+        $('.form-line').addClass("focused");
+
+        $("#btnUserSave").click(function () {
+
+            var role = $("#roleSelect").val();
+            var newpass = $("#pwd").val();
+            var abcd = '@ViewBag.pswdlenght';
+
+            if ($("#uname").val() == "") {
+                swal("Info", "Please enter username", "info");
+                return false;
+            }
+            else if ($("#pwd").val() == "") {
+                swal("Info", "Please enter password", "info");
+                return false;
+            }
+            else if ($("#cpwd").val() == "") {
+                swal("Info", "Please enter confirm password", "info");
+                return false;
+            }
+            else if ($("#cpwd").val() != $("#pwd").val()) {
+                swal("Info", "Password and confirm password doesn't match", "info");
+                return false;
+            }
+            // else if (newpass.length != 8) {
+            //     swal("info", "Passwords must be 8 characters", "info");
+            //     return false;
+            // }
+            else if (newpass.length < abcd) {
+                swal("info", "Passwords must be at least (@ViewBag.pswdlenght) characters and contain at 4 of the following: at least (@ViewBag.minupper)upper case (A-Z), at least (@ViewBag.minlower)lower case (a-z), at least (@ViewBag.minnum)  number (0-9) and at least (@ViewBag.minspch) special character (e.g. !@@#$%^&*)", "info");
+                return false;
+            }
+            else if (role == "") {
+                swal("Info", "Please select a role", "info");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CreateUser", "Setting")",
+                data: $("#addUserForm").serialize(),
+                cache: false,
+                dataType: "json",
+                success: function (e) {
+
+                    SuccessAddUser(e);
+                },
+                error: function (e) { FailAddUser(e); },
+            });
+        });
+    });
+
+    var prevErr = [];
+    function SuccessAddUser(e) {
+        $("#loader").modal('hide');
+        if (e.code == 200) {
+            $('#addUserModal').modal('hide');
+            showDialog(e.resultDescription, "User Added", "success", "Setting", "ListUser", 0, false, false);
+        }
+        else {
+            //showDialog(e.resultDescription, "Add User", "error", "Setting", "ListUser", 0, false, false);
+            swal({
+                text: e.message,
+                type: "info"
+            }).then(function () {
+                return false;
+            });
+        }
+    }
+
+    function FailAddUser(e) {
+        $("#loader").modal('hide');
+        showDialog(e.statusText, "User", "error", "", "", 0, false, false);
+        $('#logoutForm').submit()
+    }
+    $('#btnclose').click(function () {
+        $("#addUserModal").modal('hide');
+    });
+    $('.close').click(function () {
+        $("#addUserModal").modal('hide');
+    });
+</script>
+<script>
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById("pwd");
+        var toggleBtn = document.querySelector(".toggle-password");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+
+        } else {
+            passwordField.type = "password";
+            toggleBtn.innerHTML = "&#128065;";
+        }
+        toggleBtn.classList.toggle("slash");
+    }
+    function toggleConfirmPasswordVisibility() {
+        var confirmPasswordField = document.getElementById("cpwd");
+        var toggleBtn = document.querySelector(".toggle-passwordd");
+
+        if (confirmPasswordField.type === "password") {
+            confirmPasswordField.type = "text";
+
+        } else {
+            confirmPasswordField.type = "password";
+            toggleBtn.innerHTML = "&#128065;";
+        }
+        toggleBtn.classList.toggle("slashh");
+    }
+</script>

@@ -1,0 +1,98 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.OnlinePortalViewModel
+@{
+    ViewData["Title"] = "Nricconfirm";
+
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/fontawsome.min.css" />
+<style>
+    body {
+        text-align: center;
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin: 0;
+        transform-origin: center center;
+    }
+
+    #btnBack {
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        float: right;
+    }
+
+    .white-box {
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        color: black;
+        width: fit-content;
+        border-radius: 8px;
+    }
+</style>
+
+
+<br />
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8" style="text-align:center;">
+        <img src="~/Images/Singapore_Food_Agency_logo.png" alt="Logo"/>
+        <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("Register", "OnlinePortal") + "'");">
+            <em class="fa fa-home" style="font-size:48px;color:#E9510E"></em>
+        </button>
+    </div>
+    <div class="col-md-2">
+    </div>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+
+
+<div class="row" id="mainDiv">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 text-center">
+        <div class="white-box" style="margin: 0 auto; width: fit-content;">
+            <br /><br />
+            <h1><strong style="font-size: xxx-large;">Thank You</strong></h1>
+            <p style="font-size: 25px;"><strong>@Model.visitorName</strong></p>
+            <p style="font-size: 36px;">
+                &nbsp;&nbsp; Your registration is valid for 1 year, &nbsp;&nbsp;<br />
+                &nbsp;  From @Html.DisplayFor(Model => Model.Fromdate)&nbsp;
+                &nbsp; <br />to @Html.DisplayFor(Model => Model.Todate)
+            </p>
+            <br>
+            <br> <br> <br>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+@* <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8 text-center">
+        <div class="white-box" style="margin: 0 auto; width: fit-content;">
+            <br />
+            <h1><strong style="font-size: xxx-large;">Thank You</strong></h1>
+            <p style="font-size: 36px;">
+                Your registration is valid for 1 year, <br />
+                From @Html.DisplayFor(Model => Model.Fromdate)
+                <br />To @Html.DisplayFor(Model => Model.Todate)
+            </p>
+            <br>
+            <br> <br> <br>
+        </div>
+    </div>
+ 
+    <div class="col-md-2">
+    </div>
+</div> *@
+
+
+

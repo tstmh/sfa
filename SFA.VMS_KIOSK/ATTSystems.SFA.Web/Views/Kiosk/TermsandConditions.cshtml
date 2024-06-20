@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        Terms and Conditions
+    </title>
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            transform-origin: center center;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        .white-box {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            color: black;
+            width: fit-content;
+            height: 250px;
+            text-align: center;
+        }
+
+        #btnAccept {
+            background: #E9510E;
+            height: 80px;
+            width: 350px;
+            color: white;
+            font-size: 26px;
+        }
+
+
+        #termsDiv, #headDiv {
+            color: #E9510E;
+            text-align: center;
+            transform: scale(1.6);
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right;
+        }
+
+    </style>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+
+   @*  <script src="~/js/jquery-3.3.1.min.js"></script> *@
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+    <div class="col-md-12">
+        <br />
+        <br />
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8" id="headDiv">
+            <br />  <br />
+            <br /><br /><br />
+            <img src="~/images/Singapore_Food_Agency_logo.png" alt="logo" />
+            <br /><br />    <br /><br />
+            <h1><strong>Visitor Management System</strong></h1>
+            <br />
+            <br />
+            <br /><br />
+        </div>
+        <div class="col-md-2">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("SelectLanguage", "Kiosk") + "'");">
+                <img src="~/images/homeicon.png" alt="home" width="95" />
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <br /><br />  <br /><br />
+        <div class="col-md-3">
+        </div>
+
+        <div class="col-md-6" id="termsDiv">
+            <br />  <br />
+            <br /><br /><br />
+            <br /><br />
+            <div class="white-box">
+                <br />
+                <p style="font-size:16px"><strong>PDPA Terms and Conditions</strong> </p>
+                <br />
+                We Strive To Exceed Our Clients' Expectations In Every Aspect Of Our Work. We Help Organizations Achieve International Standard Certification. Internal Audit. Training Courses. ISO Consultancy. Outsourcing. Services: ISO Consultancy, Training Courses.
+
+                <br /><br />
+
+            </div>
+            <br /> <br /><br /><br />
+            <button type="button" id="btnAccept" onclick="@("window.location.href='" + @Url.Action("ScanNRICPassport", "Kiosk") + "'");" class="btn btn-lg">Accept</button>
+
+        </div>
+        <div class="col-md-3">
+        </div>
+
+    </div>
+    <script>
+        function onInactive(ms, callback) {
+            var timeout; window.addEventListener("mousemove", resetTimer, false); window.addEventListener("mousedown", resetTimer, false); window.addEventListener("keypress", resetTimer, false); window.addEventListener("touchmove", resetTimer, false); startTimer();
+            function startTimer() { timeout = setTimeout(callback, ms); }
+            function resetTimer() { clearTimeout(timeout); startTimer(); }
+        }
+    </script>
+</body>
+
+
+
+</html>

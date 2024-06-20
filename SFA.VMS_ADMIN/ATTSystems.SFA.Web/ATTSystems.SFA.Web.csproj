@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Views\AdminPortal\ManualCheckIn.cshtml~RF1fb49b32.TMP" />
+    <None Remove="Views\Setting\ListUser.cshtml~RF63c273.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.0" />
+    <PackageReference Include="EPPlus" Version="7.1.3" />
+    <PackageReference Include="ExcelDataReader" Version="3.7.0-develop00385" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10370" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.26.0.92422">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ATTSystems.SFA.Model\ATTSystems.SFA.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ATTSystems.NetCore">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Logger">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Model">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Utilities">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+<ItemGroup>
+<ViewFiles Include="$(ProjectDir)\Views\**\*.cshtml" />
+</ItemGroup>
+<ItemGroup>
+  <None Include="Views\AdminPortal\_ViewVisitorsFullDetails.cshtml" />
+</ItemGroup>
+ 
+<Target Name="CopyViewFilesAfterPublish" AfterTargets="Publish">
+<Copy SourceFiles="@(ViewFiles)" DestinationFolder="$(PublishDir)\Views\%(RecursiveDir)" />
+</Target>
+</Project>

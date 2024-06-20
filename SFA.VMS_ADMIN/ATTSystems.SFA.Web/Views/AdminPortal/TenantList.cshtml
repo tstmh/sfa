@@ -1,0 +1,320 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+@{
+    ViewData["Title"] = "DoorAccess";
+    Layout = null;
+}
+
+<style>
+
+    fieldset.scheduler-border {
+        border-radius: 8px;
+        border: 1px groove #ddd !important;
+        padding: 0 0.4em 0.4em 0.4em !important;
+        margin: 0 0 0.2em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend {
+        font-size: 1.2em !important;
+        text-align: left !important;
+        width: inherit;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+        .rwd-table td {
+            color: #333;
+        }
+
+    .table-responsive1 {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+</style>
+
+<script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+<script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+<script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+<h4 id="doorHead">Tenant List</h4>
+<br />
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <fieldset class="scheduler-border">
+            <legend>Search</legend>
+            <div class="col-sm-3">
+                <label asp-for="deviceId" class="form-label">Active Status</label>
+                <select class="form-control">
+                    <option value="">All</option>
+                    <option value="option1">Passport</option>
+                    <option value="option1">NRIC</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="deviceId" class="form-label">Long Term Pass Type</label>
+                <select class="form-control">
+                    <option value="">All</option>
+                    <option value="option1">Maintenance</option>
+                    <option value="option1">Repair Work</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="deviceId" class="form-label">Start Date</label>
+
+                <input asp-for="deviceId" type="date" id="form12" class="form-control">
+
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="deviceId" class="form-label">End Date</label>
+
+                <input asp-for="deviceId" type="date" id="form12" class="form-control">
+
+            </div>
+
+            <div class="row" style="float:right;margin-top:20px">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn" id="btnSearch" style="color:#fff; background: #E9510E"> Search</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+</div>
+<br />
+<br />
+<fieldset class="scheduler-border">
+    <legend>Tenant List</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Contact Number</th>
+                    <th>Purpose for Long Term Pass</th>
+                    <th>Reg Date</th>
+                    <th>Exp. Date</th>
+                    <th>Last Entry</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Shawn
+                    </td>
+                    <td>
+                        98745632
+                    </td>
+                    <td>
+                        Maintenance
+                    </td>
+                    <td>
+                        25/10/2022
+                    </td>
+                    <td>
+                        25/10/2023
+                    </td>
+                    <td>
+                        25/10/2022 14:45
+                    </td>
+                    <td style="color: #488ccc">Active</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkView" title="View" data-para=""><i class="material-icons" style="color: #E9510E">visibility</i></a>
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        James
+                    </td>
+                    <td>
+                        88654712
+                    </td>
+                    <td>
+                        Repair Work
+                    </td>
+                    <td>
+                        25/12/2022
+                    </td>
+                    <td>
+                        25/10/2023
+                    </td>
+                    <td>
+                        25/12/2022 09:30
+                    </td>
+                    <td style="color: #488ccc">Active</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkView" title="View" data-para=""><i class="material-icons" style="color: #E9510E">visibility</i></a>
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        John
+                    </td>
+                    <td>
+                        89654721
+                    </td>
+                    <td>
+                        Repair Work
+                    </td>
+                    <td>
+                        25/10/2022
+                    </td>
+                    <td>
+                        25/10/2023
+                    </td>
+                    <td>
+                        25/10/2022 12:30
+                    </td>
+                    <td style="color: #488ccc">Active</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkView" title="View" data-para=""><i class="material-icons" style="color: #E9510E">visibility</i></a>
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        Jessy
+                    </td>
+                    <td>
+                        87545632
+                    </td>
+                    <td>
+                        Maintenance
+                    </td>
+                    <td>
+                        25/10/2022
+                    </td>
+                    <td>
+                        25/10/2023
+                    </td>
+                    <td>
+                        25/10/2022 13:45
+                    </td>
+                    <td style="color: #488ccc">Active</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkView" title="View" data-para=""><i class="material-icons" style="color: #E9510E">visibility</i></a>
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</fieldset>
+
+<div id="modalDiv">
+</div>
+
+<script>
+
+    $(function() {
+        $('.customTbl').on('click', '.lnkView', function() {
+            /* Disable link for 4 seconds */
+            //////debugger;
+            $('.lnkView').addClass('tmpEdit');
+            $('.tmpEdit').removeClass('lnkView');
+            setTimeout(function() {
+                $('.tmpEdit').addClass('lnkView');
+                $('.lnkView').removeClass('tmpEdit');
+            }, 3000);
+            var relativeURI = "@Url.Action("ViewTenantListModal", "Home")";
+            RenderPartialView(relativeURI, "#viewTenantlistModal");
+
+            //var _msgId = $(this).attr('data-para');
+
+            //if (_msgId != "") {
+            //var relativeURI = "@Url.Action("ViewTenantListModal", "Home", new { id = "_para1" })".replace("_para1", _msgId);
+            //RenderPartialView(relativeURI, "#viewTenantlistModal");
+            //}
+        });
+        /* Edit Method Here */
+        $('.customTbl').on('click', '.lnkEdit', function() {
+
+            //////debugger;
+
+            $('.lnkEdit').addClass('tmpEdit');
+            $('.tmpEdit').removeClass('lnkEdit');
+            setTimeout(function() {
+                $('.tmpEdit').addClass('lnkEdit');
+                $('.lnkEdit').removeClass('tmpEdit');
+            }, 3000);
+
+            //var _msgId = $(this).attr('data-para');
+
+            //if (_msgId != "") {
+            var relativeURI = "@Url.Action("EditTenantListModal", "Home")";
+            RenderPartialView(relativeURI, "#editTenantlistModal");
+            //}
+        });
+
+    });
+
+    function RenderPartialView(relativeURI, modalType) {
+        $.ajax({
+            url: relativeURI,
+            type: "Get",
+            cache: false,
+            success: function(data) {
+                //custom showing popup
+                $("#modalDiv").html("");
+                $("#modalDiv").html(data);
+                $(modalType).modal('show');
+            },
+            error: function(data) {
+                /*alert("==1== " + data.statusText)*/
+                swal("info", data.statusText, "info");
+            }
+        });
+    }
+</script>
+

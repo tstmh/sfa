@@ -1,0 +1,101 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnAccept {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+        #white-box {
+            border: 1px solid grey;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 10px;
+            /*box-shadow:rgba(0,0,0,0.25) 1.95px 10px;*/
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            border-radius: 8px;
+            /*position: absolute;*/
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            /*width: 450px;*/
+        }
+    </style>
+
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+    <script src="~/js/FontAwsome.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+        <link href="~/css/materialIcons.css" rel="stylesheet">
+
+
+</head>
+
+<body class="homepage" style="overflow-x:hidden">
+    <br />
+    <div class="row" style="border-bottom:4px solid #E9510E">
+        <div class="col-md-4">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" height="55" style="padding-left: 30px;" />
+        </div>
+        <div class="col-md-4" style="color: #E9510E;text-align:center;margin-left:2%">
+            <h2>Visitor Pre- Registration</h2>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="row" style="color:#E9510E;text-align:center">
+                <i class="fa fa-check-circle" style="font-size:128px;color:green"></i>
+                <br /> <br /> <br />
+                <h1>
+                    <b>
+                        Account Created Successfully
+                    </b>
+                </h1>
+                <br />
+
+            </div>
+            <br /><br />
+
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4" style="text-align:center">
+                    <button id="btnNext" onclick="@("window.location.href='" + @Url.Action("PreRegistrationLayout", "Home") + "'");" value="" style="border-radius: 8%;background-color:#E9510E;border-color:#E9510E;font-size:24px;cursor: pointer;width:120px;">
+                        <b style="color:white;">Login </b>
+                    </button>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+

@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnAccept {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+        .btnNext {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+        #white-box {
+            border: 1px solid grey;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 10px;
+            /*box-shadow:rgba(0,0,0,0.25) 1.95px 10px;*/
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            border-radius: 8px;
+            /*position: absolute;*/
+
+            margin: auto;
+            /*width: 450px;*/
+        }
+
+        @@media (max-width: 480px) {
+            #registerHead {
+                margin-top: 25%;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="homepage" style="height: 100%; width: 100%; margin: 0; padding: 0;overflow-x:hidden;">
+    <br />
+    <h4 id="registerHead"><b>Registration</b></h4>
+    <br />
+    <div class="row" style="text-align:center">
+        <h5>Mr John Doe</h5>
+        <h5>Email: johndoe@mail.com</h5>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-4"></div>
+        <div class="col-md-4" id="white-box">
+            <br /><br />
+            <label class="form-label">Visit Date</label>
+            <input type="date" class="form-control use-keyboard-input" id="visName" placeholder="" autocomplete="off" />
+            <br />
+            <label class="form-label"> Visit Time</label>
+            <input type="time" id="form12" class="form-control use-keyboard-input">
+            <br />
+            <label class="form-label">Visit Duration</label>
+            <select class="form-control">
+                <option value="">30 minutes</option>
+                <option value="option1">40 minutes</option>
+                <option value="option1">50 minutes</option>
+            </select>
+            <br />
+            <label class="form-label">Purpose of Visit</label>
+            <input type="text" id="form12" class="form-control use-keyboard-input">
+            <br />
+
+            <br /><br />
+            <div class="row col-md-12">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <button id="btnNext" onclick="@("window.location.href='" + @Url.Action("QRCodeGeneration", "Kiosk") + "'");" value="" style="border-radius: 8%;background-color:#E9510E;border-color:#E9510E;font-size:20px;cursor: pointer;width:120px;">
+                        <b style="color:white;">Submit </b>
+                    </button>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <br /><br />
+            <br /><br />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+
+    @* <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("KioskStart", "Kiosk") + "'");" class="" style="border:none;background-color:white;cursor: pointer;float:left">
+    <i class="fa fa-home" style="font-size:48px;color:#E9510E"></i>
+    </button>*@
+
+</body>
+
+</html>
+

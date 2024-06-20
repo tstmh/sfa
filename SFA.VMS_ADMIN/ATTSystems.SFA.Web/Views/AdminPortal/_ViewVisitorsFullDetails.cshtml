@@ -1,0 +1,222 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+<style>
+    .modal-backdrop {
+        opacity: 0.3 !important
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+    }
+
+    @@media (max-width: 480px) {
+        #btnWidth {
+            width: 100%
+        }
+    }
+
+    .required {
+        color: red;
+    }
+
+    /*Unit Id on hover*/
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 350px;
+        box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #f1f1f1;
+    }
+
+    .btn-teal {
+        background-color: #E9510E;
+        color: white;
+    }
+
+</style>
+<link href="~/css/fontawsome.min.css" rel="stylesheet" />
+
+<div class="modal fade" id="viewAllDetails" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" style="max-width:70%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Visitor Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="" id="addForm" method="post">
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Full Name :</label>
+                                    @Html.DisplayFor(model => model.VisitorName)
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Passport/NRIC/FIN :</label>
+                                    @Html.DisplayFor(model => model.NricOrPassport)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>ID Type :</label>
+                                    @Html.DisplayFor(model => model.IdTypeName)
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Location :</label>
+                                    @Html.DisplayFor(model => model.LocationName)
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email Address :</label>
+                                    @Html.DisplayFor(model => model.VisitorEmail)
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Contact Number :</label>
+                                    @Html.DisplayFor(model => model.ContactNum)
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Registration Date :</label>
+                                    @Html.DisplayFor(model => model.EntryDate)
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Expiration Date :</label>
+                                    @if (Convert.ToDateTime(Model._ExitDate) < System.DateTime.Now)
+                                    {
+                                        <label style="color:red">@Html.DisplayFor(model => model.ExitDate)</label>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(model => model.ExitDate)
+                                    }
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Visitor Type :</label>
+                                    @Html.DisplayFor(model => model.VisitorTypeName)
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tenant/Company Name :</label>
+                                    @Html.DisplayFor(model => model.CompanyName)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label> IsActive :</label>
+                                    @Html.DisplayFor(model => model.IsActive)
+                                </div>
+                                <div class="col-md-6">
+                                    <label>IsBlacklisted :</label>
+                                    @Html.DisplayFor(model => model.Blacklisted)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label> IsOverStayer :</label>
+                                    @Html.DisplayFor(model => model.OverStayer)
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Vehicle Number :</label>
+                                    @Html.DisplayFor(model => model.VehicleNo)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label> Unit ID :</label>
+                                    @Html.DisplayFor(model => model.UnitNo)
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+
+                            <div class="modal-dialog modal-lg" style="max-width:100%;">
+                                <div class="modal-footer">
+                                    @if (Convert.ToDateTime(Model._ExitDate) < System.DateTime.Now && Model.IdTypeName == "NRIC/FIN")                                    
+                                    {
+                                        <button type="button" class="btn btn-teal btn-white-text" id="myButton" data-para="@Model.NricOrPassport2">
+                                            Renew
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<br />
+<div class="modal-footer">
+</div>
+<script>
+    $("#myButton").click(function () {
+        // ////debugger;
+        var nricorpassport = $(this).attr('data-para');
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateNRICPassport", "AdminPortal")",
+            data: { 'NricOrPassport': nricorpassport },
+            cache: false,
+            dataType: "json",
+            success: function (e) {
+
+                if (e.code == 200) {
+                    $('.modal-backdrop').remove();
+                    $('#viewAllDetails').modal('show');
+                    swal("Success", "Passport/NRIC/FIN Registration Renewed Successfully", "success");
+                    var relativeURI = "@Url.Action("PreRegistration", "AdminPortal")";
+                    renderPartialView(relativeURI);
+                }
+                else {
+                    swal("Info", "Passport/NRIC/FIN Registration Renewed Failed", "info");
+                    return false;
+                }
+            },
+            error: function (e) { },
+        });
+    });
+</script>

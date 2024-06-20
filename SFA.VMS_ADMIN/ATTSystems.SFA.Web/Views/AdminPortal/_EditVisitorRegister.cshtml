@@ -1,0 +1,443 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+<style>
+    .modal-backdrop {
+        opacity: 0.3 !important
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+    }
+
+    @@media (max-width: 480px) {
+        #btnWidth {
+            width: 100%
+        }
+    }
+
+    .required {
+        color: red;
+    }
+
+    /*Unit Id on hover*/
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 350px;
+        box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #f1f1f1;
+    }
+
+</style>
+<link href="~/css/fontawsome.min.css" rel="stylesheet" />
+
+<div class="modal fade" id="editregmodel" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" style="max-width:70%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Edit Visitor Registration Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="" id="addForm" method="post">
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Location </label>
+                                    <select id="locid" class="form-control" disabled="disabled">
+                                        @foreach (var item in Model.LocationViewLists)
+                                        {
+                                            if (item.lIsSelected)
+                                            {
+                                                <option selected="selected" value="@item.lLocationId">@item.lLocationName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.lLocationId">@item.lLocationName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>ID Type </label>
+                                    <select id="idtypeid" class="form-control" disabled="disabled">
+                                        @foreach (var item in Model.IdTypeViewLists)
+                                        {
+                                            if (item.ltIsSelected)
+                                            {
+                                                <option selected="selected" value="@item.ltIdtypeId">@item.ltIdTypeName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.ltIdtypeId">@item.ltIdTypeName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Passport/NRIC/FIN </label>
+                                    @Html.TextBoxFor(model => model.NricOrPassport, new { @class = "form-control", id = "nrpssid", disabled = "disabled" })
+                                    @Html.ValidationMessageFor(model => model.NricOrPassport, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Full Name</label>
+                                    @Html.TextBoxFor(model => model.VisitorName, new { @class = "form-control", id = "fnameid", onpaste = "return false;", autocomplete = "off", onkeydown="return /[A-Z,a-z, ]/i.test(event.key)" })
+                                    @Html.ValidationMessageFor(model => model.VisitorName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-6" id="emailid" style="display:none">
+                                    <label>Email Address</label>
+                                    @Html.TextBoxFor(model => model.VisitorEmail, new { @class = "form-control", id = "_emailid", onpaste = "return false;", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.VisitorEmail, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Vehicle Number</label>
+                                    @Html.TextBoxFor(model => model.VehicleNo, new { @class = "form-control", id = "vecleid", onpaste = "return false;", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.VehicleNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Visitor Type </label>
+                                    <select id="vtypeid" class="form-control">
+                                        @foreach (var item in Model.visitorTypeLists)
+                                        {
+                                            if (item.lVstIsSelected)
+                                            {
+                                                <option selected="selected" value="@item.lVsttypeId">@item.lVstTypeNmae</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.lVsttypeId">@item.lVstTypeNmae</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-6" id="compName" style="display:none">
+                                    <label class="form-label">Tenant/Company Name</label>
+
+                                    @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control", id = "cmpnameid", onpaste = "return false;", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6" id="unt" style="display:none">
+                                    <div class="form-group" id="unitNo1" style="display: none;">
+                                        <label class="form-label">
+                                            Market lot/ Office unit/ Storage lot/ Shop/ Canteen/Ice Crusher
+                                        </label>   &nbsp; <div class="dropdown">
+                                            <i class="fa fa-exclamation-circle dropbtn" style="font-size: 30px; color: #80808070; cursor: pointer;"></i>
+                                            <div class="dropdown-content">
+                                                <a style="color: black;"><b><u>Example</u></b></a>
+                                                <a href="#">Market Lot 1 ---> ML 1</a>
+                                                <a href="#">Office Unit 1 ---> OU 1</a>
+                                                <a href="#">Storage Lot 1 ---> SL 1</a>
+                                                <a href="#">Shop 1 ---> G 1</a>
+                                                <a href="#">Canteen ---> Canteen B</a>
+                                                <a href="#">Ice Crusher 1 ---> Ice Crusher 1</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="unitNo2" style="display:none">
+                                        <label class="form-label">UnitID (Block No_Level_Unit No)<br /> eg: 1_01_01</label>
+                                    </div>
+                                    <div id="unitNoTxtBox" style="display:none">
+                                        @Html.TextBoxFor(model => model.UnitNo, new { @class = "form-control", id = "unitid", list = "UIDName", onpaste = "return false;", autocomplete = "off", onfocusout = "myFunction()" })
+                                        @Html.ValidationMessageFor(model => model.UnitNo, "", new { @class = "text-danger" })
+                                        <datalist id="UIDName">
+                                            @foreach (var item in Model.UnitsDetailLists)
+                                            {
+                                                <option value=@item.UnitId>@item.UnitId</option>
+                                            }
+                                        </datalist>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6" id="blck" style="display:none">
+                                    <label class="form-label">Block</label>
+                                    @Html.TextBoxFor(model => model.NricOrPassport2, new { @class = "form-control", id = "blckid" })
+                                    @Html.ValidationMessageFor(model => model.NricOrPassport2, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6" id="cnm">
+                                    <label class="form-label">Contact Number</label>
+
+                                    @Html.TextBoxFor(model => model.ContactNum, new { @class = "form-control", id = "cnmid", onpaste = "return false;", autocomplete = "off", onkeypress = "if ( isNaN( String.fromCharCode(event.keyCode) )) return false;" })
+                                    @Html.ValidationMessageFor(model => model.ContactNum, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+                            <div id="regidshow" style="display:none;">
+                                @Html.TextBoxFor(model => model.Id, new { @class = "form-control", id = "regID", autocomplete = "off" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="modal-footer">
+
+                        <button id="btnsave1" type="button" class="btn waves-effect" data-dismiss="modal" style="background: #E9510E;color:white;">Update</button>
+                        <button id="btnclose" type="button" class="btn waves-effect" data-dismiss="modal" style="background: grey;color:white;">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var _idype = $("#idtypeid option:selected").val();
+        var _vtype = $("#vtypeid option:selected").val();
+
+        var _locid = $("#locid").val();
+
+        if (_idype == 1) {
+            $("#cnm").show();
+            $("#emailid").show();
+        }
+        if (_idype == 2) {
+            $("#cnm").show();
+            $("#emailid").hide();
+        }
+        if (_vtype == '2' || _vtype == '3') {
+            if ($("#locid").val() == 1) {
+                $("#unt").show();
+                $("#unitNo1").show();
+                $("#unitNo2").hide();
+                $("#unitNoTxtBox").show();
+                $("#compName").hide();
+                $("#blck").hide();
+            }
+            else if ($("#locid").val() == 2) {
+                $("#unt").show();
+                $("#unitNo1").hide();
+                $("#unitNo2").show();
+                $("#unitNoTxtBox").show();
+                $("#compName").hide();
+                $("#blck").hide();
+            }
+        }
+        else if (_vtype == '4') {
+            $("#compName").show();
+            $("#unt").hide();
+            $("#blck").hide();
+        }
+        else {
+            $("#unt").hide();
+            $("#compName").hide();
+            $("#blck").hide();
+        }
+
+        $('#vtypeid').on('change', function () {
+            if (this.value == '2' || this.value == '3') {
+                if ($("#locid").val() == 1) {
+                    $("#unt").show();
+                    $("#unitNo1").show();
+                    $("#unitNo2").hide();
+                    $("#unitNoTxtBox").show();
+                    $("#compName").hide();
+                    $("#blck").hide();
+                }
+                else if ($("#locid").val() == 2) {
+                    $("#unt").show();
+                    $("#unitNo1").hide();
+                    $("#unitNo2").show();
+                    $("#unitNoTxtBox").show();
+                    $("#compName").hide();
+                    $("#blck").hide();
+                }
+            }
+            else if (this.value == '4') {
+                $("#compName").show();
+                $("#unt").hide();
+                $("#blck").hide();
+            }
+            else {
+                $("#unt").hide();
+                $("#compName").hide();
+                $("#blck").hide();
+            }
+        });
+        $('#idtypeid').on('change', function () {
+            if (this.value == '1') {
+                $("#cnm").show();
+                $("#emailid").show();
+            }
+            else if (this.value == '2') {
+                $("#cnm").show();
+                $("#emailid").hide();
+            }
+        });
+    });
+</script>
+
+<script>
+    $("#btnsave1").click(function () {
+        var regID = $("#regID").val();
+        var cntno = $("#cnmid").val();
+        var lcname = $("#locid option:selected").text();
+        var unts = $("#unitid").val();
+        var blckn = $('#blckid').val();
+        var nricpassnum = $('#nrpssid').val();
+        var fullnam = $('#fnameid').val();
+        var email = $('#_emailid').val();
+        var vsttype = $("#vtypeid option:selected").text();
+        var vhnum = $('#vecleid').val();
+        var idtype = $("#idtypeid option:selected").text();
+        var cmp = $('#cmpnameid').val();
+        var _email = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (lcname == "") {
+            swal("Info", "Please Select Location", "info");
+            return false;
+        }
+        else if (nricpassnum.trim() == "") {
+            swal("Info", "Please Enter Passport/NRIC/FIN", "info");
+            return false;
+        }
+        else if (fullnam.trim() == "") {
+            swal("Info", "Please Enter Full Name", "info");
+            return false;
+        }
+        else if (idtype == "Passport" && email.trim() == "") {
+            swal("Info", "Please Enter Email Address", "info");
+            return false;
+        }
+        else if (vsttype == "") {
+            swal("Info", "Please Select Visitor Type", "info");
+            return false;
+        }
+        else if (idtype == "" || idtype == "Select") {
+            swal("Info", "Please Select ID Type", "info");
+            return false;
+        }
+        else if (cntno.trim() == "") {
+            swal("Info", "Please Enter Contact Number", "info");
+            return false;
+        }
+        else if (cntno.trim().length < 8 || cntno.trim().length > 13) {
+            swal("Info", "Contact Number must be between 8 to 13 digits", "info");
+            return false;
+        }
+        if (vsttype == "Tenants" || vsttype == "Workers") {
+            if (unts.trim() == "") {
+                swal("Info", "Please Enter UnitID", "info");
+                return false;
+            }
+        }
+        if (vsttype == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+            if (cmp.trim() == "") {
+                swal("Info", "Please Enter Tenant/Company Name", "info");
+                return false;
+            }
+        }
+        if (idtype == "Passport") {
+            if (email.trim() == "") {
+                swal("Info", "Please Enter Email Address", "info");
+                return false;
+            }
+            else {
+                if (_email.test($.trim($("#_emailid").val())) == false) {
+                    swal("Info", "Please Enter Valid Email Address.", "info");
+                    $("#_emailid").focus();
+                    return false;
+                }
+            }
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateVisitor", "AdminPortal")",
+            data: { 'Id': regID, 'NricOrPassport': nricpassnum, 'NricOrPassport2': blckn, 'LocationName': lcname, 'IdTypeName': idtype, 'VisitorName': fullnam, 'VisitorEmail': email, 'VehicleNo': vhnum, 'VisitorTypeName': vsttype, 'CompanyName': cmp, 'UnitNo': unts, 'BlockNo': blckn, 'ContactNum': cntno },
+            cache: false,
+            dataType: "json",
+            success: function (e) {
+                SuccessCreate(e);
+                // if (e.code == 200) {
+                //     swal({
+                //         title: 'Success',
+                //         text: 'Passport/NRIC/FIN Updated Successfully.',
+                //         type: "success",
+                //         confirmButtonText: 'OK',
+                //     }).then(function () {
+                //         var relativeURI = "@Url.Action("PreRegistration", "AdminPortal")";
+                //         renderPartialView(relativeURI);
+                //     });
+                // }
+                // else {
+                //     swal("Info", "Passport/NRIC/FIN Update Failed.", "info");
+                // }
+            },
+            error: function (e) { },
+        });
+
+    });
+</script>
+
+<script>
+    function myFunction() {
+        var UnitId = $("#unitid").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ValidateUnitID", "AdminPortal")",
+            data: { 'UnitId': UnitId },
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 300) {
+                    $('editregmodel').show();
+                    $('#unitid').focus();
+                    swal({
+                        title: 'Info',
+                        text: 'Please Enter Valid UnitID',
+                        icon: 'info',
+                        timer: 5000,
+                        showConfirmButton: false
+                    });
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
+            error: function (data) {
+                swal("Error i", "", "error");
+            }
+        });
+    }
+</script>

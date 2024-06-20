@@ -1,0 +1,589 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+<style>
+    .modal-backdrop {
+        opacity: 0.3 !important
+    }
+
+    #btnSaveFiles {
+        background: #E9510E;
+        color: white;
+    }
+
+    #btnClose {
+        background: grey;
+        color: white;
+    }
+
+    .drop-zone {
+        border: 2px dashed #91b0b3;
+        color: #92b0b3;
+        position: relative;
+        height: 80px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .drop-zone__prompt {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        opacity: 0;
+        cursor: pointer;
+        /* position: absolute;
+                            margin: 0 auto;
+                            left: 0;
+                            right: 0;
+                            text-align: center;
+                            width: 40%;
+                            top: 20px;
+                            font-size: 16px; */
+    }
+
+    .drop-zone--over {
+        border-style: solid;
+    }
+
+    .drop-zone__input {
+        display: none;
+    }
+
+    .drop-zone__thumb::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 5px 0;
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.75);
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+        .rwd-table td {
+            color: #333;
+        }
+
+    .dt-responsive::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
+<div class="modal fade" id="uploadExcelModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Visitor Registration - Batch Upload </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form id="addExcelfiles" asp-action="" asp-controller="" method="post">
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+
+                            <fieldset class="scheduler-border">
+                                <legend class="scheduler-border">Upload Visitor Details</legend>
+                                <div class="drop-zone">
+                                    <div class="drop-zone__prompt">
+                                        @* <i class="fa fa-download"></i>
+                                        <i class="glyphicon glyphicon-download-alt"></i> *@
+                                        <p>Click or Drop file here and click to upload.</p>
+                                    </div>
+                                    <input type="file" name="myfile" class="drop-zone__input" id="VisitorUpload">
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button id="btnUploadFiles" type="button" class="btn pull-right" onclick="UploadCSVFile()" style="background: #E9510E;color:white">Upload</button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive" style="height:200px;overflow-y:scroll;">
+                                            <table id="tblVisitors" style="overflow-x:scroll;" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Location</th>
+                                                        <th>ID Type</th>
+                                                        <th>Passport/NRIC/FIN</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Vehicle No</th>
+                                                        <th>Contact No</th>
+                                                        <th>Unit No</th>
+                                                        <th>Tenant/Company Name</th>
+                                                        <th style="display:none;"></th>
+                                                        <th style="display:none;"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblVisitorBdy" oncopy="return false" oncut="return false" onpaste="return false">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSaveFiles" type="button" class="btn waves-effect" style="visibility:hidden">Save</button>
+                    <button id="btnClose" type="button" class="btn waves-effect" data-dismiss="modal" style="visibility:hidden">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function UploadCSVFile() {
+        $('#pleaseWaitDialog').modal('show');
+        var exclfile = $("#VisitorUpload").val();
+        duplicatedevices = "No";
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#VisitorUpload").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('username', 'att');
+            //fileData.append('Id', _siteId);
+            dataList = "";
+
+            if (exclfile == "") {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Please Choose Excel file.", "info");
+                $("#VisitorUpload").focus();
+                return false;
+            }
+
+            var _email = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+            var filename = files[0].name;
+            var extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
+            if (extension == '.XLS' || extension == '.XLSX') {
+                $.ajax({
+                    url: '/AdminPortal/UploadFiles',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        var button1 = document.getElementById("btnSaveFiles");
+                        var button2 = document.getElementById("btnClose");
+                        if (result == null) {
+                            button1.style.visibility = "hidden";
+                            button2.style.visibility = "hidden";
+                        } else {
+                            button1.style.visibility = "visible";
+                            button2.style.visibility = "visible";
+                        }
+                        var i = 1;
+                        $('#tblVisitors tbody').empty();
+                        if (result != null) {
+                            $('.modal-backdrop').remove();
+                            $('#pleaseWaitDialog').modal('hide');
+                            $(result).each(function (index, item) {                               
+                                if (item.listIdTypeName == "NRIC/FIN") {
+                                    if (validateNRIC(item.listNricOrPassport)) {
+                                        var button1 = document.getElementById("btnSaveFiles");
+                                        var button2 = document.getElementById("btnClose");
+                                        button1.style.visibility = "visible";
+                                        button2.style.visibility = "visible";
+                                        if (item.duplicateNricOrPassport == false) {
+                                            duplicatedevices = "No";
+                                        } else {
+                                            duplicatedevices = "Yes";
+                                            swal("Info", "Visitor Details with red colour are already registered", "info");
+                                        }
+
+                                        if (item.duplicateNricOrPassport == true) {
+                                            $('#tblVisitors tbody').append(
+                                                '<tr data-stat=' + item.duplicateNricOrPassport + '><td>' + i +
+                                                '</td><td style="color:red;">' + item.listLocationName +
+                                                '</td><td style="color:red;">' + item.listIdTypeName +
+                                                '</td><td style="color:red;">' + item.listNricOrPassport +
+                                                '</td><td style="color:red;">' + item.listVisitorName +
+                                                '</td><td style="color:red;">' + item.listVisitorEmail +
+                                                '</td><td style="color:red;">' + item.listVehicleNo +
+                                                '</td><td style="color:red;">' + item.listContactNum +
+                                                '</td><td style="color:red;">' + item.listUnitNo +
+                                                '</td><td style="color:red;">' + item.listCompanyName +
+                                                '</td><td style="display:none;">' + item.listVisitorTypeId +
+                                                '</td><td style="display:none;">' + item.duplicateNricOrPassport +
+                                                '</td></tr>'
+                                            )
+                                        }
+                                        else {
+                                            $('#tblVisitors tbody').append(
+                                                '<tr data-stat=' + item.duplicateNricOrPassport + '><td>' + i +
+                                                '</td><td>' + item.listLocationName +
+                                                '</td><td>' + item.listIdTypeName +
+                                                '</td><td>' + item.listNricOrPassport +
+                                                '</td><td>' + item.listVisitorName +
+                                                '</td><td>' + item.listVisitorEmail +
+                                                '</td><td>' + item.listVehicleNo +
+                                                '</td><td>' + item.listContactNum +
+                                                '</td><td>' + item.listUnitNo +
+                                                '</td><td>' + item.listCompanyName +
+                                                '</td><td style="display:none;">' + item.listVisitorTypeId +
+                                                '</td><td style="display:none;">' + item.duplicateNricOrPassport +
+                                                '</td></tr>'
+                                            )
+                                        }
+
+                                        dataList += item.listSlNo + "|" + item.listLocationName + "|" + item.listIdTypeName + "|" + item.listNricOrPassport + "|" + item.listVisitorName + "|" + item.listVisitorEmail + "|" + item.listVehicleNo + "|" + item.listContactNum + "|" + item.listUnitNo + "|" + item.listCompanyName + "|" + item.listVisitorTypeId + "~";
+                                        stockCount = index + 1;
+                                        i += 1;
+                                    }
+                                    else {
+                                        var button1 = document.getElementById("btnSaveFiles");
+                                        var button2 = document.getElementById("btnClose");
+                                        swal("Info", "Please Enter Valid NRIC/FIN", "info");
+                                        button1.style.visibility = "hidden";
+                                        button2.style.visibility = "hidden";
+                                        return false;
+                                    }
+                                }
+                                else {
+                                    if (item.listVisitorEmail != "" || item.listVisitorEmail != null) {
+                                        if (_email.test($.trim(item.listVisitorEmail)) == false) {
+                                            swal("Info", "Please Enter Valid Email Address.", "info");
+                                            return false;
+                                        }
+                                        else {
+                                            if (item.duplicateNricOrPassport == false) {
+                                                duplicatedevices = "No";
+                                            } else {
+                                                duplicatedevices = "Yes";
+                                                swal("Info", "Visitor Details with red colour are already registered", "info");
+                                            }
+
+                                            if (item.duplicateNricOrPassport == true) {
+                                                $('#tblVisitors tbody').append(
+                                                    '<tr data-stat=' + item.duplicateNricOrPassport + '><td>' + i +
+                                                    '</td><td style="color:red;">' + item.listLocationName +
+                                                    '</td><td style="color:red;">' + item.listIdTypeName +
+                                                    '</td><td style="color:red;">' + item.listNricOrPassport +
+                                                    '</td><td style="color:red;">' + item.listVisitorName +
+                                                    '</td><td style="color:red;">' + item.listVisitorEmail +
+                                                    '</td><td style="color:red;">' + item.listVehicleNo +
+                                                    '</td><td style="color:red;">' + item.listContactNum +
+                                                    '</td><td style="color:red;">' + item.listUnitNo +
+                                                    '</td><td style="color:red;">' + item.listCompanyName +
+                                                    '</td><td style="display:none;">' + item.listVisitorTypeId +
+                                                    '</td><td style="display:none;">' + item.duplicateNricOrPassport +
+                                                    '</td></tr>'
+                                                )
+                                            }
+                                            else {
+                                                $('#tblVisitors tbody').append(
+                                                    '<tr data-stat=' + item.duplicateNricOrPassport + '><td>' + i +
+                                                    '</td><td>' + item.listLocationName +
+                                                    '</td><td>' + item.listIdTypeName +
+                                                    '</td><td>' + item.listNricOrPassport +
+                                                    '</td><td>' + item.listVisitorName +
+                                                    '</td><td>' + item.listVisitorEmail +
+                                                    '</td><td>' + item.listVehicleNo +
+                                                    '</td><td>' + item.listContactNum +
+                                                    '</td><td>' + item.listUnitNo +
+                                                    '</td><td>' + item.listCompanyName +
+                                                    '</td><td style="display:none;">' + item.listVisitorTypeId +
+                                                    '</td><td style="display:none;">' + item.duplicateNricOrPassport +
+                                                    '</td></tr>'
+                                                )
+                                            }
+
+                                            dataList += item.listSlNo + "|" + item.listLocationName + "|" + item.listIdTypeName + "|" + item.listNricOrPassport + "|" + item.listVisitorName + "|" + item.listVisitorEmail + "|" + item.listVehicleNo + "|" + item.listContactNum + "|" + item.listUnitNo + "|" + item.listCompanyName + "|" + item.listVisitorTypeId + "~";
+                                            stockCount = index + 1;
+                                            i += 1;
+                                        }
+                                    }
+                                    else {
+                                        var button1 = document.getElementById("btnSaveFiles");
+                                        var button2 = document.getElementById("btnClose");
+                                        swal("Info", "Please Enter Email Address", "info");
+                                        button1.style.visibility = "hidden";
+                                        button2.style.visibility = "hidden";
+                                        return false;
+                                    }
+                                }
+                            });
+                            $('#notUsing').html(dataList);
+
+                            $(function () {
+                                $("#tblVisitors td").each(function () {
+                                    if (this.textContent.trim() === "null") {
+                                        this.textContent = "";
+                                    }
+                                });
+                            });
+                        }
+                        else {
+                            swal("Info", "Empty excel files are not allowed,please add some valid data", "info");
+                            $('#pleaseWaitDialog').modal('hide');
+                            return false;
+                        }
+                    },
+                    error: function (err) {
+                        $('#pleaseWaitDialog').modal('hide');
+                        //alert(err.statusText);
+                    }
+                });
+            } else {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Only Excel files are allowed", "info");
+                return false;
+            }
+        }
+        else {
+            $('#pleaseWaitDialog').modal('hide');
+            swal("Warning!", "FormData is not supported.", "warning");
+            return false;
+        }
+        return false;
+    }
+
+    $('#btnSaveFiles').on('click', function () {
+        $('#pleaseWaitDialog').modal('show');
+        var excl = $("#VisitorUpload").val();
+        var extension = excl.substring(excl.lastIndexOf(".")).toUpperCase();
+
+        var registrationViewModel = {};
+        var _updateList = [];
+        $("#tblVisitorBdy tr").each(function () {
+            var row = $(this);
+            listLocationName = row.find("td").eq(1).html();
+            listIdTypeName = row.find("td").eq(2).html();
+            listNricOrPassport = row.find("td").eq(3).html();
+            listVisitorName = row.find("td").eq(4).html();
+            listVisitorEmail = row.find("td").eq(5).html();
+            listVehicleNo = row.find("td").eq(6).html();
+            listContactNum = row.find("td").eq(7).html();
+            listUnitNo = row.find("td").eq(8).html();
+            listCompanyName = row.find("td").eq(9).html();
+            listVisitorTypeId = row.find("td").eq(10).html();
+
+            _updateList.push({ listLocationName: listLocationName, listIdTypeName: listIdTypeName, listNricOrPassport: listNricOrPassport, listVisitorName: listVisitorName, listVisitorEmail: listVisitorEmail, listVehicleNo: listVehicleNo, listContactNum: listContactNum, listUnitNo: listUnitNo, listCompanyName: listCompanyName, listVisitorTypeId: listVisitorTypeId });
+        });
+
+        registrationViewModel.registrationViewLists = _updateList;
+
+        if (_updateList.length > 0) {
+            if (excl == "") {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Please Choose Excel file.", "info");
+                $("#VisitorUpload").focus();
+                return false;
+            }
+            if (extension == '.XLS' || extension == '.XLSX') {
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "/AdminPortal/SaveBatchExcelFiles",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(registrationViewModel),
+                    success: function (e) {
+                        if (e.resultCode == 200) {
+                            $('#pleaseWaitDialog').modal('hide');
+                            $('#uploadExcelModal').modal('hide');
+                            swal("Success", "Visitor details saved successfully", "success");
+                            $('.modal-backdrop').remove();
+                            var relativeURI = "@Url.Action("PreRegistration", "AdminPortal")";
+                            renderPartialView(relativeURI);
+
+                        }
+                        else {
+                            $('#pleaseWaitDialog').modal('hide');
+                            swal("Info", "invalid data please check and add again", "info");
+                            return false;
+                        }
+                    },
+                    error: function (e) {
+                        showDialog(e.statusText, "AdminPortal", "error", "", "", 0, false, false);
+                        $('#logoutForm').submit();
+                    },
+                });
+            } else {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Only Excel files are allowed, after uploading excel file please click on Upload button", "info");
+                return false;
+            }
+        }
+        else {
+            $('#pleaseWaitDialog').modal('hide');
+            swal("Info", "Please add valid Excel file with data", "info");
+            return false;
+        }
+    });
+
+    function validateNRIC(str) {
+        try {
+            if (str.length != 9) {
+                return false;
+            }
+            str = str.toUpperCase();
+
+            var i,
+                icArray = [];
+            for (i = 0; i < 9; i++) {
+                icArray[i] = str.charAt(i);
+            }
+
+            icArray[1] = parseInt(icArray[1], 10) * 2;
+            icArray[2] = parseInt(icArray[2], 10) * 7;
+            icArray[3] = parseInt(icArray[3], 10) * 6;
+            icArray[4] = parseInt(icArray[4], 10) * 5;
+            icArray[5] = parseInt(icArray[5], 10) * 4;
+            icArray[6] = parseInt(icArray[6], 10) * 3;
+            icArray[7] = parseInt(icArray[7], 10) * 2;
+
+            var weight = 0;
+            for (i = 1; i < 8; i++) {
+                weight += icArray[i];
+            }
+
+            var offset = (icArray[0] == "T" || icArray[0] == "G") ? 4 : (icArray[0] == "M") ? 3 : 0;
+
+            var temp = (offset + weight) % 11;
+
+            var st = ["J", "Z", "I", "H", "G", "F", "E", "D", "C", "B", "A"];
+            var fg = ["X", "W", "U", "T", "R", "Q", "P", "N", "M", "L", "K"];
+            var m = ["X", "W", "U", "T", "R", "Q", "P", "N", "J", "L", "K"];
+
+            var theAlpha;
+            if (icArray[0] == "S" || icArray[0] == "T") {
+                theAlpha = st[temp];
+            }
+            else if (icArray[0] == "F" || icArray[0] == "G") {
+                theAlpha = fg[temp];
+            }
+            else if (icArray[0] == "M") {
+                theAlpha = m[temp];
+            }
+            if (icArray[8] === theAlpha) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (e) {
+            return false;
+        }
+    }
+
+</script>
+<!--drag and drop-->
+<script>
+    document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+
+        const dropZoneElement = inputElement.closest(".drop-zone");
+
+        dropZoneElement.addEventListener("click", (e) => {
+            inputElement.click();
+        });
+
+        inputElement.addEventListener("change", (e) => {
+            if (inputElement.files.length) {
+                updateThumbnail(dropZoneElement, inputElement.files[0]);
+            }
+        });
+
+        dropZoneElement.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropZoneElement.classList.add("drop-zone--over");
+        });
+
+        ["dragleave", "dragend"].forEach((type) => {
+            dropZoneElement.addEventListener(type, (e) => {
+                dropZoneElement.classList.remove("drop-zone--over");
+            });
+        });
+
+        dropZoneElement.addEventListener("drop", (e) => {
+            e.preventDefault();
+
+            if (e.dataTransfer.files.length) {
+                inputElement.files = e.dataTransfer.files;
+                updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+            }
+
+            dropZoneElement.classList.remove("drop-zone--over");
+        });
+    });
+
+    function updateThumbnail(dropZoneElement, file) {
+        let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+        // First time - remove the prompt
+        if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+            dropZoneElement.querySelector(".drop-zone__prompt").remove();
+        }
+        // First time - there is no thumbnail element, so lets create it
+        if (!thumbnailElement) {
+            thumbnailElement = document.createElement("div");
+            thumbnailElement.classList.add("drop-zone__thumb");
+            dropZoneElement.appendChild(thumbnailElement);
+        }
+        thumbnailElement.dataset.label = file.name;
+        // Show thumbnail for image files
+        if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+            };
+        } else {
+            thumbnailElement.style.backgroundImage = null;
+        }
+    }
+</script>

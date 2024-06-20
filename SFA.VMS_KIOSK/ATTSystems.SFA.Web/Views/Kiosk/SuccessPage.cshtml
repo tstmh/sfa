@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnAccept {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+        .white-box {
+            border: 2px solid grey;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+
+        .btnNext {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+    </style>
+    <script src="~/js/FontAwsome.js"></script>
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+    <link href="~/css/materialIcons.css" rel="stylesheet">
+</head>
+
+<body class="homepage" style="height: 100%; width: 100%; margin: 0; padding: 0;overflow-x:hidden;">
+    <br />
+
+    <div class="row col-md-12">
+        <div class="col-md-4">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" height="55" style="padding-left: 30px;" alt="logo" />
+        </div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row" style="color:#E9510E;text-align:center">
+                <em class="fa fa-check-circle" style="font-size:128px;color:green"></em>
+                <h1>
+                    <strong>
+                        Registration Successful
+                    </strong>
+                </h1>
+                <br />
+                <h3>Please proceed to turnstile and scan you NRIC/ WORK Permit</h3>
+                <br />
+
+            </div>
+            <br /><br />
+            <br /><br />
+            <br /><br />
+            <br /><br />
+
+
+            <div class="row col-md-12">
+                <div class="col-md-4">
+                    <button id="btnNext" onclick="@("window.location.href='" + @Url.Action("KioskStart", "Kiosk") + "'");" value="" style="border-radius: 8%;background-color:#E9510E;border-color:#E9510E;font-size:24px;cursor: pointer;width:200px;float:left">
+                        <strong style="color:white;">BACK TO MAIN </strong>
+                    </button>
+                </div>
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+

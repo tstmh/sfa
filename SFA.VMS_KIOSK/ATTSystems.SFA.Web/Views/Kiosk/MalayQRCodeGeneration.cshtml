@@ -1,0 +1,257 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>
+       Malay QR Code Generation
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            transform-origin: center center;
+        }
+
+        .btnStart {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #qrDiv {
+            border: 1px solid grey;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        #divQRCode {
+            transform: scale(1.6);
+            margin-top: 12%;
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right;
+        }
+
+        #headDiv {
+            color: #E9510E;
+            text-align: center;
+            transform: scale(1.6);
+        }
+
+        #btnPrintTicket {
+            font-size: 60px;
+            background-color: #E9510E;
+            color: white;
+            border: none;
+        }
+    </style>
+    <script src="~/js/FontAwsome.js"></script>
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+
+    <link href="~/css/materialIcons.css" rel="stylesheet">
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="~/css/sweetalert2.min.css" asp-append-version="true" />
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+
+    <div class="col-md-12">
+        <br />
+        <br />
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8" id="headDiv">
+            <br />  <br />
+            <br /><br /><br />
+            <img src="~/images/Singapore_Food_Agency_logo.png" alt="logo"/>
+
+            <br />
+            <br />
+            <br /><br />
+        </div>
+        <div class="col-md-2">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("SelectLanguage", "Kiosk") + "'");">
+                <em class="fa fa-home" style="font-size:80px;color:#E9510E"></em>
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+
+            <br />
+            <br />   <br />
+            <div class="row">
+                <div class="col-md-3"></div>
+               
+                <div class="col-md-6" id="divQRCode" style="text-align:center">
+                    <br />   <br />  <br />   <br />
+                    <h2 style="text-align:center">Pendaftaran berjaya</h2>
+                    <br />   <br />  <br />   <br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8" id="qrDiv">
+                            <br /><br />
+                            <img src="@ViewBag.QrCodeUri" style="" id="image" width="300" height="300" alt="QRCode" />
+
+                            <br />
+                            <br />
+                            <h5>QR Kod sahih untuk jangka masa 24 jam sehingga @ViewBag.QRCodeDate</h5>
+                            <br /><br /><br />
+
+                            <br />
+                            <h3 style="text-align:center">QR kod telah dihantar ke mail id anda</h3>
+                            <br />
+                            <br />
+
+                            <br /><br />
+                            <div style="display:inline-flex">
+                                <h3 for="myCheck">
+                                    Adakah anda ingin mencetak Kod QR?
+                                </h3>
+                                <input type="checkbox" id="myCheck" onclick="myFunction()">
+                            </div>
+
+                            <br />
+                            <br /> <br />
+                            <br />
+
+                            <button type="submit" id="btnPrintTicket" class="btn hidden-btn" style="visibility: hidden;">
+                                Cetak Tiket
+                            </button>
+                            <br />
+                            <br /> <br />
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        var qrCode = '@ViewBag.QRData';
+        var startDate = '@ViewBag.Startdate';
+        var endDate = '@ViewBag.QRCodeDate';
+
+        function onInactive(ms, callback) {
+            var timeout;
+            window.addEventListener("mousemove", resetTimer, false);
+            window.addEventListener("mousedown", resetTimer, false);
+            window.addEventListener("keypress", resetTimer, false);
+            window.addEventListener("touchmove", resetTimer, false);
+            startTimer();
+
+            function startTimer() {
+                timeout = setTimeout(callback, ms);
+            }
+
+            function resetTimer() {
+                clearTimeout(timeout);
+                startTimer();
+            }
+        }
+
+        onInactive(120000, function () {
+            window.location.href = '/Kiosk/SelectLanguage';
+        });
+
+
+        $("#btnPrintTicket").click(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/Kiosk/PrintTicket",
+                data: {
+                    startdate: startDate, enddate: endDate, QrCode: qrCode
+                },
+                success: function (data) {
+                    var msg = data.message;
+
+                    if (data.code == 200) {
+                        swal("Info!", msg, "info");
+
+                        var redirectUrl = "@Url.Action("SelectLanguage", "Kiosk")";
+                        window.location.href = redirectUrl;
+                    }
+               
+                    else if (data.code !== 200) {
+                     
+                        swal({
+                            title: "Info",
+                            text: "Tidak Berjaya, Sila cuba cetak sekali lagi",
+                            type: "info",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                        }).then(
+                            function () {
+
+                            },
+                            function (dismiss) {
+                                if (dismiss === "cancel" || dismiss === "close") {
+                                    window.location.href = '/Kiosk/SelectLanguage';
+                                }
+                            });
+                    }
+                }
+            });
+        });
+
+
+        function myFunction() {
+
+            var checkBox = document.getElementById("myCheck");
+            var button = document.getElementById("btnPrintTicket");
+            if (checkBox.checked == true) {
+                button.style.visibility = "visible";
+            } else {
+                button.style.visibility = "hidden";
+            }
+
+        }
+    </script>
+
+
+    <script type="text/javascript" language="javascript">
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+    </script>
+</body>
+
+</html>

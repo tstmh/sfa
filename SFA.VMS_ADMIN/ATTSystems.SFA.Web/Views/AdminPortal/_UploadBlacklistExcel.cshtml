@@ -1,0 +1,438 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+<style>
+    .modal-backdrop {
+        opacity: 0.3 !important
+    }
+
+    #blacklist_btnSaveFiles {
+        background: #E9510E;
+        color: white;
+    }
+
+    #blacklist_btnClose {
+        background: grey;
+        color: white;
+    }
+
+    .drop-zone {
+        border: 2px dashed #91b0b3;
+        color: #92b0b3;
+        position: relative;
+        height: 80px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .drop-zone__prompt {
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        width: 40%;
+        top: 20px;
+        font-size: 16px;
+    }
+
+    .drop-zone--over {
+        border-style: solid;
+    }
+
+    .drop-zone__input {
+        display: none;
+    }
+
+    .drop-zone__thumb::after {
+        content: attr(data-label);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 5px 0;
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.75);
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+        .rwd-table td {
+            color: #333;
+        }
+
+    .dt-responsive::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
+<div class="modal fade" id="blacklist_uploadExcelModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Visitor Blacklist - Batch Upload </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form id="addExcelfiles" asp-action="" asp-controller="" method="post">
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+
+                            <fieldset class="scheduler-border">
+                                <legend class="scheduler-border">Upload Visitor Blacklist Details</legend>
+                                <div class="drop-zone">
+                                    <div class="drop-zone__prompt">
+                                        <i class="fa fa-download"></i>
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                        <p>Drop file here and click to upload.</p>
+                                    </div>
+                                    <input type="file" name="myfile" class="drop-zone__input" id="blacklist_VisitorUpload">
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button id="blacklist_btnUploadFiles" type="button" class="btn pull-right" onclick="blacklist_UploadCSVFile()" style="background: #E9510E;color:white">Upload</button>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive" style="height:200px;overflow-y:scroll;">
+                                            <table id="blacklist_tblVisitors" style="overflow-x:scroll;" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Location</th>
+                                                        <th>ID Type</th>
+                                                        <th>NRIC/Passport No</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Vehicle No</th>
+                                                        <th>Block No</th>
+                                                        <th>Unit No</th>
+                                                        <th>Company Name</th>
+                                                        <th style="display:none;"></th>
+                                                        <th style="display:none;"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="blacklist_tblVisitorBdy" oncopy="return false" oncut="return false" onpaste="return false">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="blacklist_btnSaveFiles" type="button" class="btn waves-effect" data-dismiss="modal">Save</button>
+                    <button id="blacklist_btnClose" type="button" class="btn waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function blacklist_UploadCSVFile() {
+        $('#pleaseWaitDialog').modal('show');
+        var exclfile = $("#blacklist_VisitorUpload").val();
+        duplicatedevices = "No";
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#blacklist_VisitorUpload").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('username', 'att');
+            //fileData.append('Id', _siteId);
+            dataList = "";
+
+            if (exclfile == "") {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Please Choose Excel file.", "info");
+                $("#blacklist_VisitorUpload").focus();
+                return false;
+            }
+
+            var filename = files[0].name;
+            var extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
+            if (extension == '.XLS' || extension == '.XLSX') {
+                $.ajax({
+                    url: '/AdminPortal/blacklist_UploadFiles',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        var i = 1;
+                        $('#blacklist_tblVisitors tbody').empty();
+                        if (result != "") {
+                            $('.modal-backdrop').remove();
+                            $('#pleaseWaitDialog').modal('hide');
+                            $(result).each(function (index, item) {
+                                if (item.duplicateNricOrPassport == false) {
+                                    duplicatedevices = "No";
+                                } else {
+                                    duplicatedevices = "Yes";
+                                    swal("Info", "Visitor blacklist details with red colour are not existing visitors", "info");
+                                }
+
+                                if (item.duplicateNricOrPassport == true) {
+                                    $('#blacklist_tblVisitors tbody').append(
+                                        '<tr data-stat=' + item.duplicateNricOrPassport + '><td>' + i +
+                                        '</td><td style="color:red;">' + item.listLocationName +
+                                        '</td><td style="color:red;">' + item.listIdTypeName +
+                                        '</td><td style="color:red;">' + item.listNricOrPassport +
+                                        '</td><td style="color:red;">' + item.listVisitorName +
+                                        '</td><td style="color:red;">' + item.listVisitorEmail +
+                                        '</td><td style="color:red;">' + item.listVehicleNo +
+                                        '</td><td style="color:red;">' + item.listBlockNo +
+                                        '</td><td style="color:red;">' + item.listUnitNo +
+                                        '</td><td style="color:red;">' + item.listCompanyName +
+                                        '</td><td style="display:none;">' + item.listVisitorTypeId +
+                                        '</td><td style="display:none;">' + item.duplicateNricOrPassport +
+                                        '</td></tr>'
+                                    )
+                                }
+                                else {
+                                    $('#blacklist_tblVisitors tbody').append(
+                                        '<tr data-stat=' + item.duplicateNricOrPassport + '><td>' + i +
+                                        '</td><td>' + item.listLocationName +
+                                        '</td><td>' + item.listIdTypeName +
+                                        '</td><td>' + item.listNricOrPassport +
+                                        '</td><td>' + item.listVisitorName +
+                                        '</td><td>' + item.listVisitorEmail +
+                                        '</td><td>' + item.listVehicleNo +
+                                        '</td><td>' + item.listBlockNo +
+                                        '</td><td>' + item.listUnitNo +
+                                        '</td><td>' + item.listCompanyName +
+                                        '</td><td style="display:none;">' + item.listVisitorTypeId +
+                                        '</td><td style="display:none;">' + item.duplicateNricOrPassport +
+                                        '</td></tr>'
+                                    )
+                                }
+
+                                dataList += item.listSlNo + "|" + item.listLocationName + "|" + item.listIdTypeName + "|" + item.listNricOrPassport + "|" + item.listVisitorName + "|" + item.listVisitorEmail + "|" + item.listVehicleNo + "|" + item.listBlockNo + "|" + item.listUnitNo + "|" + item.listCompanyName + "|" + item.listVisitorTypeId + "~";
+                                stockCount = index + 1;
+                                i += 1;
+                            });
+                            $('#notUsing').html(dataList);
+
+                            $(function () {
+                                $("#blacklist_tblVisitors td").each(function () {
+                                    if (this.textContent.trim() === "null") {
+                                        this.textContent = "";
+                                    }
+                                });
+                            });
+
+                        }
+                        else {
+                            swal("Info", "Empty excel files are not allowed,please add some valid data", "info");
+                            $('#pleaseWaitDialog').modal('hide');
+                            return false;
+                        }
+                    },
+                    error: function (err) {
+                        $('#pleaseWaitDialog').modal('hide');
+                       
+                        // alert(err.statusText);
+                    }
+                });
+            } else {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Only Excel files are allowed", "info");
+                return false;
+            }
+        }
+        else {
+            $('#pleaseWaitDialog').modal('hide');
+            swal("Warning!", "FormData is not supported.", "warning");
+            return false;
+        }
+        return false;
+    }
+
+    $('#blacklist_btnSaveFiles').on('click', function () {
+        $('#pleaseWaitDialog').modal('show');
+        var excl = $("#blacklist_VisitorUpload").val();
+        var extension = excl.substring(excl.lastIndexOf(".")).toUpperCase();
+
+        var registrationViewModel = {};
+        var _updateList = [];
+        $("#blacklist_tblVisitorBdy tr").each(function () {
+            var row = $(this);
+            listLocationName = row.find("td").eq(1).html();
+            listIdTypeName = row.find("td").eq(2).html();
+            listNricOrPassport = row.find("td").eq(3).html();
+            listVisitorName = row.find("td").eq(4).html();
+            listVisitorEmail = row.find("td").eq(5).html();
+            listVehicleNo = row.find("td").eq(6).html();
+            listBlockNo = row.find("td").eq(7).html();
+            listUnitNo = row.find("td").eq(8).html();
+            listCompanyName = row.find("td").eq(9).html();
+            listVisitorTypeId = row.find("td").eq(10).html();
+
+            _updateList.push({ listLocationName: listLocationName, listIdTypeName: listIdTypeName, listNricOrPassport: listNricOrPassport, listVisitorName: listVisitorName, listVisitorEmail: listVisitorEmail, listVehicleNo: listVehicleNo, listBlockNo: listBlockNo, listUnitNo: listUnitNo, listCompanyName: listCompanyName, listVisitorTypeId: listVisitorTypeId });
+        });
+
+        registrationViewModel.registrationViewLists = _updateList;
+
+        if (_updateList.length > 0) {
+            if (excl == "") {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Please Choose Excel file.", "info");
+                $("#blacklist_VisitorUpload").focus();
+                return false;
+            }
+            if (extension == '.XLS' || extension == '.XLSX') {
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "/AdminPortal/blacklist_SaveBatchExcelFiles",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(registrationViewModel),
+                    success: function (e) {
+                        if (e.resultCode == 200) {
+                            $('#pleaseWaitDialog').modal('hide');
+                            $('#blacklist_uploadExcelModal').modal('hide');
+                            swal("Success", "Visitor blacklist details uploaded successfully", "success");
+                            $('.modal-backdrop').remove();
+
+                            var relativeURI = "@Url.Action("BlackList", "AdminPortal")";
+                            renderPartialView(relativeURI);
+                        }
+                        else {
+                            $('#pleaseWaitDialog').modal('hide');
+                            swal("Info", "invalid data please check and add again", "info");
+                            return false;
+                        }
+                    },
+                    error: function (e) {
+                        showDialog(e.statusText, "AdminPortal", "error", "", "", 0, false, false);
+                        $('#logoutForm').submit();
+                    },
+                });
+            } else {
+                $('#pleaseWaitDialog').modal('hide');
+                swal("Info", "Only Excel files are allowed, after uploading excel file please click on Upload button", "info");
+                return false;
+            }
+        }
+        else {
+            $('#pleaseWaitDialog').modal('hide');
+            swal("Info", "Please add valid Excel file with data", "info");
+            return false;
+        }
+    });
+</script>
+<!--drag and drop-->
+<script>
+    document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+
+        const dropZoneElement = inputElement.closest(".drop-zone");
+
+        dropZoneElement.addEventListener("click", (e) => {
+            inputElement.click();
+        });
+
+        inputElement.addEventListener("change", (e) => {
+            if (inputElement.files.length) {
+                updateThumbnail(dropZoneElement, inputElement.files[0]);
+            }
+        });
+
+        dropZoneElement.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropZoneElement.classList.add("drop-zone--over");
+        });
+
+        ["dragleave", "dragend"].forEach((type) => {
+            dropZoneElement.addEventListener(type, (e) => {
+                dropZoneElement.classList.remove("drop-zone--over");
+            });
+        });
+
+        dropZoneElement.addEventListener("drop", (e) => {
+            e.preventDefault();
+
+            if (e.dataTransfer.files.length) {
+                inputElement.files = e.dataTransfer.files;
+                updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+            }
+
+            dropZoneElement.classList.remove("drop-zone--over");
+        });
+    });
+
+    function updateThumbnail(dropZoneElement, file) {
+        let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+        // First time - remove the prompt
+        if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+            dropZoneElement.querySelector(".drop-zone__prompt").remove();
+        }
+        // First time - there is no thumbnail element, so lets create it
+        if (!thumbnailElement) {
+            thumbnailElement = document.createElement("div");
+            thumbnailElement.classList.add("drop-zone__thumb");
+            dropZoneElement.appendChild(thumbnailElement);
+        }
+        thumbnailElement.dataset.label = file.name;
+        // Show thumbnail for image files
+        if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+            };
+        } else {
+            thumbnailElement.style.backgroundImage = null;
+        }
+    }
+</script>

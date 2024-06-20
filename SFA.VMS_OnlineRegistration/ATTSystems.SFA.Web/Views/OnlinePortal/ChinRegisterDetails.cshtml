@@ -1,0 +1,1966 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.OnlinePortalViewModel
+
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Registration</title>
+
+    <link rel="stylesheet" href="/css/bootstrap-4.3.1.min.css" />
+    <script src="~/js/jquery-3.7.1.slim.min.js"></script>
+    <script src="~/js/bootstrap-4.3.1.min.js"></script>
+
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link rel="stylesheet" href="~/css/sweetalert2.min.css" asp-append-version="true" />
+
+
+
+    <style>
+        .register {
+            background: white;
+            padding: 3%;
+        }
+
+        .register-left {
+            text-align: center;
+            color: #fff;
+            margin-top: 4%;
+        }
+
+            .register-left input {
+                border: none;
+                border-radius: 1.5rem;
+                padding: 2%;
+                width: 80%;
+                background: #f8f9fa;
+                font-weight: bold;
+                color: #383d41;
+                margin-top: 30%;
+                margin-bottom: 3%;
+                cursor: pointer;
+            }
+
+
+            .register-left p {
+                font-weight: lighter;
+                padding: 12%;
+                margin-top: -9%;
+            }
+
+        .register .register-form {
+            padding: 3%;
+        }
+
+        #btnRegister {
+            float: right;
+            margin-top: 10%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        #btnNRIc {
+            float: right;
+            margin-top: 10%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        .register .nav-tabs {
+            margin-top: 3%;
+            border: none;
+            background: #E9510E;
+            border-radius: 1.5rem;
+            width: 18%;
+            float: right;
+        }
+
+            .register .nav-tabs .nav-link {
+                padding: 2%;
+                height: 34px;
+                font-weight: 600;
+                color: #fff;
+                border-top-right-radius: 1.5rem;
+                border-bottom-right-radius: 1.5rem;
+            }
+
+                .register .nav-tabs .nav-link:hover {
+                    border: none;
+                }
+
+                .register .nav-tabs .nav-link.active {
+                    color: #E9510E;
+                    border: 2px solid #E9510E;
+                    border-top-left-radius: 1.5rem;
+                    border-bottom-left-radius: 1.5rem;
+                }
+
+        .register-heading {
+            text-align: center;
+            margin-top: 8%;
+            color: #495057;
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        #btnCheck {
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            width: 24%;
+            cursor: pointer;
+        }
+
+        #btnNRICvrfy {
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            width: 24%;
+            cursor: pointer;
+        }
+
+        #mail, #visitName, #visitType, #lstpassport, #contact, #vehicle {
+            border: 1px solid grey; 
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+        #nvisitName, #nvisitType, #nlstpassport, #ncontact, #nvehicle {
+            border: 1px solid grey;
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+        #btnRegisterEdit {
+            float: right;
+            margin-top: 4%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        #btnRegisterNric {
+            float: right;
+            margin-top: 4%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        body {
+            overflow-y: auto;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @@media (min-width: 360px) and (max-width: 767px) {
+            #profile {
+                display: block;
+            }
+
+            .nav-item {
+                border: none;
+                background: #E9510E;
+                border-radius: 1.5rem;
+            }
+
+            .register .nav-tabs {
+                margin-top: 3%;
+                border: none;
+                background: #E9510E;
+                border-radius: 1.5rem;
+                width: 75%;
+                float: right;
+            }
+
+            .register-heading {
+                text-align: center;
+                margin-top: 14%;
+                color: #495057;
+            }
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 350px;
+            box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #f1f1f1;
+        }
+
+
+        #cnum::-webkit-inner-spin-button,
+        #cnum::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #cnum {
+            -moz-appearance: textfield;
+        }
+
+        #visContact::-webkit-inner-spin-button,
+        #visContact::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #visContact {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+</head>
+<body>
+    <br />
+    <br />
+    <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        </div>
+        <div class="col-md-8" style="text-align:center;">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" alt="Logo"/>
+
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("Register", "OnlinePortal") + "'");" class="" style="border:none;background-color:white;cursor: pointer;float:right">
+                <em class="fa fa-home" style="font-size:48px;color:#E9510E"></em>
+            </button>
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => m.locationid)
+
+    @{
+        var locatnId = @ViewBag.LocationId;
+    }
+
+    <div class="register">
+        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                    身份证/工作准证
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">护照</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <h3 class="register-heading">
+                    使用 身份证/工作准证 号码注册
+
+                </h3>
+                <div class="col-md-12" id="ckeckNRIC">
+                    <fieldset class="scheduler-border">
+                        <legend>身份证/工作准证 号码</legend>
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    
+                                    @Html.TextBoxFor(model => model.NRICNumber, new { @class = "form-control", id = "nricid", @autocomplete = "off", onkeypress = "allowAlphaNumericSpace(event)", onpaste = "return false;" })
+                                    @Html.ValidationMessageFor(model => model.NRICNumber, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="btnNRICvrfy" class="btn">登记</button>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-md-12" style="display:none" id="nricdtls">
+                    <fieldset class="scheduler-border">
+                        <legend>访客详情</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>身份证/工作准证 号码 </label>
+                                    @Html.TextBoxFor(model => model.NRICNumber, new { @class = "form-control", id = "NRICID", @autocomplete = "off", @readonly = "readonly" })
+                                </div>
+                                <div class="form-group">
+                                    <label>手机号码 </label>
+                                    @Html.TextBoxFor(model => model.mobileNumber, new { @class = "form-control", id = "cnum", @autocomplete = "off", type = "number" })
+                                </div>
+                                <div class="form-group" id="visitor">
+                                    <label>访客类型 </label>
+                                    @Html.DropDownListFor(model => model.visitorType, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "vtypeid" })
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>姓名 </label>
+                                    @Html.TextBoxFor(model => model.visitorName, new { @class = "form-control", id = "fname", @autocomplete = "off", oninput = "allowNameOnly(this)" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label>车牌号码 </label>
+                                    @Html.TextBoxFor(model => model.vehicleNumber, new { @class = "form-control", id = "vnum", @autocomplete = "off" })
+                                </div>
+                                <div id="blockNo" style="display:none">
+                                    <label class="form-label">大牌 </label>
+                                    <input type="number" class="form-control" id="nricblock" min="1" max="5">
+                                </div>
+                                <div id="NriccmpName" style="display:none">
+                                    <label class="form-label">租户/公司名称 </label>
+                                    @Html.TextBoxFor(model => model.companyName, new { @class = "form-control", @autocomplete = "off", id = "nricComp" })
+                                </div>
+
+
+                                @if (locatnId == "1")
+                                {
+                                    <div class="form-group" id="unitNo" style="display: none;">
+
+                                        <label class="form-label">
+                                            Market lot/ Office unit/ Storage lot/ Shop/ Canteen/Ice Crusher
+                                        </label>   &nbsp; <div class="dropdown">
+                                            <em class="fa fa-exclamation-circle dropbtn" style="font-size: 30px; color: #80808070; cursor: pointer;"></em>
+                                            <div class="dropdown-content">
+                                                <a style="color: black;"><strong><u>Example</u></strong></a>
+                                                <a href="#">Market Lot 1 ---> ML 1</a>
+                                                <a href="#">Office Unit 1 ---> OU 1</a>
+                                                <a href="#">Storage Lot 1 ----> SL 1</a>
+                                                <a href="#">Shop 1 ----> G 1</a>
+                                                <a href="#">Canteen ----> Canteen B</a>
+                                                <a href="#">Ice Crusher 1 ---> Ice Crusher 1</a>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="unitNo" style="display:none">
+                                        <label class="form-label">UnitID (Block No_Level_Unit No) <br /> eg: 1_01_01</label>
+
+                                    </div>
+                                }
+                                <div id="unitNoTxtBox" style="display:none">
+                                    @Html.TextBoxFor(model => model.unitNo, new { @class = "form-control use-keyboard-input", id = "nricUnit", list = "UIDName", onpaste = "return false;" })
+                                    @Html.ValidationMessageFor(model => model.unitNo, "", new { @class = "text-danger" })
+                                    <datalist id="UIDName">
+                                        @foreach (var item in Model.OnlineUnitsDetailLists)
+                                        {
+                                            <option value=@item.UnitId>@item.UnitId</option>
+                                        }
+                                    </datalist>
+                                </div>
+
+                                <button type="submit" id="btnNRIc" class="btn">登记</button>
+
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-12" id="myNricDiv" style="display: none;">
+                    <fieldset class="scheduler-border">
+                        <legend>访客详情</legend>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label>身份证/工作准证 号码</label>
+                                        <p id="nlstpassport"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>手机号码</label>
+                                        <p id="ncontact"></p>
+                                    </div>
+
+                                    <div class="form-group" id="visitor">
+                                        <label>访客类型</label>
+                                        <p id="nvisitType"></p>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>姓名</label>
+                                        <p id="nvisitName"></p>
+                                    </div>
+                                    <div class="form-group" style="display:none" id="nricVehicle">
+                                        <label>车牌号码 </label>
+                                        <p id="nvehicle"></p>
+                                    </div>
+
+                                    <button type="button" id="btnRegisterNric" class="btn">登记</button>
+                                   
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <h3 class="register-heading">使用护照号码注册</h3>
+                <div class="col-md-12" id="ckeckPassport">
+                    <fieldset class="scheduler-border">
+                        <legend>护照号码</legend>
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.passportNumber, new { @class = "form-control", id = "passNum", @autocomplete = "off", onkeypress = "allowAlphaNumericPassport(event)", onpaste = "return false;" })
+                                    @Html.ValidationMessageFor(model => model.passportNumber, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="btnCheck" class="btn">登记</button>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-md-12" style="display:none" id="passportdtls">
+                    <fieldset class="scheduler-border">
+                        <legend>访客详情</legend>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>护照号码 </label>
+                                    @Html.TextBoxFor(model => model.passportNumber, new { @class = "form-control", id = "passport", @autocomplete = "off", @readonly = "readonly" })
+                                </div>
+                                <div class="form-group">
+                                    <label>手机号码 </label>
+                                    @Html.TextBoxFor(model => model.mobileNumber, new { @class = "form-control", id = "visContact", @autocomplete = "off", type = "number" })
+                                </div>
+
+                                <div class="form-group" id="visitor">
+                                    <label>访客类型 </label>
+                                    @Html.DropDownListFor(model => model.visitorType, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "visType" })
+                                </div>
+
+
+                                @if (locatnId == "1")
+                                {
+                                    <div class="form-group" id="unitNum" style="display: none;">
+
+                                        <label class="form-label">
+                                            Market lot/ Office unit/ Storage lot/ Shop/ Canteen/Ice Crusher
+                                        </label>   &nbsp; <div class="dropdown">
+                                            <em class="fa fa-exclamation-circle dropbtn" style="font-size: 30px; color: #80808070; cursor: pointer;"></em>
+                                            <div class="dropdown-content">
+                                                <a style="color: black;"><strong><u>Example</u></strong></a>
+                                                <a href="#">Market Lot 1 ---> ML 1</a>
+                                                <a href="#">Office Unit 1 ---> OU 1</a>
+                                                <a href="#">Storage Lot 1 ----> SL 1</a>
+                                                <a href="#">Shop 1 ----> G 1</a>
+                                                <a href="#">Canteen ----> Canteen B</a>
+                                                <a href="#">Ice Crusher 1 ---> Ice Crusher 1</a>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="unitNum" style="display:none">
+                                        <label class="form-label">UnitID (Block No_Level_Unit No) <br /> eg: 1_01_01</label>
+
+                                    </div>
+                                }
+                                <div id="unitNumTxtBox" style="display:none">
+                                    @Html.TextBoxFor(model => model.unitNo, new { @class = "form-control use-keyboard-input", id = "passUnit", list = "UIDName", onpaste = "return false;" })
+                                    @Html.ValidationMessageFor(model => model.unitNo, "", new { @class = "text-danger" })
+                                    <datalist id="UIDName">
+                                        @foreach (var item in Model.OnlineUnitsDetailLists)
+                                        {
+                                            <option value=@item.UnitId>@item.UnitId</option>
+                                        }
+                                    </datalist>
+                                </div>
+
+
+                                <div id="compName" style="display:none">
+                                    <label class="form-label">租户/公司名称 </label>
+                                    @Html.TextBoxFor(model => model.companyName, new { @class = "form-control", @autocomplete = "off", id = "passComp",oninput = "allowSpacesAtStart(this)" })
+                                </div>
+                                <div id="blockNum" style="display:none">
+                                    <label class="form-label">大牌 </label>
+                                    <input type="number" class="form-control" id="passBlock" min="1" max="5">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>姓名 </label>
+                                    @Html.TextBoxFor(model => model.visitorName, new { @class = "form-control", id = "visName", @autocomplete = "off" , oninput = "allowNameOnly(this)"})
+                                </div>
+
+                                <div class="form-group">
+                                    <label>车牌号码 </label>
+                                    @Html.TextBoxFor(model => model.vehicleNumber, new { @class = "form-control", id = "vehicleNo", @autocomplete = "off" })
+                                </div>
+                                <div class="form-group">
+                                    <label>电邮地址 </label>
+                                    @Html.TextBoxFor(model => model.emailId, new { @class = "form-control", id = "email", @autocomplete = "off" })
+                                </div>
+
+                                <button type="submit" id="btnRegister" class="btn">登记</button>
+
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </div>
+
+
+                <div class="col-md-12" style="display:none" id="myDiv">
+                    <fieldset class="scheduler-border">
+                        <legend>访客详情</legend>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>护照号码</label>
+                                        <p id="lstpassport"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>手机号码</label>
+                                        <p id="contact"></p>
+                                    </div>
+
+                                    <div class="form-group" id="visitor">
+                                        <label>访客类型</label>
+                                        <p id="visitType"></p>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>姓名</label>
+                                        <p id="visitName"></p>
+                                    </div>
+
+                                    <div class="form-group" style="display:none" id="vehicleOpt">
+                                        <label>车牌号码 </label>
+                                        <p id="vehicle"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>电邮地址</label>
+                                        <p id="mail"></p>
+                                    </div>
+
+                                    <button type="button" id="btnRegisterEdit" class="btn">登记</button> 
+
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#visContact').on('input', function () {
+                var sanitizedValue = $(this).val().replace(/\D/g, '');
+                $(this).val(sanitizedValue);
+            });
+
+            $('#cnum').on('input', function () {
+                var sanitizedValue = $(this).val().replace(/\D/g, '');
+                $(this).val(sanitizedValue);
+            });
+        });
+
+     
+        $(document).ready(function () {
+            $("#passNum").on("input", function () {
+                var nricValue = $(this).val();
+                var maskedValue = "*".repeat(Math.max(0, nricValue.length - 4)) + nricValue.slice(-4);
+                $("#passport").val(maskedValue);
+            });
+
+            $("#nricid").on("input", function () {
+                var nricValue = $(this).val();
+                var maskedValue = "*".repeat(Math.max(0, nricValue.length - 4)) + nricValue.slice(-4);
+                $("#NRICID").val(maskedValue);
+            });
+
+
+        });
+
+
+        function allowAlphaNumericSpace(e) {
+            var key = e.key || String.fromCharCode(e.which || e.charCode || e.keyCode);
+
+            if (!/^[a-zA-Z0-9]$/.test(key)) {
+                e.preventDefault();
+                swal("Info", "请仅输入字母和数字。不允许有特殊字符。", "info");
+            }
+        }
+      
+        function allowAlphaNumericPassport(e) {
+            var key = e.key || String.fromCharCode(e.which || e.charCode || e.keyCode);
+
+            var isValidCharacter = /^[0-9A-Za-z]$/.test(key);
+
+            if (e.target.selectionStart === 0 && !/[A-Za-z]/.test(key)) {
+                isValidCharacter = false;
+            }
+
+            if (!isValidCharacter) {
+                e.preventDefault();
+                swal("Info", "请以一封信开始。不允许有特殊字符。", "info");
+            }
+        }
+
+        function allowNameOnly(element) {
+            var sanitizedValue = element.value.replace(/^[^a-zA-Z]+/, '').replace(/[^a-zA-Z\s]/g, '');
+
+            element.value = sanitizedValue;
+        }
+
+
+        function allowSpacesAtStart(element) {
+            var sanitizedValue = element.value.replace(/^\s+/g, '');
+
+            element.value = sanitizedValue;
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#toggleSwitch').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#profile-tab').tab('show');
+                } else {
+                    $('#home-tab').tab('show');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href"); 
+                $('.nav-link').removeClass('active');
+                $(e.target).addClass('active');
+            });
+        });
+
+        $("#visType").click(function () {
+
+            var _visType = $("#visType option:selected").val();
+
+            if (_visType == "2") {
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNum").style.display = "block";
+                document.getElementById("compName").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "block";
+
+            }
+            else if (_visType == "3") {
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNum").style.display = "block";
+                document.getElementById("compName").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "block";
+
+            }
+            else if (_visType == "4") {
+                document.getElementById("compName").style.display = "block";
+                document.getElementById("unitNum").style.display = "none";
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "none";
+            }
+            else {
+                document.getElementById("compName").style.display = "none";
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNum").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "none";
+
+            }
+        });
+
+        $("#vtypeid").click(function () {
+
+            var _visType = $("#vtypeid option:selected").val();
+
+            if (_visType == "2") {
+                document.getElementById("blockNo").style.display = "none";
+                document.getElementById("unitNo").style.display = "block";
+                document.getElementById("NriccmpName").style.display = "none";
+                document.getElementById("unitNoTxtBox").style.display = "block";
+
+            }
+            else if (_visType == "3") {
+                document.getElementById("blockNo").style.display = "none";
+                document.getElementById("unitNo").style.display = "block";
+                document.getElementById("NriccmpName").style.display = "none";
+                document.getElementById("unitNoTxtBox").style.display = "block";
+
+            }
+            else if (_visType == "4") {
+                document.getElementById("NriccmpName").style.display = "block";
+                document.getElementById("unitNo").style.display = "none";
+                document.getElementById("blockNo").style.display = "none";
+                document.getElementById("unitNoTxtBox").style.display = "none";
+            }
+            else {
+                document.getElementById("NriccmpName").style.display = "none";
+                document.getElementById("blockNo").style.display = "none";
+                document.getElementById("unitNo").style.display = "none";
+                document.getElementById("unitNoTxtBox").style.display = "none";
+            }
+        });
+
+        $("#passNum").on("input", function () {
+            var sourceValue = $(this).val();
+
+            $("#passport").val(sourceValue);
+        });
+        $("#nricid").on("input", function () {
+            var sourceValue = $(this).val();
+            $("#NRICID").val(sourceValue);
+        });
+    </script>
+    <script>
+    
+        $("#btnCheck").click(function () {
+            var _passport = $("#passNum").val();
+            var _locId = $("#locationid").val();
+
+
+            if (_passport == "") {
+                swal("Info!", "请输入护照号码", "info");
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/OnlinePortal/ChinCheckPassportNum",
+                    data: {
+                        passportNumber: _passport, locationid: _locId
+                    },
+                    success: function (data) {
+                     
+                        if (data.code == 300) {
+
+                            swal({
+                                title: 'Info',
+                                text: "该护照已在同一地点注册。请前往柜台",
+                                type: 'info',                              
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                              
+                                window.location.href = '/OnlinePortal/Register'; 
+
+                            });
+
+                            $('#ckeckPassport').show();
+                         
+                        }
+                        else if (data.code == 200) {
+                            $('#passportdtls').show();
+                            var element = document.getElementById('passportdtls');
+                            element.style.padding = '3%';
+                            document.getElementById("ckeckPassport").style.display = "none";
+                        }
+                        else if (data.code == 204) {
+                            if (data.result.length > 0) {
+
+                                for (var i = 0; i < data.result.length; ++i) {
+                                    if (data.result[i].listvehicleNumber == null) {
+                                        listVehicle = "";
+                                        document.getElementById('vehicleOpt').style.display = 'none';
+                                    }
+                                    else {
+                                        listVehicle = data.result[i].listvehicleNumber;
+                                        document.getElementById('vehicleOpt').style.display = 'block';
+                                    }
+
+                                    if (data.result[i].listvisitorType == "SFA Staff") {
+                                        listVisitTyp = "SFA Staff";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Tenants") {
+                                        listVisitTyp = "租户";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Workers") {
+                                        listVisitTyp = "员工";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+                                        listVisitTyp = "贸易访客(买家)";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Public") {
+                                        listVisitTyp = "公众";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Other Government Agency Staff") {
+                                        listVisitTyp = "Other Government Agency Staff";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Managing Agent and Staff") {
+                                        listVisitTyp = "Managing Agent and Staff";
+                                    }
+
+                                    document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                    document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                    document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                    document.getElementById('mail').innerHTML = data.result[i].listEmail;
+                                    document.getElementById('vehicle').innerHTML = listVehicle;
+                                    document.getElementById('visitType').innerHTML = listVisitTyp;
+                                }
+
+                            }
+
+                            swal({
+                                title: 'Info',
+                                text: "该护照已被登记",
+                                type: 'info',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                                document.getElementById('myDiv').style.display = 'block';
+
+                            });
+                            $('#ckeckPassport').hide();
+                        }
+
+
+                        else if (data.code == 201) {
+
+                            if (data.result.length > 0) {
+
+                                for (var i = 0; i < data.result.length; ++i) {
+                                    if (data.result[i].listvehicleNumber == null) {
+                                        listVehicle = "";
+                                        document.getElementById('vehicleOpt').style.display = 'none';
+                                    }
+                                    else {
+                                        listVehicle = data.result[i].listvehicleNumber;
+                                        document.getElementById('vehicleOpt').style.display = 'block';
+                                    }
+
+                                    if (data.result[i].listvisitorType == "SFA Staff") {
+                                        listVisitTyp = "SFA Staff";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Tenants") {
+                                        listVisitTyp = "租户";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Workers") {
+                                        listVisitTyp = "员工";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+                                        listVisitTyp = "贸易访客(买家)";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Public") {
+                                        listVisitTyp = "公众";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Other Government Agency Staff") {
+                                        listVisitTyp = "Other Government Agency Staff";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Managing Agent and Staff") {
+                                        listVisitTyp = "Managing Agent and Staff";
+                                    }
+
+                                    document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                    document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                    document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                    document.getElementById('mail').innerHTML = data.result[i].listEmail;
+                                    document.getElementById('vehicle').innerHTML = listVehicle;
+                                    document.getElementById('visitType').innerHTML = listVisitTyp;
+                                }
+
+                            }
+
+                            swal({
+                                title: 'Info',
+                                text: "该护照已在两个地点注册",
+                                type: 'info',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                                document.getElementById('myDiv').style.display = 'block';
+
+                            });
+                            $('#ckeckPassport').hide();
+                        }
+                        else if (data.code == 202) {
+
+                            if (data.result.length > 0) {
+
+                                for (var i = 0; i < data.result.length; ++i) {
+                                    if (data.result[i].listvehicleNumber == null) {
+                                        listVehicle = "";
+                                        document.getElementById('vehicleOpt').style.display = 'none';
+                                    }
+                                    else {
+                                        listVehicle = data.result[i].listvehicleNumber;
+                                        document.getElementById('vehicleOpt').style.display = 'block';
+                                    }
+
+                                    if (data.result[i].listvisitorType == "SFA Staff") {
+                                        listVisitTyp = "SFA Staff";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Tenants") {
+                                        listVisitTyp = "租户";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Workers") {
+                                        listVisitTyp = "员工";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+                                        listVisitTyp = "贸易访客(买家)";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Public") {
+                                        listVisitTyp = "公众";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Other Government Agency Staff") {
+                                        listVisitTyp = "Other Government Agency Staff";
+                                    }
+                                    else if (data.result[i].listvisitorType == "Managing Agent and Staff") {
+                                        listVisitTyp = "Managing Agent and Staff";
+                                    }
+
+                                    document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                    document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                    document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                    document.getElementById('mail').innerHTML = data.result[i].listEmail;
+                                    document.getElementById('vehicle').innerHTML = listVehicle;
+                                    document.getElementById('visitType').innerHTML = listVisitTyp;
+                                }
+
+                            }
+
+                            swal({
+                                title: 'Info',
+                                text: "该护照已在同一地点注册",
+                                type: 'info',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                                document.getElementById('myDiv').style.display = 'block';
+
+                            });
+                            $('#ckeckPassport').hide();
+                        }
+
+
+                        else if (data.code == 304) {
+
+                            swal({
+                                title: 'Info',
+                                text: "该访客已被列入黑名单。请前往柜台",
+                                type: 'info',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                                
+                                window.location.href = '/OnlinePortal/Register'; 
+
+                            });
+
+                            $('#ckeckPassport').show();
+                        }
+
+                        else if (data.code == 305) {
+                            swal({
+                                title: 'Info',
+                                text: "该护照已注册为 身份证/工作准证",
+                                type: 'info',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                                window.location.href = '/OnlinePortal/Register';
+
+                            });
+                        }
+
+                        else if (e.code == 301) {
+
+                            swal({
+                                title: 'Info',
+                                text: "该护照已在两个地点注册",
+                                type: 'info',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(function () {
+                                
+                                window.location.href = '/OnlinePortal/Register'; 
+
+                            });
+
+                            $('#ckeckPassport').show();
+                            
+                        }
+                    }
+                });
+            }
+        });
+
+
+        $("#btnNRICvrfy").click(function () {
+            var _nricnum = $("#nricid").val();
+            var _nlocId = $("#locationid").val();
+
+            if (_nricnum == "") {
+                swal("Info!", "请输入身份证 / 工作准证 号码", "info");
+            }
+            else {
+                if (checkvalidatenric(_nricnum)) {
+                    $.ajax({
+                        type: "POST",
+                       
+                        url: "@Url.Action("ChinNricverify", "OnlinePortal")",
+                        data: { 'NRICNumber': _nricnum, 'locationid': _nlocId },
+                        cache: false,
+                        dataType: "json",
+                        success: function (e) {
+                          
+                            if (e.code == 300) {
+
+                                swal({
+                                    title: 'Info',
+                                    text: "该 身份证/ 工作准证 已在同一地点注册。请前往柜台",
+                                    type: "info",
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                  
+                                    window.location.href = '/OnlinePortal/Register'; 
+
+                                });
+
+
+                                $('#ckeckNRIC').show();
+                            }
+                            else if (e.code == 204) {
+                                if (e.res.length > 0) {
+
+                                    for (var i = 0; i < e.res.length; ++i) {
+                                        if (e.res[i].listvehicleNumber == null) {
+                                            nriclistVehicle = "";
+                                            document.getElementById('nricVehicle').style.display = 'none';
+                                        }
+                                        else {
+                                            nriclistVehicle = e.res[i].listvehicleNumber;
+                                            document.getElementById('nricVehicle').style.display = 'block';
+                                        }
+                                        if (e.res[i].listvisitorType == "SFA Staff") {
+                                            listVisitTyp = "SFA Staff";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Tenants") {
+                                            listVisitTyp = "租户";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Workers") {
+                                            listVisitTyp = "员工";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+                                            listVisitTyp = "贸易访客(买家)";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Public") {
+                                            listVisitTyp = "公众";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Other Government Agency Staff") {
+                                            listVisitTyp = "Other Government Agency Staff";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Managing Agent and Staff") {
+                                            listVisitTyp = "Managing Agent and Staff";
+                                        }
+                                        document.getElementById('nlstpassport').innerHTML = e.res[i].listPassportNumber;
+                                        document.getElementById('nvisitName').innerHTML = e.res[i].listvisitorName;
+                                        document.getElementById('ncontact').innerHTML = e.res[i].listmobileNumber;
+                                        document.getElementById('nvehicle').innerHTML = nriclistVehicle;
+                                        document.getElementById('nvisitType').innerHTML = listVisitTyp;
+                                    }
+
+                                }
+
+                                swal({
+                                    title: 'Info',
+                                    text: "该身份证已被注册",
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                    document.getElementById('myNricDiv').style.display = 'block';
+                                });
+                                $('#ckeckNRIC').hide();
+                            }
+                            else if (e.code == 200) {
+                                $('#nricdtls').show();
+                                var element = document.getElementById('nricdtls');
+                                element.style.padding = '3%';
+                                document.getElementById("ckeckNRIC").style.display = "none";
+                            }
+
+                            else if (e.code == 201) {
+
+                                if (e.res.length > 0) {
+
+                                    for (var i = 0; i < e.res.length; ++i) {
+                                        if (e.res[i].listvehicleNumber == null) {
+                                            nriclistVehicle = "";
+                                            document.getElementById('nricVehicle').style.display = 'none';
+                                        }
+                                        else {
+                                            nriclistVehicle = e.res[i].listvehicleNumber;
+                                            document.getElementById('nricVehicle').style.display = 'block';
+                                        }
+                                        if (e.res[i].listvisitorType == "SFA Staff") {
+                                            listVisitTyp = "SFA Staff";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Tenants") {
+                                            listVisitTyp = "租户";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Workers") {
+                                            listVisitTyp = "员工";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+                                            listVisitTyp = "贸易访客(买家)";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Public") {
+                                            listVisitTyp = "公众";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Other Government Agency Staff") {
+                                            listVisitTyp = "Other Government Agency Staff";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Managing Agent and Staff") {
+                                            listVisitTyp = "Managing Agent and Staff";
+                                        }
+                                        document.getElementById('nlstpassport').innerHTML = e.res[i].listPassportNumber;
+                                        document.getElementById('nvisitName').innerHTML = e.res[i].listvisitorName;
+                                        document.getElementById('ncontact').innerHTML = e.res[i].listmobileNumber;
+                                        document.getElementById('nvehicle').innerHTML = nriclistVehicle;
+                                        document.getElementById('nvisitType').innerHTML = listVisitTyp;
+                                    }
+
+                                }
+
+                                swal({
+                                    title: 'Info',
+                                    text: "该身份证/工作准证 已在两个地点注册",
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                    document.getElementById('myNricDiv').style.display = 'block';
+                                });
+                                $('#ckeckNRIC').hide();
+                            }
+                            else if (e.code == 202) {
+
+                                if (e.res.length > 0) {
+
+                                    for (var i = 0; i < e.res.length; ++i) {
+                                        if (e.res[i].listvehicleNumber == null) {
+                                            nriclistVehicle = "";
+                                            document.getElementById('nricVehicle').style.display = 'none';
+                                        }
+                                        else {
+                                            nriclistVehicle = e.res[i].listvehicleNumber;
+                                            document.getElementById('nricVehicle').style.display = 'block';
+                                        }
+                                        if (e.res[i].listvisitorType == "SFA Staff") {
+                                            listVisitTyp = "SFA Staff";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Tenants") {
+                                            listVisitTyp = "租户";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Workers") {
+                                            listVisitTyp = "员工";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Trade Visitors (contractors, commercial buyers, logistics companies)") {
+                                            listVisitTyp = "贸易访客(买家)";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Public") {
+                                            listVisitTyp = "公众";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Other Government Agency Staff") {
+                                            listVisitTyp = "Other Government Agency Staff";
+                                        }
+                                        else if (e.res[i].listvisitorType == "Managing Agent and Staff") {
+                                            listVisitTyp = "Managing Agent and Staff";
+                                        }
+                                        document.getElementById('nlstpassport').innerHTML = e.res[i].listPassportNumber;
+                                        document.getElementById('nvisitName').innerHTML = e.res[i].listvisitorName;
+                                        document.getElementById('ncontact').innerHTML = e.res[i].listmobileNumber;
+                                        document.getElementById('nvehicle').innerHTML = nriclistVehicle;
+                                        document.getElementById('nvisitType').innerHTML = listVisitTyp;
+                                    }
+
+                                }
+
+                                swal({
+                                    title: 'Info',
+                                    text: "该身份证/工作准证 已在同一地点注册",
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                    document.getElementById('myNricDiv').style.display = 'block';
+                                });
+                                $('#ckeckNRIC').hide();
+                            }
+                            else if (e.code == 301) {
+
+                                swal({
+                                    title: 'Info',
+                                    text: "该身份证已在两个地点注册",
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {                                  
+                                    window.location.href = '/OnlinePortal/Register'; 
+
+                                });
+
+                                $('#ckeckPassport').show();
+                            }
+                            else if (e.code == 304) {
+
+                                swal({
+                                    title: 'Info',
+                                    text: "该访客已被列入黑名单。请前往柜台",
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                    
+                                    window.location.href = '/OnlinePortal/Register'; 
+
+                                });
+
+                                $('#ckeckPassport').show();
+                            }
+
+
+
+
+                        }
+                    });
+                    return true;
+                }
+                else {
+                    swal("Info", "身份证 / 工作准证 号码无效", "info");
+
+                    return false;
+                }
+            }
+            function checkvalidatenric(_nricnum) {
+                try {
+
+                    if (_nricnum.length != 9) {
+
+                        return false;
+                    }
+                    _nricnum = _nricnum.toUpperCase();
+
+                    var i,
+                        icArray = [];
+                    for (i = 0; i < 9; i++) {
+                        icArray[i] = _nricnum.charAt(i);
+                    }
+
+                    icArray[1] = parseInt(icArray[1], 10) * 2;
+                    icArray[2] = parseInt(icArray[2], 10) * 7;
+                    icArray[3] = parseInt(icArray[3], 10) * 6;
+                    icArray[4] = parseInt(icArray[4], 10) * 5;
+                    icArray[5] = parseInt(icArray[5], 10) * 4;
+                    icArray[6] = parseInt(icArray[6], 10) * 3;
+                    icArray[7] = parseInt(icArray[7], 10) * 2;
+
+                    var weight = 0;
+                    for (i = 1; i < 8; i++) {
+                        weight += icArray[i];
+                    }
+
+                    var offset = (icArray[0] == "T" || icArray[0] == "G") ? 4 : (icArray[0] == "M") ? 3 : 0;
+
+                    var temp = (offset + weight) % 11;
+
+                    var st = ["J", "Z", "I", "H", "G", "F", "E", "D", "C", "B", "A"];
+                    var fg = ["X", "W", "U", "T", "R", "Q", "P", "N", "M", "L", "K"];
+                    var m = ["X", "W", "U", "T", "R", "Q", "P", "N", "J", "L", "K"];
+
+                    var theAlpha;
+                    if (icArray[0] == "S" || icArray[0] == "T") {
+                        theAlpha = st[temp];
+                    }
+                    else if (icArray[0] == "F" || icArray[0] == "G") {
+                        theAlpha = fg[temp];
+                    }
+                    else if (icArray[0] == "M") {
+                        theAlpha = m[temp];
+                    }
+
+                    if (icArray[8] === theAlpha) {
+
+                        return true;
+                    }
+                    else {
+
+                        return false;
+                    }
+                }
+                catch (e) {
+                    return false;
+                }
+            }
+        });
+
+        $("document").ready(function () {
+            $("#locName").empty();
+            $.ajax({
+                url: '@Url.Action("LoadLocation", "OnlinePortal")',
+                cache: false,
+                type: "POST",
+                success: function (data) {
+
+                    if (data != null) {
+                        if (data.Code != null) {
+                            showDialog(data.Message, "locName", "error", "OnlinePortal", "LoadLocation", "CENTER", false, false);
+                        }
+                        else {
+
+                            $("#locName").append('<option value="' + 0 + '" selected>' + "Select" + '</option>');
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].Selected) {
+                                    $("#locName").append('<option value="' + data[i].listId + '" selected>' + data[i].listLocation + '</option>');
+                                }
+                                else {
+                                    $("#locName").append('<option value="' + data[i].listId + '">' + data[i].listLocation + '</option>');
+
+                                }
+                            }
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (data) {
+                    swal("Error i", "", "error");
+                }
+            });
+
+        });
+
+
+        $("document").ready(function () {
+            $("#visType").empty();
+            $.ajax({
+                url: '@Url.Action("LoadChinVisitorType", "OnlinePortal")',
+                cache: false,
+                type: "POST",
+                success: function (data) {
+
+                    if (data != null) {
+                        if (data.Code != null) {
+                            showDialog(data.Message, "visType", "error", "OnlinePortal", "LoadChinVisitorType", "CENTER", false, false);
+                        }
+                        else {
+
+                            $("#visType").append('<option value="' + 0 + '" selected>' + "选择" + '</option>');
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].Selected) {
+                                    $("#visType").append('<option value="' + data[i].listId + '" selected>' + data[i].listvisitorType + '</option>');
+                                }
+                                else {
+                                    $("#visType").append('<option value="' + data[i].listId + '">' + data[i].listvisitorType + '</option>');
+
+                                }
+                            }
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (data) {
+                    swal("Error i", "", "error");
+                }
+            });
+
+        });
+
+        $("#btnRegister").click(function (e) {
+
+            var _locId = $("#locationid").val();
+            var _visType = $("#visType option:selected").val();
+            var name = $("#visName").val();
+            var _passport = $("#passNum").val();
+            var contact = $("#visContact").val();
+            var _email = $("#email").val();
+            var vehicle = $("#vehicleNo").val();
+            var _pCompany = $("#passComp").val();
+            var _pBlock = $("#passBlock").val();
+            var _visId = $("visitId").val();
+            var _pUnit = $("#passUnit").val();
+
+            var mobile_pattern = /^[1-9]{0}[0-9]+/;
+            var email = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+
+            if (name.trim() === "") {
+                swal("Info", "请输入姓名", "info");
+                return false;
+            }
+
+            else if (contact.trim() == "") {
+                swal("Info", "请输入联系电话", "info");
+                return false;
+            }
+            else if (contact.length < 8 || contact.length > 13) {
+                swal("Info", "联系电话必须介于 8 至 13 位数字之间", "info");
+                return false;
+            }
+            else if (_visType == "" || _visType == '0') {
+                swal("Info", "请选择访客类型", "info");
+                return false;
+            }
+            else if (_email.trim() == "") {
+                swal("Info", "请输入电子邮件地址", "info");
+                return false;
+            }
+
+            if (email.test($.trim($("#email").val())) == false) {
+                swal("Info", "请输入有效的电子邮件地址", "info");
+                $("#email").focus();
+                return false;
+            }
+            if (_visType == "2" || _visType == "3") {
+                if (_pUnit == "") {
+                    swal("Info", "请输入单位ID", "info");
+                    return false;
+                }
+            }
+            if (_visType == "4") {
+                if (_pCompany == "") {
+                    swal("Info", "请输入租户/公司名称", "info");
+                    return false;
+                }
+            }
+
+
+            if (CheckPassportNumber(_passport)) {
+
+            }
+            else {
+
+            }
+
+            function CheckPassportNumber(str) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/OnlinePortal/ChinCheckPassportNum",
+                    data: {
+                        passportNumber: str, locationid: _locId
+                    },
+                    success: function (passData) {
+
+                        if (passData.code == 300) {
+                            swal("Info", "该护照已被注册", "info");
+                            return false;
+                        }
+                        else {
+                            if (_visType == "2" || _visType == "3") {
+
+                                myPassFunction(function (isValidUnit) {
+
+                                    if (!isValidUnit) {
+
+                                    } else {
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/OnlinePortal/ChinAddVisitorPassportDetails",
+                                            data: {
+                                                visitorName: name, visitorType: _visType, emailId: _email, passportNumber: _passport, mobileNumber: contact,
+                                                vehicleNumber: vehicle, locationid: _locId, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit
+                                            },
+                                            success: function (data) {
+                                                var msg = "注册失败";
+
+                                                if (data.code == 300) {
+                                                    swal("信息!", msg, "info");
+                                                }
+                                                else if (data.code == 200) {
+
+                                                    var QRpass = $("#passNum").val();
+                                                    var name = $("#visName").val();                                                   
+                                                    window.location.href = '@Url.Action("ChinQRCodeGeneration", "OnlinePortal")?data=' + QRpass + "&name=" + name;                                                 
+                                                    window.location.href = redirectUrl;
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+
+                            }
+
+                            else {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/OnlinePortal/ChinAddVisitorPassportDetails",
+                                    data: {
+                                        visitorName: name, visitorType: _visType, emailId: _email, passportNumber: _passport, mobileNumber: contact,
+                                        vehicleNumber: vehicle, locationid: _locId, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit
+                                    },
+                                    success: function (data) {
+                                        var msg = "注册失败";
+
+                                        if (data.code == 300) {
+                                            swal("信息!", msg, "info");
+                                        }
+                                        else if (data.code == 200) {
+
+                                            var QRpass = $("#passNum").val();
+                                            var name = $("#visName").val();                                          
+                                            window.location.href = '@Url.Action("ChinQRCodeGeneration", "OnlinePortal")?data=' + QRpass + "&name=" + name;                                        
+                                            window.location.href = redirectUrl;
+                                        }
+                                    }
+                                });
+
+                            }
+
+                        }
+
+                    },
+                    error: function (error) {
+
+                    }
+                });
+            }
+        });
+
+        /*================ Existing Visitor Registration  ================*/
+
+        $("#btnRegisterEdit").click(function () {
+            var _passportEdit = $("#passNum").val();
+            var _locId = $("#locationid").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/OnlinePortal/UpdatePassportVisitorDetails",
+                data: {
+                    passportNumber: _passportEdit, locationid: _locId
+                },
+                success: function (data) {
+                    var name = $("#visName").val();                   
+                    window.location.href = '@Url.Action("ChinQRCodeGeneration", "OnlinePortal")?data=' + _passportEdit + "&name=" + name;   
+                }
+            });
+
+        });
+
+
+        $("#btnRegisterNric").click(function () {
+            var _nricNum = $("#nricid").val();
+            var _locId = $("#locationid").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/OnlinePortal/UpdateNRICVisitorDetails",
+                data: {
+                    NRICNumber: _nricNum, locationid: _locId
+                },
+                success: function (data) {
+                    window.location.href = "@Url.Action("ChinNricconfirm", "OnlinePortal", new { fullnam = "para1" })".replace("para1", fullnam);
+
+                  
+
+                }
+            });
+
+        });
+
+        function myFunction(callback) {
+            var UnitId = $("#nricUnit").val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ValidateUnitID", "OnlinePortal")",
+                data: { 'unitNo': UnitId },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 300) {
+                        swal({
+                            title: 'Info',
+                            text: '请输入有效的单位 ID',
+                            type: 'info',
+                            showConfirmButton: false
+                        });
+
+
+                        if (typeof callback === 'function') {
+                            callback(false);
+                        }
+                    } else {
+
+                        if (typeof callback === 'function') {
+                            callback(true);
+                        }
+                    }
+                },
+                error: function (data) {
+                    swal("Error", "", "error");
+
+
+                    if (typeof callback === 'function') {
+                        callback(false);
+                    }
+                }
+            });
+        }
+
+        function myPassFunction(callback) {
+            var passUnitId = $("#passUnit").val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ValidateUnitID", "OnlinePortal")",
+                data: { 'unitNo': passUnitId },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 300) {
+                        swal({
+                            title: 'Info',
+                            text: '请输入有效的单位 ID',
+                            type: 'info',
+                            showConfirmButton: false
+                        });
+
+                        if (typeof callback === 'function') {
+                            callback(false);
+                        }
+                    } else {
+                        if (typeof callback === 'function') {
+                            callback(true);
+                        }
+                    }
+                },
+                error: function (data) {
+                    swal("Error", "", "error");
+
+                    if (typeof callback === 'function') {
+                        callback(false);
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>
+<script>
+    $("#btnNRIc").click(function () {
+        var _nlocId = $("#locationid").val();
+
+        var nricnum = $('#nricid').val();
+        var fullnam = $('#fname').val();
+        var cnumb = $('#cnum').val();
+        var vsttype = $("#vtypeid option:selected").val();
+        var vhnum = $('#vnum').val();
+        var mobile_pattern = /^[1-9]{0}[0-9]+/;
+
+        var _ncompany = $("#nricComp").val();
+        var _nBlock = $("#nricblock").val();
+        var _nUnit = $("#nricUnit").val();
+
+
+        if (nricnum == "") {
+            swal("Info", "请输入身份证/工作准证 号码", "info");
+            return false;
+        }
+        else if (fullnam.trim() === "") {
+            swal("Info", "请输入姓名", "info");
+            return false;
+        }
+        else if (cnumb.trim() == "") {
+            swal("Info", "请输入联系电话", "info");
+            return false;
+        }
+        else if (cnumb.length < 8 || cnumb.length > 13) {
+            swal("Info", "联系电话必须介于 8 至 13 位数字之间", "info");
+            return false;
+        }
+
+        else if (vsttype == "" || vsttype == '0') {
+            swal("Info", "请选择访客类型", "info");
+            return false;
+        }
+
+
+        if (vsttype == "2" || vsttype == "3") {
+            if (_nUnit == "") {
+                swal("Info", "请输入单位ID", "info");
+                return false;
+            }
+        }
+        if (vsttype == "4") {
+            if (_ncompany == "") {
+                swal("Info", "请输入租户/公司名称", "info");
+                return false;
+            }
+        }
+
+
+        if (CheckNRICNumber(nricnum)) {
+
+        }
+        else {
+
+        }
+
+        function CheckNRICNumber(str) {
+
+            $.ajax({
+                type: "POST",
+                url: "/OnlinePortal/ChinNricverify",
+                data: {
+                    NRICNumber: str, locationid: _nlocId
+                },
+                success: function (nricData) {
+
+                    if (nricData.code == 300) {
+                        swal("Info", "该身份证/工作准证已登记", "info");
+                        return false;
+                    }
+                    else {
+                        if (vsttype == "2" || vsttype == "3") {
+
+                            myFunction(function (isValidUnit) {
+
+                                if (!isValidUnit) {
+
+                                } else {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("ChinNricdtlsave", "OnlinePortal")",
+                                        data: {
+                                            'NRICNumber': nricnum, 'visitorName': fullnam, 'mobileNumber': cnumb, 'vehicleNumber': vhnum, 'visitorType': vsttype,
+                                            'locationid': _nlocId, 'companyName': _ncompany, 'blockNo': _nBlock, 'unitNo': _nUnit
+                                        },
+                                        cache: false,
+                                        dataType: "json",
+                                        success: function (e) {
+                                            if (e.code == 200) {
+                                             //   window.location.href = '/OnlinePortal/ChinNricconfirm';
+                                                window.location.href = "@Url.Action("ChinNricconfirm", "OnlinePortal", new { fullnam = "para1" })".replace("para1", fullnam);
+
+                                            }
+                                            else {
+                                                swal("Info", "身份证/工作准证注册失败", "info");
+
+                                            }
+
+                                        },
+                                        error: function (e) { },
+                                    });
+                                }
+                            });
+
+                        }
+
+                        else {
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("ChinNricdtlsave", "OnlinePortal")",
+                                data: {
+                                    'NRICNumber': nricnum, 'visitorName': fullnam, 'mobileNumber': cnumb, 'vehicleNumber': vhnum, 'visitorType': vsttype,
+                                    'locationid': _nlocId, 'companyName': _ncompany, 'blockNo': _nBlock, 'unitNo': _nUnit
+                                },
+                                cache: false,
+                                dataType: "json",
+                                success: function (e) {
+                                    if (e.code == 200) {
+                                       // window.location.href = '/OnlinePortal/ChinNricconfirm';
+                                        window.location.href = "@Url.Action("ChinNricconfirm", "OnlinePortal", new { fullnam = "para1" })".replace("para1", fullnam);
+
+                                    }
+                                    else {
+                                        swal("Info", "身份证/工作准证注册失败", "info");
+
+                                    }
+
+                                },
+                                error: function (e) { },
+                            });
+                        }
+                    }
+
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    });
+</script>
+<script>
+    $("document").ready(function () {
+        $("#vtypeid").empty();
+        $.ajax({
+            url: '@Url.Action("LoadChinVisitorType", "OnlinePortal")',
+            cache: false,
+            type: "POST",
+            success: function (data) {
+
+                if (data != null) {
+                    if (data.Code != null) {
+                        showDialog(data.Message, "vtypeid", "error", "OnlinePortal", "LoadChinVisitorType", "CENTER", false, false);
+                    }
+                    else {
+
+                        $("#vtypeid").append('<option value="' + 0 + '" selected>' + "选择" + '</option>');
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].Selected) {
+                                $("#vtypeid").append('<option value="' + data[i].listId + '" selected>' + data[i].listvisitorType + '</option>');
+                            }
+                            else {
+                                $("#vtypeid").append('<option value="' + data[i].listId + '">' + data[i].listvisitorType + '</option>');
+
+                            }
+                        }
+                    }
+                }
+                else {
+
+                }
+            },
+            error: function (data) {
+                swal("Error i", "", "error");
+            }
+        });
+
+    });
+</script>
+<script>
+    $("document").ready(function () {
+        $("#locid").empty();
+        $.ajax({
+            url: '@Url.Action("NricLoadLocation", "OnlinePortal")',
+            cache: false,
+            type: "POST",
+            success: function (data) {
+
+                if (data != null) {
+                    if (data.Code != null) {
+                        showDialog(data.Message, "locid", "error", "OnlinePortal", "NricLoadLocation", "CENTER", false, false);
+                    }
+                    else {
+
+                        $("#locid").append('<option value="' + 0 + '" selected>' + "Select" + '</option>');
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].Selected) {
+                                $("#locid").append('<option value="' + data[i].listId + '" selected>' + data[i].listLocation + '</option>');
+                            }
+                            else {
+                                $("#locid").append('<option value="' + data[i].listId + '">' + data[i].listLocation + '</option>');
+
+                            }
+                        }
+                    }
+                }
+                else {
+
+                }
+            },
+            error: function (data) {
+                swal("Error i", "", "error");
+            }
+        });
+
+    });
+</script>
+<div id="modalDiv">
+</div>
+<script type="text/javascript" language="javascript">
+
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+
+</script>

@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ATTSystems.SFA.Model\ATTSystems.SFA.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ATTSystems.NetCore">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.EntityFramework">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Logger">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Model">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Utilities">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>..\..\..\ATTSystems.SFA.VMS\ATTSystems.SAF.API\ATTSystems.SAF.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer">
+      <HintPath>..\..\..\ATTSystems.SFA.VMS\ATTSystems.SAF.API\ATTSystems.SAF.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

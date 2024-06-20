@@ -1,0 +1,912 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@model ATTSystems.SFA.Model.ViewModel.KioskViewModel
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        Scan NRIC/ Passport
+    </title>
+    <style>
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            transform-origin: center center;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        .btnAccept {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+        .white-box {
+            border-radius: 8px;
+            border: 1px grey;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+
+        #btnNext {
+            float: right;
+            margin-top: 5%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 20%;
+            cursor: pointer;
+        }
+
+        #visitName, #visitType, #lstpassport, #contact, #vehicle {
+            border: 1px solid grey;
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+        #btnRegisterEdit {
+            float: right;
+            margin-top: 4%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        .register {
+            background: white;
+            padding: 3%;
+        }
+
+        #divExist {
+            transform: scale(1.6);
+            text-align: left;
+            margin-top: 6%;
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+            font-weight: bold;
+        }
+
+        #headDiv {
+            color: #E9510E;
+            text-align: center;
+            transform: scale(1.6);
+        }
+
+        #scanDiv {
+            color: #E9510E;
+            text-align: center;
+            transform: scale(1.2);
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right;
+        }
+
+        @@media (min-width: 360px) and (max-width: 767px) {
+            #headDiv {
+                color: #E9510E;
+                text-align: center;
+            }
+        }
+
+        .loader {
+            margin: 30px auto;
+            width: 120px;
+            height: 120px;
+            border: 16px solid #b2b2b2;
+            border-top: 16px solid #1348bc;
+            border-radius: 50%;
+            animation: spin 2s linear infinite, heart-beat 2s linear infinite;
+            background-color: #fff;
+            text-align: center;
+            line-height: 120px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+
+        .modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 80%;
+        }
+
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 1rem);
+        }
+
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+      
+    </style>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+   
+    <link rel="stylesheet" href="~/css/sweetalert2.min.css" asp-append-version="true" />
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/sweetalert2.min.js"></script>
+</head>
+
+<body class="homepage">
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="col-md-12">
+        <br />
+        <br />
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8" id="headDiv">
+            <br />  <br />
+            <br /><br /><br />
+            <img src="~/images/Singapore_Food_Agency_logo.png" alt="logo" />
+            <br /><br />    <br /><br />
+            <h1><strong>Visitor Management System</strong></h1>
+            <br />
+            <br />
+            <br /><br />
+        </div>
+        <div class="col-md-2">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("SelectLanguage", "Kiosk") + "'");">
+                <img src="~/images/homeicon.png" alt="home" width="95" />
+            </button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="col-md-12">
+        <br /><br />  <br /><br />  <br /><br />
+        <div class="row" id="scanDiv">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 white-box" id="passportDiv">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <br />  <br />
+                                <img src="~/Images/Passport_Image.png" height="400" width="400" alt="Passport" />
+                                <br />  <br />
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-4">
+                                <br /> <br /><br />
+                                <h1>Scan your <br /></h1>
+                                <h1><strong>Passport/ NRIC/ FIN</strong></h1>
+                                <br /><br />
+                                <img src="~/Images/down_Arrow.png" height="100" width="100" alt="Arrow" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+
+            <br />
+            <div class="col-md-8">
+              
+                <input type="text" id="barcodeScan" autofocus oninput="showPopup()" style="opacity: 0;">
+            </div>
+        </div>
+    </div>
+
+    <!--  Display existing data-->
+    <div class="register">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10" style="display:none" id="myDiv">
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+
+                    <div class="col-md-4" id="divExist">
+                        <fieldset class="scheduler-border">
+                            <legend><strong>Visitor Details</strong></legend>
+
+                            <div class="form-group">
+                                <label>Passport/NRIC/FIN</label>
+                                <p id="lstpassport"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <p id="visitName"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Number</label>
+                                <p id="contact"></p>
+                            </div>
+                            <div class="form-group" style="display:none" id="vehicleOpt">
+                                <label>Vehicle Number</label>
+                                <p id="vehicle"></p>
+                            </div>
+                            <div class="form-group" id="visitor">
+                                <label>Visitor Type</label>
+                                <p id="visitType"></p>
+                            </div>
+
+                            <button type="button" id="btnRegisterEdit" class="btn">Submit</button>
+                        </fieldset>
+                    </div>
+
+
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+
+
+    <div class="modal fade modalcenter" data-backdrop="static" id="pleaseWaitDialog" role="dialog" style="overflow-y: hidden; overflow-x: hidden; ">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content" style="opacity: 1; border: 14px solid rgba(200, 200, 200, 0.5);border-radius: 14px">
+                <div class="modal-body" align="center">
+                    <div class="loader"></div>
+                    <h4>Processing, please wait.....  </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://127.0.0.1:90/echo");
+        var _existingContanct = '';
+        var _existingNric = '';
+        var _existingName = '';
+        var _existingVisitType = '';
+        var scannedIdType = 1;
+
+        var fin = '';
+        var locID = '@Configuration.GetSection("AppSettings")["LocationId"]';
+        $("document").ready(function () {
+            
+              // ConnectPassportWebSocket();
+            SaveVisitor(1, "Kantharaj", "S3588083F")
+        });
+
+        /* ==============SANJU - BARCode Scanner -- 22FEB2024 =============== */
+
+        async function showPopup() {    
+      
+            await sleep(500).then(() => {
+            });
+            var scannedData = document.getElementById('barcodeScan').value;
+            console.log(scannedData);
+            if (scannedData.length >= 9) {
+                scannedData = scannedData.substr(0, 9);
+                console.log(scannedData);
+              
+                if (checkvalidatenric(scannedData)) {
+                    SaveVisitor(2, "", scannedData);
+                } else {
+                    swal({
+                        title: 'Info',
+                        text: "Invalid NRIC number. Please scan other side.",
+                        type: 'info',
+                        timer: 4000,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(function () {
+                     
+                    });
+                }                
+            }
+            document.getElementById('barcodeScan').value = '';
+        }
+
+        function txtAutoFocus() {
+            setTimeout(function () {
+                document.getElementById('barcodeScan').focus();
+            }, 3000);
+        }
+
+        async function sleep(milliseconds) {
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        }
+
+
+        /*=============END============= */
+
+
+        function ConnectPassportWebSocket() {
+        
+
+            if ("WebSocket" in window) {
+                ws.onopen = function () {
+                    ws.send("Message to send");
+                };
+                ws.onmessage = function (evt) {
+                    var received_msg = evt.data;
+                    ProcessAndDisplayMessage(received_msg);
+                };
+            } else {
+
+            }
+        }
+
+        function ProcessAndDisplayMessage(received_msg) {
+
+            try {
+                var cardData = JSON.parse(received_msg);
+
+                switch (cardData.Operand) {
+                    case "CardContentText":
+                        var scannedCardId = cardData.Param.CARD_MAINID;
+                        var cardSubId = cardData.Param.CARD_SUBID;
+                        var cardName = cardData.Param.CARD_NAME;
+                        var name = cardData.Param.Name;
+                        var nationalName = cardData.Param["National name"];
+                        var idNumber = cardData.Param["ID Number"];
+
+                        if (scannedCardId == "2004") {
+                            fin = cardData.Param["IDENTITY CARD NO."];
+                            scannedIdType = 2;
+                        }
+
+                        else if (scannedCardId == "2023" || scannedCardId == "2025") {
+                            fin = cardData.Param.FIN;
+                            scannedIdType = 2;
+                        }
+
+                        else if (scannedCardId = "13" || scannedCardId == "2006" || scannedCardId == "2009") {
+                            fin = cardData.Param["Passport number"];
+                            var name = cardData.Param["English name"];
+                            scannedIdType = 1;
+                        }
+
+                        SaveVisitor(scannedIdType, name, fin);
+
+                        break;
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function DisplayResult(scannedCardId, cardSubId, cardName, nationalName, name, idNumber, fin) {
+            getnum = passportNumber;
+
+            var resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "";
+
+            function addFieldToResult(fieldName, fieldValue) {
+                if (fieldValue) {
+                    profileCard.innerHTML += `<p><strong>${fieldName}:</strong> ${fieldValue}</p>`;
+                }
+            }
+
+            var profileCard = document.createElement("div");
+            profileCard.className = "profile-card";
+
+            addFieldToResult("Card Main ID", scannedCardId);
+            addFieldToResult("Card Sub ID", cardSubId);
+            addFieldToResult("Card Name", cardName);
+            addFieldToResult("National Name", nationalName);
+            addFieldToResult("Name", name);
+            addFieldToResult("ID Number", idNumber);
+            addFieldToResult("FIN", fin);
+
+            resultContainer.appendChild(profileCard);
+
+        }
+
+        function SaveVisitor(scannedIdType, name, fin) {        
+          
+            ClosePassportWebSocket();
+
+            try {
+
+                if (scannedIdType == 2 && fin !== undefined && fin !== "") {
+              
+                     $('#pleaseWaitDialog').modal('show');
+                    if (checkvalidatenric(fin)) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Kiosk/CheckNRICPassportNum",
+                            data: {
+                                IdType: scannedIdType,
+                                NRICPassport: fin,
+                                locationid: locID,
+                                visitorName: name
+                            },
+                            success: function (data) {
+                                $('#pleaseWaitDialog').modal('hide');
+                                 console.log("2  " + data.code);
+
+                                var msg = data.message;
+
+                                if (data.code == 300) {
+                                    if (data.modalType == 8) {
+                                        swal({
+                                            title: 'Info',
+                                            text: "This Passport/NRIC/FIN has been already Registered. Please proceed to the counter",
+                                            type: 'info',
+                                            confirmButtonColor: '#3085d6',
+                                            confirmButtonText: 'OK',
+                                        }).then(function () {
+                                            window.location.href = '/Kiosk/SelectLanguage';
+                                        });
+                                    }
+                                    else {
+                                        if (data.result.length > 0) {
+
+                                            for (var i = 0; i < data.result.length; ++i) {
+
+                                                if (data.result[i].listvehicleNumber == null) {
+                                                    listVehicle = "";
+                                                    document.getElementById('vehicleOpt').style.display = 'none';
+                                                }
+                                                else {
+                                                    listVehicle = data.result[i].listvehicleNumber;
+                                                    document.getElementById('vehicleOpt').style.display = 'block';
+                                                }
+
+                                                document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                                document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                                document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                                document.getElementById('vehicle').innerHTML = listVehicle;
+                                                document.getElementById('visitType').innerHTML = data.result[i].listvisitorType;
+
+                                                _existingNric = data.result[i].listPassportNumber;
+                                                _existingName = data.result[i].listvisitorName;
+                                                _existingVisitType = data.result[i].listvisitorType;
+                                                _existingContanct = data.result[i].listmobileNumber;
+                                            }
+                                        }
+
+                                        swal({
+                                            title: 'Info',
+                                            text: msg,
+                                            type: 'info',
+                                            confirmButtonColor: '#3085d6',
+                                            confirmButtonText: 'OK',
+                                        }).then(function () {
+
+                                            document.getElementById('myDiv').style.display = 'block';
+                                        });
+                                        $('#scanDiv').hide();
+                                    }
+                                }
+                                //If not registered
+                                else if (data.code == 200) {
+                                 
+                                    window.location.href = '/Kiosk/VisitorDetails?passportId=' + scannedIdType + '&NricPassValue=' + fin + '&visitorName=' + name + '&locatnId=' + locID;
+                                    
+                                }
+                                //If already registered and expired - show details
+                                else if (data.code == 204) {
+                                    if (data.result.length > 0) {
+
+                                        for (var i = 0; i < data.result.length; ++i) {
+
+                                            if (data.result[i].listvehicleNumber == null) {
+                                                listVehicle = "";
+                                                document.getElementById('vehicleOpt').style.display = 'none';
+                                            }
+                                            else {
+                                                listVehicle = data.result[i].listvehicleNumber;
+                                                document.getElementById('vehicleOpt').style.display = 'block';
+                                            }
+
+                                            document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                            document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                            document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                            document.getElementById('vehicle').innerHTML = listVehicle;
+                                            document.getElementById('visitType').innerHTML = data.result[i].listvisitorType;
+
+                                            _existingNric = data.result[i].listPassportNumber;
+                                            _existingName = data.result[i].listvisitorName;
+                                            _existingVisitType = data.result[i].listvisitorType;
+                                            _existingContanct = data.result[i].listmobileNumber;
+                                        }
+                                    }
+
+                                    swal({
+                                        title: 'Info',
+                                        text: msg,
+                                        type: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                    }).then(function () {
+                                        document.getElementById('myDiv').style.display = 'block';
+                                    });
+                                    $('#scanDiv').hide();
+                                }
+
+                                //Blacklist Visitor
+                                else if (data.code == 304) {
+                                    swal({
+                                        title: 'Info',
+                                        text: msg,
+                                        type: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                    }).then(function () {
+                                        window.location.href = '/Kiosk/SelectLanguage';
+                                    });
+                                }
+                            }
+                        });
+                        return true;
+                    }
+                    else {
+                        // swal("Info", "Invalid NRIC/FIN Passport Number", "info");                       
+                        swal({
+                            title: 'Info',
+                            text: 'Invalid NRIC/FIN/Passport Number',
+                            type: 'info',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK',
+                          
+                        }).then(function () {
+                            window.location.href = '/Kiosk/SelectLanguage';// newly added
+                             });
+                        return false;
+                    }
+                }
+
+                else if (scannedIdType == 1 && fin !== undefined && fin !== "") {
+                 
+                    $('#pleaseWaitDialog').modal('show');
+                    $.ajax({
+                        type: "POST",
+                        url: "/Kiosk/CheckNRICPassportNum",
+                        data: {
+                            IdType: scannedIdType,
+                            NRICPassport: fin,
+                            locationid: locID,
+                            visitorName: name
+                        },
+                        success: function (data) {
+                            $('#pleaseWaitDialog').modal('hide');
+                            var msg = data.message;
+
+                            //If already registered
+                            if (data.code == 300) {
+
+                                if (data.modalType == 8) {
+                                    swal({
+                                        title: 'Info',
+                                        text: "This Passport/NRIC/FIN has been already Registered. Please proceed to the counter",
+                                        type: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                    }).then(function () {
+                                        window.location.href = '/Kiosk/SelectLanguage';
+                                    });
+                                }
+                                else {
+                                    if (data.result.length > 0) {
+
+                                        for (var i = 0; i < data.result.length; ++i) {
+
+                                            if (data.result[i].listvehicleNumber == null) {
+                                                listVehicle = "";
+                                                document.getElementById('vehicleOpt').style.display = 'none';
+                                            }
+                                            else {
+                                                listVehicle = data.result[i].listvehicleNumber;
+                                                document.getElementById('vehicleOpt').style.display = 'block';
+                                            }
+
+                                            document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                            document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                            document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                            document.getElementById('vehicle').innerHTML = listVehicle;
+                                            document.getElementById('visitType').innerHTML = data.result[i].listvisitorType;
+
+                                            _existingNric = data.result[i].listPassportNumber;
+                                            _existingName = data.result[i].listvisitorName;
+                                            _existingVisitType = data.result[i].listvisitorType;
+                                            _existingContanct = data.result[i].listmobileNumber;
+                                        }
+                                    }
+
+                                    swal({
+                                        title: 'Info',
+                                        text: msg,
+                                        type: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'OK',
+                                    }).then(function () {
+
+                                        document.getElementById('myDiv').style.display = 'block';
+                                    });
+                                    $('#scanDiv').hide();
+                                }
+
+                            }
+                            //If not registered
+                            else if (data.code == 200) {
+                             
+                                window.location.href = '/Kiosk/VisitorDetails?passportId=' + scannedIdType + '&NricPassValue=' + fin + '&visitorName=' + name + '&locatnId=' + locID;
+                             
+                            }
+                            //If already registered and expired - show details
+                            else if (data.code == 204) {
+                                if (data.result.length > 0) {
+
+                                    for (var i = 0; i < data.result.length; ++i) {
+
+                                        if (data.result[i].listvehicleNumber == null) {
+                                            listVehicle = "";
+                                            document.getElementById('vehicleOpt').style.display = 'none';
+                                        }
+                                        else {
+                                            listVehicle = data.result[i].listvehicleNumber;
+                                            document.getElementById('vehicleOpt').style.display = 'block';
+                                        }
+
+                                        document.getElementById('lstpassport').innerHTML = data.result[i].listPassportNumber;
+                                        document.getElementById('visitName').innerHTML = data.result[i].listvisitorName;
+                                        document.getElementById('contact').innerHTML = data.result[i].listmobileNumber;
+                                        document.getElementById('vehicle').innerHTML = listVehicle;
+                                        document.getElementById('visitType').innerHTML = data.result[i].listvisitorType;
+
+                                        _existingNric = data.result[i].listPassportNumber;
+                                        _existingName = data.result[i].listvisitorName;
+                                        _existingVisitType = data.result[i].listvisitorType;
+                                        _existingContanct = data.result[i].listmobileNumber;
+                                    }
+                                }
+
+                                swal({
+                                    title: 'Info',
+                                    text: msg,
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                    document.getElementById('myDiv').style.display = 'block';
+                                });
+                                $('#scanDiv').hide();
+                            }
+
+                            //Blacklist Visitor
+                            else if (data.code == 304) {
+                                swal({
+                                    title: 'Info',
+                                    text: msg,
+                                    type: 'info',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                }).then(function () {
+                                    window.location.href = '/Kiosk/SelectLanguage';
+
+                                });
+                            }
+                        }
+                    });
+                }
+
+                else {
+                    swal({
+                        title: 'Error',
+                        text: 'Scanner Error!  \n\r Please Scan Again',
+                        type: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(function () {
+
+                    });
+
+                    ConnectPassportWebSocket();
+                }
+            }
+            catch (e) {
+
+                return false;
+            }
+        }
+
+        function checkvalidatenric(str) {
+            try {
+
+                if (str.length != 9) {
+
+                    return false;
+                }
+                str = str.toUpperCase();
+
+                var i,
+                    icArray = [];
+                for (i = 0; i < 9; i++) {
+                    icArray[i] = str.charAt(i);
+                }
+
+                icArray[1] = parseInt(icArray[1], 10) * 2;
+                icArray[2] = parseInt(icArray[2], 10) * 7;
+                icArray[3] = parseInt(icArray[3], 10) * 6;
+                icArray[4] = parseInt(icArray[4], 10) * 5;
+                icArray[5] = parseInt(icArray[5], 10) * 4;
+                icArray[6] = parseInt(icArray[6], 10) * 3;
+                icArray[7] = parseInt(icArray[7], 10) * 2;
+
+                var weight = 0;
+                for (i = 1; i < 8; i++) {
+                    weight += icArray[i];
+                }
+                var offset = (icArray[0] == "T" || icArray[0] == "G") ? 4 : (icArray[0] == "M") ? 3 : 0;
+
+                var temp = (offset + weight) % 11;
+
+                var st = ["J", "Z", "I", "H", "G", "F", "E", "D", "C", "B", "A"];
+                var fg = ["X", "W", "U", "T", "R", "Q", "P", "N", "M", "L", "K"];
+                var m = ["X", "W", "U", "T", "R", "Q", "P", "N", "J", "L", "K"];
+
+                var theAlpha;
+                if (icArray[0] == "S" || icArray[0] == "T") {
+                    theAlpha = st[temp];
+                }
+                else if (icArray[0] == "F" || icArray[0] == "G") {
+                    theAlpha = fg[temp];
+                }
+                else if (icArray[0] == "M") {
+                    theAlpha = m[temp];
+                }
+
+                if (icArray[8] === theAlpha) {
+
+                    return true;
+                }
+                else {
+
+                    return false;
+                }
+            }
+            catch (e) {
+                return false;
+            }
+        }
+
+        function ClosePassportWebSocket() {
+            ws.onclose = function () {
+
+            };
+        }
+
+
+        /*================ Existing Visitor Registration  ================*/
+        $("#btnRegisterEdit").click(function () {
+           // debugger;
+            if (scannedIdType == 1) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Kiosk/UpdateKioskVisitorDetails",
+                    data: {
+                        IdType: scannedIdType,
+                        visitorName: _existingName,
+                        visitorType: _existingVisitType,
+                        mobileNumber: _existingContanct,
+                        NRICPassport: fin,
+                        locationid: locID,
+                    },
+                    success: function (data) {
+                        window.location.href = '/Kiosk/QRCodeGeneration' + "?data=" + fin;
+
+                    }
+                });
+            }
+            else if (scannedIdType == 2) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Kiosk/UpdateKioskVisitorDetails",
+                    data: {
+                        IdType: scannedIdType,
+                        visitorName: _existingName,
+                        visitorType: _existingVisitType,
+                        mobileNumber: _existingContanct,
+                        NRICPassport: fin,
+                        locationid: locID,
+                    },
+                    success: function (data) {
+                        window.location.href = '/Kiosk/NRICMessage';
+                    }
+                });
+            }
+
+        });
+
+    </script>
+
+    <script>
+        function onInactive(ms, callback) {
+            var timeout;
+            window.addEventListener("mousemove", resetTimer, false);
+            window.addEventListener("mousedown", resetTimer, false);
+            window.addEventListener("keypress", resetTimer, false);
+            window.addEventListener("touchmove", resetTimer, false);
+            startTimer();
+
+            function startTimer() {
+                timeout = setTimeout(callback, ms);
+            }
+
+            function resetTimer() {
+                clearTimeout(timeout);
+                startTimer();
+            }
+        }
+
+        onInactive(120000, function () {
+            window.location.href = '/Kiosk/SelectLanguage';
+        });
+
+    </script>
+
+    <script type="text/javascript" language="javascript">
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+    </script>
+</body>
+
+</html> 

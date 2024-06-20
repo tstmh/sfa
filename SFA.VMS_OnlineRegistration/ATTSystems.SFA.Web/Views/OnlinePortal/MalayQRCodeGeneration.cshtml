@@ -1,0 +1,119 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.OnlinePortalViewModel
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:;">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnStart {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right;
+        }
+
+        @@media (min-width: 360px) and (max-width: 767px) {
+            #qrDiv {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+    </style>
+    <script src="~/js/FontAwsome.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+</head>
+
+<body class="homepage" style="height: 100%; width: 100%; margin: 0; padding: 0; overflow-x: hidden;">
+    <br />
+    <div class="row col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("Register", "OnlinePortal") + "'");" class="">
+                <em class="fa fa-home" style="font-size:48px;color:#E9510E"></em>
+            </button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row" style="color:#E9510E;text-align:center">
+                <img src="~/Images/Singapore_Food_Agency_logo.png" alt="Logo"/>
+                <br />
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <h3 style="text-align:center">Pendaftaran berjaya</h3>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8" id="qrDiv" style="text-align:center;border-radius:10px;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                            <br /><br />
+                            <img src="@ViewBag.QrCodeUri" style="" id="image" width="200" height="200" alt="Logo"/>
+                            <br />
+                            <br />
+
+                            <h5>QR Kod sahih untuk jangka masa 24 jam sehingga @ViewBag.QRCodeDate</h5>
+                            <br /><br /><br />
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <br />
+                    <h3 style="text-align:center">QR kod telah dihantar ke mail id anda</h3>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        onInactive(30000, function () {
+            window.location.href = '/OnlinePortal/Register';
+        });
+
+        function onInactive(ms, cb) {
+
+            var wait = setTimeout(cb, ms);
+
+            document.onmousemove = document.mousedown = document.mouseup = document.onkeydown = document.onkeyup = document.focus = function () {
+                clearTimeout(wait);
+
+                wait = setTimeout(cb, ms);
+            };
+        }
+    </script>
+    <script type="text/javascript" language="javascript">
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+</body>
+
+</html>

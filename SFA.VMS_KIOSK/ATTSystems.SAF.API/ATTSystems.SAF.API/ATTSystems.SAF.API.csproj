@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ATTSystems.SFA.DAL\ATTSystems.SFA.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ATTSystems.NetCore">
+      <HintPath>..\..\ATTSystems.SFA.DAL\bin\Debug\net6.0\ATTSystems.NetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.EntityFramework">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Logger">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Model">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="ATTSystems.NetCore.Utilities">
+      <HintPath>bin\Debug\net6.0\ATTSystems.NetCore.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

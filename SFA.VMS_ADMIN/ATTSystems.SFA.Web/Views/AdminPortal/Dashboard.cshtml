@@ -1,0 +1,543 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = null;
+}
+<head>
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+    <style>
+        .c-dashboardInfo {
+            margin-bottom: 15px;
+        }
+
+            .c-dashboardInfo .wrap {
+                background: #ffffff;
+                box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.1);
+                border-radius: 7px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+                padding: 40px 25px 20px;
+                height: 100%;
+            }
+
+        .c-dashboardInfo__title,
+        .c-dashboardInfo__subInfo {
+            color: #6c6c6c;
+            font-size: 1.18em;
+        }
+
+        .c-dashboardInfo span {
+            display: block;
+        }
+
+        .c-dashboardInfo__count {
+            font-weight: 600;
+            font-size: 2.5em;
+            line-height: 64px;
+            color: #323c43;
+        }
+
+        .c-dashboardInfo .wrap:after {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            content: "";
+        }
+
+        .c-dashboardInfo:nth-child(1) .wrap:after {
+            background: linear-gradient(82.59deg, #00c48c 0%, #00a173 100%);
+        }
+
+        .c-dashboardInfo:nth-child(2) .wrap:after {
+            background: linear-gradient(81.67deg, #0084f4 0%, #1a4da2 100%);
+        }
+
+        .c-dashboardInfo:nth-child(3) .wrap:after {
+            background: linear-gradient(69.83deg, #0084f4 0%, #00c48c 100%);
+        }
+
+        .c-dashboardInfo:nth-child(4) .wrap:after {
+            background: linear-gradient(81.67deg, #ff647c 0%, #1f5dc5 100%);
+        }
+
+        .c-dashboardInfo__title svg {
+            color: #d7d7d7;
+            margin-left: 5px;
+        }
+
+        .MuiSvgIcon-root-19 {
+            fill: currentColor;
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            font-size: 24px;
+            transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .rwd-table {
+            margin: auto;
+            min-width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+            .rwd-table tr:first-child {
+                border-top: none;
+                background: #E9510E;
+                color: #fff;
+            }
+
+            .rwd-table tr {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                background-color: #f5f9fc;
+            }
+
+            .rwd-table th{
+                padding:1em !important;
+            }
+            .rwd-table td {
+                padding: 0.2em !important;
+            }
+
+            .rwd-table td {
+                color: #333;
+            }
+
+        .table-responsive1 {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @@media (max-width: 480px) {
+            #dashHead {
+                margin-top: 25%;
+            }
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        #dashHead {
+            display: inline-block;
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+
+        #dateTimeContainer {
+            display: inline-block;
+            background-color: #E9510E;
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 3px 10px; /* Adjust the padding as needed */
+        }
+    </style>
+
+</head>
+@*<div class="row">
+    <div class="col-md-1">
+        <h4 id="dashHead" style="padding-left: 10px; padding-top: 10px;">Dashboard </h4>
+    </div>
+    <div class="col-md-3">
+        <p style=" margin-top: 11%;background-color: #E9510E; border-radius: 8px; color: #ffffff; padding-left: 6%; padding-right: 0%; margin-left: 4%;">
+            @System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+        </p>
+    </div>
+    <div class="col-md-8">
+    </div>
+</div>*@
+
+
+<h4 id="dashHead">Dashboard</h4>
+<p id="dateTimeContainer">@System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</p>
+
+<br />
+<div id="root">
+    <div class="container pt-5" id="cardCont">
+        <div class="row align-items-stretch">
+            <div class="c-dashboardInfo col-lg-3" id="EntryC">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Entry Count [Past 24 Hrs]<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">@ViewBag.EntryCount</span>
+                </div>
+            </div>
+
+            <div class="c-dashboardInfo col-lg-3" id="ExitC">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Exit Count [Past 24 Hrs]<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">@ViewBag.ExitCount</span>
+                </div>
+            </div>
+            <div class="c-dashboardInfo col-lg-3" id="TotalC">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Live Count [Past 24 Hrs]<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">@ViewBag.LiveCount</span>
+                </div>
+            </div>
+            <div class="c-dashboardInfo col-lg-3" id="overtayer">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Over Stayer    <br />    <svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">@ViewBag.StayoverCount</span>
+                </div>
+            </div>
+             @if (@Model.Modulename == "Administrator")
+            {
+                <div class="btn-export-container" style="float:right; margin-right: 10px;">
+                    <span id="btnExportoverstayerppwc" class="btn-export-excel" title="Export Excel">
+                        <img src="~/Images/Excel-Download.jpg" width="16" height="21">
+                        <span style="color:black;cursor:pointer">PPWC Overstayer</span>
+                    </span>
+                </div>
+                <div class="btn-export-container" style="float:right; margin-right: 10px;">
+                    <span id="btnExportoverstayerjfp" class="btn-export-excel" title="Export Excel">
+                    <img src="~/Images/Excel-Download.jpg" width="15" height="20">
+                    <span style="color:black;cursor:pointer">JFP Overstayer</span>
+                </span>
+            </div> 
+            }
+        </div>
+    </div>
+</div>
+<br />
+<fieldset class="scheduler-border" id="Tbl1"> @* style="height:400px;overflow-y:scroll;"> *@
+    <legend>Entry Count</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead style="color:#E9510E">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Visitor Type</th>
+                    <th>Location</th>
+                    <th>Entry DateTime</th>
+                    <th>Entry Gate</th>
+                    <th>Exit DateTime</th>
+                    <th>Exit Gate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.EntryViewLists != null)
+                {
+                    @foreach (var item in Model.EntryViewLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                    {
+                        <tr>
+                            <td>@item.Index</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listLocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listentrydate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.entrygate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listexitdate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.exitgate)
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+
+<fieldset class="scheduler-border" id="Tbl4">
+    <legend>Over Stayer</legend>
+    <div class="table-responsive">
+        <table id="table_2" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead style="color:#E9510E">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>NRIC/Passport</th>
+                    <th>Visitor Type</th>
+                    <th>Location</th>
+                    <th>Entry DateTime</th>
+                    <th style="display:none;">Exit DateTime</th>
+                   
+                    <th> Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.StayoverViewLists != null)
+                {
+                    @foreach (var item in Model.StayoverViewLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                    {
+                        <tr>
+                            <td>@item.Index</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listNricOrPassport2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listLocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listentrydate)
+                            </td>
+                            <td style="display:none;">
+                                @Html.DisplayFor(modelItem => item.Data.listexitdate)
+                            </td>
+                           
+                            <td align="center">
+                                @* <a href="#" data-id="@item.Data.listId" class="viewdtls" data-para="@item.Data.listLocationName" data-toggle="modal" data-target="#myviewModal"><i style="color: #fff; border:thin; background-color:#E9510E;">Reactivate</i></a> *@
+                                <button href="#" data-id="@item.Data.listNricOrPassport" class="viewdtls" data-para="@item.Data.listLocationName" data-toggle="modal" data-target="#myviewModal" style="color: #fff; border:thin; background-color:#E9510E;">Reactivate</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+
+<div class="modal fade" id="myviewModal" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Visitor Name</label> <u><h id="visitorname"></h></u>
+                        <br />
+                        <label>Visitor Type</label><u><h id="visitortypename"></h></u>
+                        @* <label>ID Type Name</label><u><p id="idtypename"></p></u> *@
+                        <br />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Location Name</label><u><h id="locationname"></h></u>
+                        <br />
+                        <label>Visitor Registration Datetime</label><u><h id="visitentrydate"></h></u>
+                        @*<label style="display:none;"></label><u><p id="nric_passport"></p></u>*@
+                        @* <label>Visitor Email</label><u><p id="visitoremail"></p></u> *@
+                        @* <label>Visitor Expiry Datetime</label><u><p id="visitexitdate"></p></u> *@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Passport/NRIC/FIN</label> <u><h id="nric_passport"></h></u>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+                    <label> Enter Reason :</label>
+                    @Html.TextBoxFor(model => model.ReasonToReactivate, new { @class = "form-control", id = "reason", onpaste = "return false;" })
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="BtnReactivate" class="btn waves-light" style="background: #E9510E;color:white">Reactivate</button>
+                <button type="button" class="btn waves-light" id="btnpop" style="background: grey;color:white" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(".viewdtls").click(function () {
+        var clickedRow = $(this).closest('tr').find('td');
+        var _visitorname = $(clickedRow).eq(1).text().trim();
+        var _visitortypename = $(clickedRow).eq(2).text().trim();
+        var _locationname = $(clickedRow).eq(3).text().trim();
+
+        var _visitentrydate = $(clickedRow).eq(4).text().trim();
+        var _nric_passport = $(clickedRow).eq(6).text().trim();
+
+        document.getElementById('visitorname').innerHTML = _visitorname;
+        document.getElementById('locationname').innerHTML = _locationname;
+
+        document.getElementById('visitortypename').innerHTML = _visitortypename;
+        document.getElementById('visitentrydate').innerHTML = _visitentrydate;
+        document.getElementById('nric_passport').innerHTML = _nric_passport;
+
+    })
+
+    $('#table_2').on('click', '.viewdtls', function () {
+        var id = $(this).attr('data-id');
+        window.sessionStorage.setItem("siteid", id);
+    });
+
+    $("#BtnReactivate").click(function () {
+        //var id = window.sessionStorage.getItem("siteid");
+        //window.sessionStorage.removeItem("siteid");
+        var _reason = $("#reason").val();
+        if (_reason.trim() == "") {
+            swal("Info", "Please Enter Reason", "info");
+            return false;
+        }
+        else {
+            var nricOrPassport = window.sessionStorage.getItem("siteid");
+            window.sessionStorage.removeItem("siteid");
+
+            var registrationViewModel = {};
+            registrationViewModel.nricOrPassport = nricOrPassport;
+            registrationViewModel.reasonToReactivate = _reason;
+
+            if (nricOrPassport != null) {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "/AdminPortal/ReactivateVisitor",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(registrationViewModel),
+                    success: function (data) {
+                        window.sessionStorage.removeItem("_type");
+                        window.sessionStorage.setItem("_type", "2");
+                        if (data.resultCode == 200) {
+                            $('#myviewModal').modal('hide');
+                            showDialog("Visitor Reactivated Successfully", "Update", "success", "AdminPortal", "Dashboard", 0, false, false)
+                        } else {
+
+                        }
+                    },
+                });
+            }
+        }
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#Tbl1").show();
+        $("#Tbl2").hide();
+        $("#Tbl3").hide();
+        $("#Tbl4").hide();
+        $("#btnExportoverstayerjfp").hide();
+        $("#btnExportoverstayerppwc").hide();
+
+        $('#EntryC').on('click', function () {
+            $("#Tbl1").show();
+            $("#Tbl2").hide();
+            $("#Tbl3").hide();
+            $("#Tbl4").hide();
+            $("#btnExportoverstayerjfp").hide();
+            $("#btnExportoverstayerppwc").hide();
+        });
+
+        $('#overtayer').on('click', function () {
+            $("#Tbl1").hide();
+            $("#Tbl2").hide();
+            $("#Tbl3").hide();
+            $("#Tbl4").show();
+            $("#btnExportoverstayerjfp").show();
+            $("#btnExportoverstayerppwc").show();
+        });
+
+    });
+</script>
+<script>
+
+    $("#btnExportoverstayerjfp").click(function () {
+        exportData(1, "Jurong Fishery Port"); // LocationId for Jurong Fishery Port
+    });
+
+    $("#btnExportoverstayerppwc").click(function () {
+        exportData(2, "Pasir Panjang Wholesale Centre"); // LocationId for PPWC
+    });
+
+    function exportData(locationId, locationName) {
+        var path = location.pathname.replace("/Home/Index", "");
+        window.location = `${path}/AdminPortal/ExportOverstayerVisitor?locationId=${locationId}&locationName=${locationName}`;
+    }
+
+</script>
+
+@* <script>   
+    const Model = {       
+        StayoverViewLists: [
+            { listLocationName: 'Jurong Fishery Port' },
+            { listLocationName: 'Pasir Panjang Wholesale Centre' }             
+        ]
+    };
+  
+    function updateIconVisibility(data) {       
+        if (!data || data.length === 0) {           
+            document.querySelector('#btnExportExceljfp .excel-icon').classList.add('hidden');
+            document.querySelector('#btnExportExcelppwc .excel-icon').classList.add('hidden');
+            return;
+        }
+      
+        const locationNames = data.map(item => item.listLocationName);
+       
+        const showJfp = locationNames.includes('Jurong Fishery Port');
+        const showPpwc = locationNames.includes('Pasir Panjang Wholesale Centre');
+
+        if (showJfp && !showPpwc) {
+            document.querySelector('#btnExportExcelppwc .excel-icon').classList.add('hidden');
+            document.querySelector('#btnExportExceljfp .excel-icon').classList.remove('hidden');
+        } else if (showPpwc && !showJfp) {
+            document.querySelector('#btnExportExceljfp .excel-icon').classList.add('hidden');
+            document.querySelector('#btnExportExcelppwc .excel-icon').classList.remove('hidden');
+        } else if (showJfp && showPpwc) {           
+            document.querySelector('#btnExportExceljfp .excel-icon').classList.remove('hidden');
+            document.querySelector('#btnExportExcelppwc .excel-icon').classList.remove('hidden');
+        } else {           
+            document.querySelector('#btnExportExceljfp .excel-icon').classList.add('hidden');
+            document.querySelector('#btnExportExcelppwc .excel-icon').classList.add('hidden');
+        }
+    }    
+    document.addEventListener('DOMContentLoaded', () => {
+        updateIconVisibility(Model.RegistrationViewLists);
+    });
+</script> *@

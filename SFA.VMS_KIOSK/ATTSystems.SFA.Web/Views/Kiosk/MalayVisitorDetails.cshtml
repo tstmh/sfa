@@ -1,0 +1,851 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@model ATTSystems.SFA.Model.ViewModel.KioskViewModel
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malay Visitor Registration</title>
+
+    <link href="~/css/onscreen-keyboard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/bootstrap-4.3.1.min.css" />
+    <link href="~/css/materialIcons.css" rel="stylesheet">
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/FontAwsome.js"></script>
+    <script src="~/js/onscreen-keyboard.js"></script>
+    <script src="~/js/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="~/css/sweetalert2.min.css" asp-append-version="true" />
+
+
+    <style>
+        .register {
+            background: white;
+            padding: 3%;
+        }
+
+        #btnRegister {
+            float: right;
+            margin-top: 5%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+            font-weight: bold;
+        }
+
+        #mail, #visitName, #visitType, #lstpassport, #contact, #vehicle {
+            border: 1px solid grey;
+            padding: 5px;
+            border-radius: 6px;
+        }
+
+        #btnRegisterEdit {
+            float: right;
+            margin-top: 4%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #E9510E;
+            color: #fff;
+            font-weight: 600;
+            width: 30%;
+            cursor: pointer;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            transform-origin: center center;
+        }
+
+
+        h1 {
+            font-size: 40px;
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right
+        }
+
+        #headDiv {
+            text-align: center;
+            color: #E9510E;
+            transform: scale(1.6);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        #divRegistr {
+            text-align: left;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+
+
+        @@media (min-width: 360px) and (max-width: 767px) {
+            #headDiv {
+                color: #E9510E;
+                text-align: center;
+            }
+
+            #visitordtls {
+                text-align: center;
+            }
+        }
+
+        .required {
+            color: red;
+        }
+
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 350px;
+            box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #f1f1f1;
+        }
+
+
+        #visContact::-webkit-inner-spin-button,
+        #visContact::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #visContact {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <input type="hidden" id="IdTypeValue" name="hiddenField" value="@ViewBag.IdType" />
+
+
+    @{
+        var locatnId = @ViewBag.LocationId;
+        var emailIdType = @ViewBag.IdType;
+    }
+
+    <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        </div>
+        <div class="col-md-8" id="headDiv">
+            <br />  <br />
+            <br /><br /><br />
+            <img src="~/images/Singapore_Food_Agency_logo.png" alt="logo" />
+            <br /><br /> <br /><br />
+            <h1><strong>Sistem Pengurusan Pelawat</strong></h1>
+            <br />
+            <br />
+            <br />
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("SelectLanguage", "Kiosk") + "'");">
+                <em class="fa fa-home" style="font-size:80px;color:#E9510E"></em>
+            </button>
+        </div>
+    </div>
+
+    <div class="register">
+        <br />  <br />
+        <div class="col-md-12" id="visitordtls">
+            <fieldset class="scheduler-border">
+                <legend>Maklumat Pendatang</legend>
+                <br />
+                <div class="row" id="divRegistr">
+                    <div class="col-md-6">
+                        @if (emailIdType == "1")
+                        {
+                            <label>Pasport</label>
+                        }
+                        else
+                        {
+                            <label>NRIC/FIN</label>
+                        }
+                        <div class="form-group">
+                            <input value="@ViewBag.NRIC" asp-for="NRICPassport" type="text" class="form-control use-keyboard-input" id="NricPass" autocomplete="off" onkeypress="allowAlphaNumericSpace(event)" />
+                        </div>
+                        <div class="form-group">
+                            <label>Nombor Telephone </label>
+                            <input type='number' asp-for="mobileNumber" class="form-control use-keyboard-input" id="visContact" autocomplete="off" oninput="handleNumericInput(this)">
+
+
+                        </div>
+                        <div class="form-group" id="visitor">
+                            <label>Jenis Lawatan </label>
+                            @Html.DropDownListFor(model => model.visitorType, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "visType" })
+                        </div>
+
+
+                        <div id="blockNum" style="display:none">
+                            <label class="form-label">Block No</label>
+                            @Html.TextBoxFor(model => model.blockNo, new { @class = "form-control use-keyboard-input", @autocomplete = "off", id = "blockNo" })
+                        </div>
+                        @if (locatnId == "1")
+                        {
+                            <div class="form-group" id="unitNum" style="display: none;">
+
+                                <label class="form-label">
+                                    Market lot/ Office unit/ Storage lot/<br /> Shop/ Canteen/Ice Crusher
+                                </label>   &nbsp; <div class="dropdown">
+                                    <em class="fa fa-exclamation-circle dropbtn" style="font-size: 30px; color: #80808070; cursor: pointer;"></em>
+                                    <div class="dropdown-content">
+                                        <a style="color: black;"><strong><u>Example</u></strong></a>
+                                        <a href="#">Market Lot 1 ---> ML 1</a>
+                                        <a href="#">Office Unit 1 ---> OU 1</a>
+                                        <a href="#">Storage Lot 1 ----> SL 1</a>
+                                        <a href="#">Shop 1 ----> G 1</a>
+                                        <a href="#">Canteen ----> Canteen B</a>
+                                        <a href="#">Ice Crusher 1 ---> Ice Crusher 1</a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="unitNum" style="display:none">
+                                <label class="form-label">ID Unit (No Blok No_Tahap_Unit No) <br /> cth: 1_01_01</label>
+                            </div>
+                        }
+                        <div id="unitNumTxtBox" style="display:none">
+                            @Html.TextBoxFor(model => model.unitNo, new { @class = "form-control use-keyboard-input", id = "unitNo", list = "UIDName", onpaste = "return false;" })
+                            @Html.ValidationMessageFor(model => model.unitNo, "", new { @class = "text-danger" })
+                            <datalist id="UIDName">
+                                @foreach (var item in Model.UnitsDetailLists)
+                                {
+                                    <option value=@item.UnitId>@item.UnitId</option>
+                                }
+                            </datalist>
+                        </div>
+
+                        <div id="compName" style="display:none">
+                            <label class="form-label">Penyewa / Nama Syarikat </label>
+                            @Html.TextBoxFor(model => model.companyName, new { @class = "form-control use-keyboard-input", id = "compny", @autocomplete = "off", oninput = "allowSpacesAtStart(this)" })
+                            <br />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nama Penuh </label>
+                            <input value="@ViewBag.Name" asp-for="visitorName" type="text" class="form-control use-keyboard-input" id="visName" autocomplete="off" oninput="handleAlphabeticInput(this)" onblur="handleBlur(this)">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Nombor Kenderaan </label>
+                            @Html.TextBoxFor(model => model.vehicleNumber, new { @class = "form-control use-keyboard-input", id = "vehicleNo", @autocomplete = "off" })
+                        </div>
+
+                        @if (emailIdType == "1")
+                        {
+                            <div class="form-group">
+                                <label>Alamat emel</label>
+                                @Html.TextBoxFor(model => model.emailId, new { @class = "form-control use-keyboard-input", id = "email", onpaste = "return false;", @autocomplete = "off" })
+                            </div>
+
+                        }
+                        <br />
+                        <button type="submit" id="btnRegister" class="btn">Hantar</button>
+
+                    </div>
+                </div>
+
+                <br />
+            </fieldset>
+        </div>
+        <br /><br />
+    </div>
+
+    <script>
+
+        function allowAlphaNumericSpace(e) {
+            var key = e.key || String.fromCharCode(e.which || e.charCode || e.keyCode);
+
+            if (!/^[a-zA-Z0-9]$/.test(key)) {
+                e.preventDefault();
+                swal("Info", "Sila masukkan huruf dan nombor sahaja. Watak istimewa tidak dibenarkan.", "info");
+            }
+        }
+
+        function handleNumericInput(inputElement) {
+            inputElement.value = inputElement.value.replace(/[^0-9]/g, '');
+        }
+
+        function handleAlphabeticInput(inputElement) {
+            inputElement.value = inputElement.value.replace(/[^A-Za-z\s]/g, '');
+        }
+
+        function handleBlur(inputElement) {
+        }
+
+
+        function allowSpacesAtStart(element) {
+            var sanitizedValue = element.value.replace(/^\s+/g, '');
+
+            element.value = sanitizedValue;
+        }
+
+        $("document").ready(function () {
+            $("#visType").empty();
+            $.ajax({
+                url: '@Url.Action("LoadMalayVisitorType", "Kiosk")',
+                cache: false,
+                type: "POST",
+                success: function (data) {
+
+                    if (data != null) {
+                        if (data.Code != null) {
+                            showDialog(data.Message, "visType", "error", "Kiosk", "LoadMalayVisitorType", "CENTER", false, false);
+                        }
+                        else {
+
+                            $("#visType").append('<option value="' + 0 + '" selected>' + "Pilih" + '</option>');
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].Selected) {
+                                    $("#visType").append('<option value="' + data[i].listId + '" selected>' + data[i].listvisitorType + '</option>');
+                                }
+                                else {
+                                    $("#visType").append('<option value="' + data[i].listId + '">' + data[i].listvisitorType + '</option>');
+
+                                }
+                            }
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (data) {
+                    swal("Error i", "", "error");
+                }
+            });
+
+        });
+
+        $("#visType").click(function () {
+
+            var _visType = $("#visType option:selected").val();
+
+            if (_visType == "2") {
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNum").style.display = "block";
+                document.getElementById("compName").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "block";
+            }
+            else if (_visType == "3") {
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNum").style.display = "block";
+                document.getElementById("compName").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "block";
+            }
+            else if (_visType == "4") {
+                document.getElementById("compName").style.display = "block";
+                document.getElementById("unitNum").style.display = "none";
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "none";
+
+            }
+            else {
+                document.getElementById("compName").style.display = "none";
+                document.getElementById("blockNum").style.display = "none";
+                document.getElementById("unitNum").style.display = "none";
+                document.getElementById("unitNumTxtBox").style.display = "none";
+            }
+        });
+
+
+
+        $("#btnRegister").click(function (e) {
+            var locId = '@Configuration.GetSection("AppSettings")["LocationId"]';
+
+            var _idTypeVal = document.getElementById('IdTypeValue').value;
+            var _passNric = $("#NricPass").val();
+            var _visType = $("#visType option:selected").val();
+            var name = $("#visName").val();
+            var vehicle = $("#vehicleNo").val();
+            var _pBlock = $("#blockNo").val();
+            var _pUnit = $("#unitNo").val();
+            var _pCompany = $("#compny").val();
+            var contact = $("#visContact").val();
+            var _email = $("#email").val();
+
+            var email = /^([A-Za-z0-9_\-\.])+\@@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+            var mobile_pattern = /^[1-9]{0}[0-9]+/;
+
+
+            if (_passNric.trim() === "" && _idTypeVal == "1") {
+                swal("Info", "Sila Masukkan Pasport", "info");
+                return false;
+            }
+            else if (_passNric.trim() === "" && _idTypeVal == "2") {
+                swal("Info", "Sila Masukkan NRIC/FIN", "info");
+                return false;
+            }
+
+            else if (name.trim() === "") {
+                swal("Info", "Sila Masukkan Nama Penuh", "info");
+                return false;
+            }
+            else if (contact.trim() == "") {
+                swal("Info", "Sila Masukkan Nombor Perhubungan", "info");
+                return false;
+            }
+            else if (contact.length < 8 || contact.length > 13) {
+                swal("Info", "Nombor untuk dihubungi mestilah antara 8 hingga 13 digit", "info");
+                return false;
+            }
+            else if (_visType == "" || _visType == '0') {
+                swal("Info", "Sila Pilih Jenis Pelawat", "info");
+                return false;
+            }
+
+            if (_visType == "2" || _visType == "3") {
+                if (_pUnit == "") {
+                    swal("Info", "Sila Masukkan ID Unit", "info");
+                    return false;
+                }
+            }
+            if (_visType == "4") {
+                if (_pCompany.trim() == "") {
+                    swal("Info", "Sila Masukkan Nama Penyewa / Syarikat", "info");
+                    return false;
+                }
+            }
+
+            if (_idTypeVal == "1") {
+                if (_email.trim() == "") {
+                    swal("Info", "Sila Masukkan Alamat E - mel", "info");
+                    return false;
+                }
+                else {
+                    if (email.test($.trim($("#email").val())) == false) {
+                        swal("Info", "Sila Masukkan Alamat E-mel yang sah", "info");
+                        $("#email").focus();
+                        return false;
+                    }
+                }
+
+            }
+            if (_idTypeVal == "1") {
+                if (!CheckPassportNum(_passNric)) {
+                    if (_visType == "2" || _visType == "3") {
+                        var UnitId = $("#unitNo").val();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("ValidateUnitID", "Kiosk")",
+                            data: { 'unitNo': UnitId },
+                            cache: false,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.code == 300) {
+                                    swal("Info", "Sila Masukkan ID Unit yang sah", "info");
+                                    return false;
+                                } else {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Kiosk/MalayAddVisitorDetails",
+                                        data: {
+                                            visitorName: name, visitorType: _visType, mobileNumber: contact, NRICPassport: _passNric, emailId: _email,
+                                            vehicleNumber: vehicle, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit, IdType: _idTypeVal, locationid: locId
+                                        },
+                                        success: function (data) {
+                                            var msg = data.message;
+
+                                            if (data.code == 300) {
+                                                swal("Info!", msg, "info");
+                                            }
+                                            else if (data.code == 200) {
+                                                if (msg == '1') {
+                                                    var QRpass = $("#NricPass").val();
+
+                                                    var redirectUrl = "@Url.Action("MalayQRCodeGeneration", "Kiosk")" + "?data=" + QRpass;
+                                                    window.location.href = redirectUrl;
+                                                }
+                                                else if (msg == '2') {
+                                                    var redirectUrl = "@Url.Action("MalayNRICMessage", "Kiosk")";
+                                                    window.location.href = redirectUrl;
+                                                }
+
+                                            }
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Kiosk/MalayAddVisitorDetails",
+                            data: {
+                                visitorName: name, visitorType: _visType, mobileNumber: contact, NRICPassport: _passNric, emailId: _email,
+                                vehicleNumber: vehicle, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit, IdType: _idTypeVal, locationid: locId
+                            },
+                            success: function (data) {
+                                var msg = data.message;
+
+                                if (data.code == 300) {
+                                    swal("Info!", msg, "info");
+                                }
+                                else if (data.code == 200) {
+                                    if (msg == '1') {
+                                        var QRpass = $("#NricPass").val();
+
+                                        var redirectUrl = "@Url.Action("MalayQRCodeGeneration", "Kiosk")" + "?data=" + QRpass;
+                                        window.location.href = redirectUrl;
+                                    }
+                                    else if (msg == '2') {
+                                        var redirectUrl = "@Url.Action("MalayNRICMessage", "Kiosk")";
+                                        window.location.href = redirectUrl;
+                                    }
+
+                                }
+
+                            }
+                        });
+                    }
+                }
+                else {
+                    swal("Info", "This Passport/NRIC/FIN has been already Registered", "info");
+                    return false;
+                }
+            }
+
+            else if (_idTypeVal == "2") {
+                if (checkvalidatenric(_passNric)) {
+                    if (!CheckPassportNum(_passNric)) {
+                        if (_visType == "2" || _visType == "3") {
+                            var UnitId = $("#unitNo").val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("ValidateUnitID", "Kiosk")",
+                                data: { 'unitNo': UnitId },
+                                cache: false,
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.code == 300) {
+                                        swal("Info", "Sila Masukkan ID Unit yang sah", "info");
+                                        return false;
+                                    } else {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Kiosk/MalayAddVisitorDetails",
+                                            data: {
+                                                visitorName: name, visitorType: _visType, mobileNumber: contact, NRICPassport: _passNric, emailId: _email,
+                                                vehicleNumber: vehicle, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit, IdType: _idTypeVal, locationid: locId
+                                            },
+                                            success: function (data) {
+                                                var msg = data.message;
+
+                                                if (data.code == 300) {
+                                                    swal("Info!", msg, "info");
+                                                }
+                                                else if (data.code == 200) {
+                                                    if (msg == '1') {
+                                                        var QRpass = $("#NricPass").val();
+
+                                                        var redirectUrl = "@Url.Action("MalayQRCodeGeneration", "Kiosk")" + "?data=" + QRpass;
+                                                        window.location.href = redirectUrl;
+                                                    }
+                                                    else if (msg == '2') {
+                                                        var redirectUrl = "@Url.Action("MalayNRICMessage", "Kiosk")";
+                                                        window.location.href = redirectUrl;
+                                                    }
+
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+
+
+                        else {
+                            $.ajax({
+                                type: "POST",
+                                url: "/Kiosk/MalayAddVisitorDetails",
+                                data: {
+                                    visitorName: name, visitorType: _visType, mobileNumber: contact, NRICPassport: _passNric, emailId: _email,
+                                    vehicleNumber: vehicle, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit, IdType: _idTypeVal, locationid: locId
+                                },
+                                success: function (data) {
+
+                                    var msg = data.message;
+
+                                    if (data.code == 300) {
+                                        swal("Info!", msg, "info");
+                                    }
+                                    else if (data.code == 200) {
+                                        if (msg == '1') {
+                                            var QRpass = $("#NricPass").val();
+
+                                            var redirectUrl = "@Url.Action("MalayQRCodeGeneration", "Kiosk")" + "?data=" + QRpass;
+                                            window.location.href = redirectUrl;
+                                        }
+                                        else if (msg == '2') {
+                                            var redirectUrl = "@Url.Action("MalayNRICMessage", "Kiosk")";
+                                            window.location.href = redirectUrl;
+                                        }
+
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        swal("Info", "Pasport/NRIC/FIN ini telah pun didaftarkan", "info");
+                        return false;
+                    }
+                }
+                else {
+                    swal("Info", "Nombor NRIC/FIN tidak sah", "info");
+                    return false;
+                }
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Kiosk/MalayAddVisitorDetails",
+                    data: {
+                        visitorName: name, visitorType: _visType, mobileNumber: contact, NRICPassport: _passNric, emailId: _email,
+                        vehicleNumber: vehicle, companyName: _pCompany, blockNo: _pBlock, unitNo: _pUnit, IdType: _idTypeVal, locationid: locId
+                    },
+                    success: function (data) {
+                        var msg = data.message;
+
+                        if (data.code == 300) {
+                            swal("Info!", msg, "info");
+                        }
+                        else if (data.code == 200) {
+                            if (msg == '1') {
+                                var QRpass = $("#NricPass").val();
+
+                                var redirectUrl = "@Url.Action("MalayQRCodeGeneration", "Kiosk")" + "?data=" + QRpass;
+                                window.location.href = redirectUrl;
+                            }
+                            else if (msg == '2') {
+                                var redirectUrl = "@Url.Action("MalayNRICMessage", "Kiosk")";
+                                window.location.href = redirectUrl;
+                            }
+                        }
+                    }
+                });
+            }
+
+            //******Check NRIC/PASSPORT exist ******//
+            function CheckPassportNum(str) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Kiosk/CheckNRICPassportNum",
+                    data: {
+                        NRICPassport: str, locationid: locId
+                    },
+                    success: function (nricData) {
+
+                        if (nricData.code == 300) {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+
+                    },
+                    error: function (error) {
+
+                    }
+                });
+            }
+
+            //******Check NRIC Validation******//
+            function checkvalidatenric(_passNric) {
+
+                try {
+
+                    if (_passNric.length != 9) {
+
+                        return false;
+                    }
+                    _passNric = _passNric.toUpperCase();
+
+                    var i,
+                        icArray = [];
+                    for (i = 0; i < 9; i++) {
+                        icArray[i] = _passNric.charAt(i);
+                    }
+
+                    icArray[1] = parseInt(icArray[1], 10) * 2;
+                    icArray[2] = parseInt(icArray[2], 10) * 7;
+                    icArray[3] = parseInt(icArray[3], 10) * 6;
+                    icArray[4] = parseInt(icArray[4], 10) * 5;
+                    icArray[5] = parseInt(icArray[5], 10) * 4;
+                    icArray[6] = parseInt(icArray[6], 10) * 3;
+                    icArray[7] = parseInt(icArray[7], 10) * 2;
+
+                    var weight = 0;
+                    for (i = 1; i < 8; i++) {
+                        weight += icArray[i];
+                    }
+
+                    var offset = (icArray[0] == "T" || icArray[0] == "G") ? 4 : (icArray[0] == "M") ? 3 : 0;
+
+                    var temp = (offset + weight) % 11;
+
+                    var st = ["J", "Z", "I", "H", "G", "F", "E", "D", "C", "B", "A"];
+                    var fg = ["X", "W", "U", "T", "R", "Q", "P", "N", "M", "L", "K"];
+                    var m = ["X", "W", "U", "T", "R", "Q", "P", "N", "J", "L", "K"];
+
+                    var theAlpha;
+                    if (icArray[0] == "S" || icArray[0] == "T") {
+                        theAlpha = st[temp];
+                    }
+                    else if (icArray[0] == "F" || icArray[0] == "G") {
+                        theAlpha = fg[temp];
+                    }
+                    else if (icArray[0] == "M") {
+                        theAlpha = m[temp];
+                    }
+
+                    if (icArray[8] === theAlpha) {
+
+                        return true;
+                    }
+                    else {
+
+                        return false;
+                    }
+                }
+                catch (e) {
+                    return false;
+                }
+            }
+        });
+
+
+        var sessionTimeout = 240000;
+        var popup;
+        var popupTimeout = 120000;
+
+        function resetTimer() {
+            clearTimeout(popup);
+            popup = setTimeout(function () {
+                showPopup();
+            }, sessionTimeout);
+        }
+
+        function showPopup() {
+            swal({
+                title: "Info",
+                text: "Adakah anda memerlukan lebih masa untuk memasukkan butiran",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+            }).then(
+                function () {
+
+                },
+                function (dismiss) {
+                    if (dismiss === "cancel" || dismiss === "close") {
+                        window.location.href = '/Kiosk/SelectLanguage';
+                    }
+                }
+            );
+
+            setTimeout(function () {
+                window.location.href = '/Kiosk/SelectLanguage';
+            }, popupTimeout);
+        }
+
+        resetTimer();
+
+        ['mousemove', 'mousedown', 'mouseup', 'keydown', 'keyup', 'focus'].forEach(function (event) {
+            document.addEventListener(event, resetTimer, true);
+        });
+
+    </script>
+
+    <script type="text/javascript" language="javascript">
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+    </script>
+</body>
+
+</html>
+

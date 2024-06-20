@@ -1,0 +1,598 @@
+﻿@model IEnumerable<ATTSystems.NetCore.Model.ViewModel.ModuleViewModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATT SYSTEMS - Project Management System</title>
+
+    <!-- Material Icon -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/icon.css")" media="screen" />
+
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/customizeStyle.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/css/waves.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/css/dataTables.bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/sweetalert2.min.css")" rel="stylesheet" />
+
+
+    <link href="@Url.Content("~/css/jquery-ui.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/css/jquery-ui.css")" rel="stylesheet" />
+
+
+
+    <script src='@Url.Content("~/js/jquery-3.7.1.min.js")'></script>
+
+    <script src='@Url.Content("~/js/bootstrap.min.js")'></script>
+    <script src='@Url.Content("~/js/Dialogue.js")'></script>
+    <script src="@Url.Content("~/js/waves.js")"></script>
+    <script src='@Url.Content("~/js/sweetalert2.min.js")'></script>
+    <script src="@Url.Content("~/js/core.js")"></script>
+
+    <!-- Custom Js -->
+
+    <script src='@Url.Content("~/js/admin.js")'></script>
+    <script src="@Url.Content("~/js/jquery.unobtrusive-ajax.min.js")"></script>
+
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+    <script src="@Url.Content("~/js/inactivitytimer.js")"></script>
+
+
+    <script src='@Url.Content("~/js/jquery-ui.min.js")'></script>
+
+    <style>
+        ul#menu li {
+            display: inline;
+        }
+
+        @@media (max-width: 480px) {
+            #alignList {
+                margin-top: -40%;
+            }
+        }
+
+    </style>
+
+</head>
+<body style="background-color: #fff;">
+
+    <!-- #END# Overlay For Sidebars -->
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #D5D5D6; color: #fff; border: 0px; height: 50px; padding-top: 5px;">
+        <div class="row clearfix col-md-12" style="border: 0px solid red;">
+
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a href="#">
+                    <span class="material-icons md-24" id="sideMenuBtn" style="">arrow_back</span>
+                    <img src="~/Images/Singapore_Food_Agency_logo.png" height="45" style="padding-left: 30px;" id="logoId" />
+                </a>
+            </div>
+            @*<div class="col-lg-1 col-md-1 col-sm-1"></div>*@
+            <div class=" col-lg-8 col-md-8 col-sm-8">
+                <div class="header-right">
+                    <h3 style="color:#E9510E; text-align:center;margin-top:10px;">Visitor Management System</h3>
+                </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-2">
+                <div id="alignList">
+                    <div class="d-flex ">
+                        <div class="row">
+                            <div class="col-lg-2"><i class="material-icons" style="color:#E9510E; font-size:24px;">account_circle</i></div>
+                            <div class="col-lg-6"><label class="p-l-12" style="color: #E9510E;font-weight:bold; cursor: pointer;" onclick="MyFunction();"><span class="ml-2">@ViewBag.CurrentUserName <br><small>@ViewBag.ModuleId</small></span></label></div>
+                            <div class="col-lg-1"><a href="#" onclick="MyFunction();" class="p-l-10" style="color: #E9510E;font-weight:bold;margin-left:110px;"><i class="material-icons">more_vert</i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("Logoff", "Auth", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div id="navbar-collapse" style="float: right; padding-right: 1px; ">
+                    <ul class="nav navbar-nav navbar-right">
+                        @*<li id="alignList" style="margin-top:-38px">
+                            <div class="d-flex ">
+                                <div class="row">
+                                    <div class="col-lg-2"><i class="material-icons" style="color:#E9510E; font-size:24px;">account_circle</i></div>
+                                    <div class="col-lg-6"><label class="p-l-12" style="color: #E9510E;font-weight:bold; padding-top: -30px; cursor: pointer;" onclick="MyFunction();"><span class="ml-2">@ViewBag.CurrentUserName <br><small>@ViewBag.ModuleId</small></span></label></div>
+                                    <div class="col-lg-2"><a href="#" onclick="MyFunction();" class="p-l-10" style="color: #E9510E;font-weight:bold; margin-top:-36px"><i class="material-icons">more_vert</i></a></div>
+                                </div>
+                            </div>
+                        </li>*@
+                        <li>
+                            <ul class="dropdown-menu" style="padding-top: 20px;">
+                                <li class="header" style="text-align: left; padding-left: 20px;">
+                                    Hi :
+                                    <span class="lblHeadUserName"><strong>@ViewBag.CurrentUserName</strong></span>
+                                </li>
+                                <li class="body">
+                            <a id="btnChangeCode" href="#">
+                            <i class="material-icons">verified_user</i> Change Password
+                            </a>
+                            </li>
+                                <li class="body">
+                                    <a id="linkLogout" href="javascript:void(0);">
+                                        <i class="material-icons">exit_to_app</i> Logout
+                                    </a>
+                                </li>
+                                <li class="body">                                   
+                                    <a id="btnClosePanel" href="#">
+                                        <i class="material-icons">close</i>
+                                        <span>Close</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="row clearfix" style="margin-right: -2px; margin-top:-10px; border: 0px solid orange;">
+            <div class="container-fluid" style=" border: 0px solid green;">
+
+                <div id="PartialView">
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- #END# Exportable Table -->
+        </div>
+    </section>
+
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar" style="background-color: #D5D5D6; margin-left: 0px;">
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li style="background-color: #E9510E;">
+                        <a id="btnDashboard" href="#" style="color: #fff; font-weight: normal; font-size:16px; padding-left: 30px; margin-top:10px; ">
+                            <i class="material-icons" style="padding-top: 3px;">dashboard</i>
+                            <span style="color: #fff;">Dashboard</span>
+                        </a>
+                    </li>
+                    @if (Model != null && Model.FirstOrDefault(x => x.ModuleName == "AdminModule") != null)
+                    {
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">account_box</i>
+                                <span style="color: #0f3f3c;">Visitor Management</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a href="#" id="btnPreReg" class="" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">verified_user</i>
+                                        <span style="color: #0f3f3c;">Registered Visitors</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="btnManualChkIn" class="" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">library_books</i>
+                                        <span style="color: #0f3f3c;">Manual CheckIn</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="" id="btnBlcklist" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">library_books</i>
+                                        <span style="color: #0f3f3c;">BlackListed Visitors</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">settings_applications</i>
+                                <span style="color: #0f3f3c;">System Admin</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a id="btnUserList" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Users</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnRoleList" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">group</i>
+                                        <span style="color: #0f3f3c;">Roles</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="btnPwdList" href="#" style="color:#0f3f3c;">
+                                        <i class="material-icons">business</i>
+                                        <span style="color:#0f3f3c;">Password Settings</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">insert_chart</i>
+                                <span style="color: #0f3f3c;">Reports</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a id="visitoracessid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Visitor Access </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="blacklstid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">group</i>
+                                        <span style="color: #0f3f3c;">Black list visitor</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="auditid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Manual Checkin & OverStayer Audit</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="auditidUsr" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">User Audit Trail</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else if (Model != null && Model.FirstOrDefault(x => x.ModuleName == "ManagerModule") != null)
+                    {
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">account_box</i>
+                                <span style="color: #0f3f3c;">Visitor Management</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a href="#" id="btnPreReg" class="" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">verified_user</i>
+                                        <span style="color: #0f3f3c;">Registered Visitors</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#" id="btnManualChkIn" class="" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">library_books</i>
+                                        <span style="color: #0f3f3c;">Manual CheckIn</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#" class="" id="btnBlcklist" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">library_books</i>
+                                        <span style="color: #0f3f3c;">BlackListed Visitors</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">insert_chart</i>
+                                <span style="color: #0f3f3c;">Reports</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a id="visitoracessid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Visitor Access </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="blacklstid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">group</i>
+                                        <span style="color: #0f3f3c;">Black list visitor</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="auditid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Manual Checkin & OverStayer Audit</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="auditidUsr" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">User Audit Trail</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    }
+                    else if (Model != null && Model.FirstOrDefault(x => x.ModuleName == "OperatorModule") != null)
+                    {
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">account_box</i>
+                                <span style="color: #0f3f3c;">Visitor Management</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a href="#pleaseWaitDialog" id="btnPreReg" class="" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">verified_user</i>
+                                        <span style="color: #0f3f3c;">Registered Visitors</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="btnManualChkIn" class="" style="color: #0f3f3c;">
+                                        <i class="material-icons" style="padding-top: 3px;">library_books</i>
+                                        <span style="color: #0f3f3c;">Manual CheckIn</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#" class="menu-toggle" style="color: #0f3f3c;">
+                                <i class="material-icons" style="padding-top: 3px;">insert_chart</i>
+                                <span style="color: #0f3f3c;">Reports</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li>
+                                    <a id="visitoracessid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Visitor Access </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="blacklstid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">group</i>
+                                        <span style="color: #0f3f3c;">BlackListed Visitors</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="auditid" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">Manual Checkin & OverStayer Audit</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="auditidUsr" href="#" style="color: #0f3f3c;">
+                                        <i class="material-icons">person</i>
+                                        <span style="color: #0f3f3c;">User Audit Trail</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }                    
+                </ul>
+            </div>
+        </aside>
+    </section>
+
+    <div class="modal fade modalcenter" data-backdrop="static" id="pleaseWaitDialog" role="dialog" style="overflow-y: hidden; overflow-x: hidden; ">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content" style="opacity: 1;">
+                <div class="modal-body" align="center">
+                    <div class="loader"></div>
+                    <h4>Processing, please wait.....  </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(function () {
+            $.AdminBSB.leftSideBar.activate();
+            //$("#loader").modal();
+            ResizeContentContainer();
+            window.onresize = ResizeContentContainer;
+        });
+
+        function MyFunction() {
+            $(".dropdown-menu").toggle();
+        }
+
+        function SetActiveModule(module) {
+            $('.list>li').removeClass('active');
+            $('.list>li').find('a#' + module).parent().addClass('active');
+            $('.ml-menu>li').removeClass('active');
+            $('.ml-menu>li').find('a#' + module).parent().addClass('active');
+            if ($('.ml-menu').find('li.active').length <= 0) {
+                $('.menu-toggle').removeClass('toggled');
+                $('.ml-menu').css({ 'display': 'none' });
+            }
+        }
+
+        $("#btnDashboard").click(function () {
+            SetActiveModule('btnDashboard');
+            controllerName = 'AdminPortal';
+            var relativeURI = "@Url.Action("Dashboard", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+
+       $('#btnChangeCode').click(function() {
+            controllerName = 'Manage';
+            var relativeURI = "@Url.Action("ChangePassword", "Manage")";
+            renderPartialView(relativeURI);
+            $(".dropdown-menu").toggle();
+        });
+        $('#btnPreReg').click(function () {
+            $('#pleaseWaitDialog').modal('show');
+            SetActiveModule('btnPreReg');
+            controllerName = 'AdminPortal';
+            var relativeURI = "@Url.Action("PreRegistration", "AdminPortal")";
+            renderPartialView(relativeURI);           
+        });
+
+        $('#btnManualChkIn').click(function () {
+            SetActiveModule('btnManualChkIn');
+            controllerName = 'AdminPortal';
+            var relativeURI = "@Url.Action("ManualCheckIn", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+
+        $('#btnBlcklist').click(function () {
+            $('#pleaseWaitDialog').modal('show');
+            SetActiveModule('btnBlcklist');
+            controllerName = 'AdminPortal';
+            var relativeURI = "@Url.Action("BlackList", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnStfReg').click(function () {
+            controllerName = 'AdminPortal';
+            var relativeURI = "@Url.Action("StaffRegistration", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnPubVisit').click(function () {
+            controllerName = 'Home';
+            var relativeURI = "@Url.Action("PublicVisitor", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnTenReg').click(function () {
+            controllerName = 'Home';
+            var relativeURI = "@Url.Action("TenantRegistration", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnStafflst').click(function () {
+            controllerName = 'Home';
+            var relativeURI = "@Url.Action("StaffList", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnTenlist').click(function () {
+            controllerName = 'Home';
+            var relativeURI = "@Url.Action("TenantList", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnreport').click(function () {
+            SetActiveModule('btnreport');
+            controllerName = 'Home';
+            var relativeURI = "@Url.Action("Report", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnschedule').click(function () {
+            controllerName = 'Home';
+            var relativeURI = "@Url.Action("ScheduleRule", "AdminPortal")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnRoleList').click(function () {
+            SetActiveModule('btnRoleList');
+            controllerName = 'Setting';
+            var relativeURI = "@Url.Action("ListRole", "Setting")";
+            renderPartialView(relativeURI);
+        });
+
+        $('#btnDeptList').click(function () {
+            SetActiveModule('btnDeptList');
+            controllerName = 'Setting';
+            var relativeURI = "@Url.Action("ListDepartment", "Setting")";
+            renderPartialView(relativeURI);
+        });
+       $('#btnPwdList').click(function() {
+            SetActiveModule('btnPwdList');
+            controllerName = 'Setting';
+            var relativeURI = "@Url.Action("ListPasswordSetting", "Setting")";
+            renderPartialView(relativeURI);
+        });
+        $('#btnUserList').click(function () {
+            SetActiveModule('btnUserList');
+            controllerName = 'Setting';
+            var relativeURI = "@Url.Action("ListUser", "Setting")";
+            renderPartialView(relativeURI);
+        });
+        $('#visitoracessid').click(function () {
+            SetActiveModule('visitoracessid');
+            controllerName = 'Report';
+            var relativeURI = "@Url.Action("VisitorslDetails", "Report")";
+            renderPartialView(relativeURI);
+        });
+        $('#blacklstid').click(function () {
+            SetActiveModule('blacklstid');
+            controllerName = 'Report';
+            var relativeURI = "@Url.Action("Blacklistvisitor", "Report")";
+            renderPartialView(relativeURI);
+        });
+        $('#auditid').click(function () {
+            SetActiveModule('auditid');
+            controllerName = 'Report';
+            var relativeURI = "@Url.Action("AudittrailDetails", "Report")";
+            renderPartialView(relativeURI);
+        });
+        $('#auditidUsr').click(function () {
+            SetActiveModule('auditidUsr');
+            controllerName = 'Report';
+            var relativeURI = "@Url.Action("AudittrailDetailsUsr", "Report")";
+            renderPartialView(relativeURI);
+        });
+
+        $("#btnClosePanel").click(function () {
+            $(".dropdown-menu").toggle();
+        });
+
+        $("#sideMenuBtn").click(function () {
+
+            if (document.getElementById("leftsidebar").style.marginLeft != "0px") {
+                document.getElementById("leftsidebar").style.marginLeft = "0px";
+                $("#sideMenuBtn").text("arrow_back");
+            }
+            else {
+                document.getElementById("leftsidebar").style.marginLeft = ($("#leftsidebar").width() * -1) + "px";
+                $("#sideMenuBtn").text("menu");
+            }
+        });
+
+        $('#linkLogout').on('click', function () {
+            LogoutDialog("logoutForm");
+        });
+        function renderPartialView(relatetiveURI) {
+            $.ajax({
+                url: relatetiveURI,
+                type: "GET",
+                cache: false,
+                beforeSend: function () {
+                    $('.page-loader-wrapper').delay(5).fadeIn();
+                },
+                complete: function () {
+                    $('.page-loader-wrapper').delay(5).fadeOut();
+                },
+                success: function (data) {
+                    $("#PartialView").html("");
+                    try {
+                        if (data != null) {
+                            $("#PartialView").html(data);
+                        }
+                        else {
+                            $('#logoutForm').submit()
+                        }
+                    }
+                    catch (err) {
+                        swal("Error", err.message, "error");
+                    }
+                },
+                error: function (data) {
+                    swal("Error", data.statusText, "error");
+                }
+            });
+        }
+        
+        function ResizeContentContainer() {
+            if ($(window).width() < 1170) {
+                document.getElementById("leftsidebar").style.marginLeft = ($("#leftsidebar").width() * -1) + "px";
+                $("#sideMenuBtn").text("menu");
+                $("#sideMenuBtn").show();
+            }
+            else {
+                document.getElementById("leftsidebar").style.marginLeft = "0px";
+                $("#sideMenuBtn").text("arrow_back");
+                $("#sideMenuBtn").hide();
+            }
+        }                    
+
+    </script>
+    <script type="text/javascript" language="javascript">
+        window.onload = window.history.forward(0);
+    </script>
+</body>
+</html>

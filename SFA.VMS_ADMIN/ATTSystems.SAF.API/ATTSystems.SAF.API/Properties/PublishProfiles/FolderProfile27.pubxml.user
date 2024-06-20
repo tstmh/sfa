@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\My Data\SFA\05-06-2024\SFA.VMS_ADMIN_040624 4\SFA_Host_Files\API</_PublishTargetUrl>
+    <History>True|2024-06-11T11:32:42.5616943Z;True|2024-06-11T16:23:52.6919747+05:30;True|2024-06-11T15:24:12.0080787+05:30;True|2024-06-11T14:03:21.7988431+05:30;False|2024-06-11T14:02:47.7363664+05:30;True|2024-06-11T13:37:04.9743124+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

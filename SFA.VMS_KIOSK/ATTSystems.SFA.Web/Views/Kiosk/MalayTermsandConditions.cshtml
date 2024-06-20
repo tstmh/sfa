@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        Malay Terms & Conditions
+    </title>
+    <style>
+
+        .white-box {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            color: black;
+        }
+
+        #btnAccept {
+            background: #E9510E;
+            height: 60px;
+            width: 250px;
+            color: white;
+            font-size: 16px;
+        }
+
+        #termsDiv {
+            color: #E9510E;
+            text-align: center
+        }
+    </style>
+    <script src="~/js/FontAwsome.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+</head>
+
+<body class="homepage" style="height: 100%; width: 100%; margin: 0; padding: 0;overflow-x:hidden;overflow-y:hidden">
+    <br />
+    <div class="row col-md-12">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("SelectLanguage", "Kiosk") + "'");" class="" style="border:none;background-color:white;cursor: pointer;float:right">
+                <em class="fa fa-home" style="font-size:48px;color:#E9510E"></em>
+            </button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4" id="termsDiv">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" alt="logo"/>
+            <br /><br /><br />
+            <h1><strong>Sistem Pengurusan Pelawat</strong></h1>
+            <br /><br />
+            <div class="white-box">
+                <br />
+                <p><strong>Terma dan Syarat PDPA</strong> </p>
+                <br />
+                Kami Berusaha Melebihi Jangkaan Pelanggan Kami Dalam Setiap Aspek Kerja Kami. Kami Membantu Organisasi Mencapai Pensijilan Standard Antarabangsa. Audit dalaman. Kursus latihan. Perundingan ISO. Penyumberan luar. Perkhidmatan: Perundingan ISO, Kursus Latihan.
+
+                <br /><br />
+
+            </div>
+            <br /> <br /><br /><br />
+
+            <button type="button" id="btnAccept" onclick="@("window.location.href='" + @Url.Action("MalayScanNRICPassport", "Kiosk") + "'");" class="btn btn-lg">Terima</button>
+
+        </div>
+        <div class="col-md-4">
+        </div>
+
+    </div>
+</body>
+
+</html>
+

@@ -1,0 +1,595 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = null;
+}
+<head>
+    <script src='@Url.Content("~/js/jquery-3.7.1.min.js")'></script>
+
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+    <style>
+        .c-dashboardInfo {
+            margin-bottom: 15px;
+        }
+
+            .c-dashboardInfo .wrap {
+                background: #ffffff;
+                box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.1);
+                border-radius: 7px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+                padding: 40px 25px 20px;
+                height: 100%;
+            }
+
+        .c-dashboardInfo__title,
+        .c-dashboardInfo__subInfo {
+            color: #6c6c6c;
+            font-size: 1.18em;
+        }
+
+        .c-dashboardInfo span {
+            display: block;
+        }
+
+        .c-dashboardInfo__count {
+            font-weight: 600;
+            font-size: 2.5em;
+            line-height: 64px;
+            color: #323c43;
+        }
+
+        .c-dashboardInfo .wrap:after {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            content: "";
+        }
+
+        .c-dashboardInfo:nth-child(1) .wrap:after {
+            background: linear-gradient(82.59deg, #00c48c 0%, #00a173 100%);
+        }
+
+        .c-dashboardInfo:nth-child(2) .wrap:after {
+            background: linear-gradient(81.67deg, #0084f4 0%, #1a4da2 100%);
+        }
+
+        .c-dashboardInfo:nth-child(3) .wrap:after {
+            background: linear-gradient(69.83deg, #0084f4 0%, #00c48c 100%);
+        }
+
+        .c-dashboardInfo:nth-child(4) .wrap:after {
+            background: linear-gradient(81.67deg, #ff647c 0%, #1f5dc5 100%);
+        }
+
+        .c-dashboardInfo__title svg {
+            color: #d7d7d7;
+            margin-left: 5px;
+        }
+
+        .MuiSvgIcon-root-19 {
+            fill: currentColor;
+            width: 1em;
+            height: 1em;
+            display: inline-block;
+            font-size: 24px;
+            transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .rwd-table {
+            margin: auto;
+            min-width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+            .rwd-table tr:first-child {
+                border-top: none;
+                background: #E9510E;
+                color: #fff;
+            }
+
+            .rwd-table tr {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                background-color: #f5f9fc;
+            }
+
+            .rwd-table th,
+            .rwd-table td {
+                padding: 1em !important;
+            }
+
+            .rwd-table td {
+                color: #333;
+            }
+
+        .table-responsive1 {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @@media (max-width: 480px) {
+            #dashHead {
+                margin-top: 25%;
+            }
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+    </style>
+
+</head>
+
+<div class="row">
+    <div class="col-md-1">
+        <h4 id="dashHead" style="padding-left: 10px; padding-top: 10px;">Dashboard </h4>
+    </div>
+    <div class="col-md-2">
+        <p style=" margin-top: 11%;background-color: #E9510E; border-radius: 8px; color: #ffffff; padding-left: 6%; padding-right: 0%; margin-left: 4%;"> @System.DateTime.Now</p>
+    </div>
+    <div class="col-md-9">
+    </div>
+</div>
+<br />
+<div id="root">
+    <div class="container pt-5" id="cardCont">
+        <div class="row align-items-stretch">
+            <div class="c-dashboardInfo col-lg-3" id="EntryC">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Entry Count<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">150</span>
+                </div>
+            </div>
+
+            <div class="c-dashboardInfo col-lg-3" id="ExitC">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Exit Count<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">48</span>
+                </div>
+            </div>
+            <div class="c-dashboardInfo col-lg-3" id="TotalC">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Live Count<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">152</span>
+                </div>
+            </div>
+            <div class="c-dashboardInfo col-lg-3" id="overtayer">
+                <div class="wrap">
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                        Overstayer<svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+
+                        </svg>
+                    </h4><span class="hind-font caption-12 c-dashboardInfo__count">2</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<fieldset class="scheduler-border" id="Tbl1">
+    <legend>Entry Count</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead style="color:#E9510E">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Type of Visit</th>
+                    <th>Location</th>
+                    <th>Entry DateTime</th>
+                    <th>Exit DateTime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Sandesh
+                    </td>
+                    <td>
+                        Tenant
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 1
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        Jeo Smith
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        John
+                    </td>
+                    <td>
+                        Public
+                    </td>
+                    <td>
+                        Turnstile 2 - Gate 1
+                    </td>
+                    <td>
+                        2023-11-10 10:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        Jessy
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 2 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+@* <fieldset class="scheduler-border" id="Tbl2">
+    <legend>Exit Count</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead style="color:#E9510E">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Type of Visit</th>
+                    <th>Location</th>
+                    <th>Entry DateTime</th>
+                    <th>Exit DateTime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Shawn
+                    </td>
+                    <td>
+                        Tenant
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 1
+                    </td>
+
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        Joe Smith
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        John
+                    </td>
+                    <td>
+                        Public
+                    </td>
+                    <td>
+                        Turnstile 2 - Gate 1
+                    </td>
+                    <td>
+                        2023-11-10 10:00
+                    </td>
+                    <td>
+                        2023-11-10 10:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        Jessy
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 2 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+<fieldset class="scheduler-border" id="Tbl3">
+    <legend>Total Entry</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead style="color:#E9510E">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Type of Visit</th>
+                    <th>Location</th>
+                    <th>Entry DateTime</th>
+                    <th>Exit DateTime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Shawn
+                    </td>
+                    <td>
+                        Tenant
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 1
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        Joe Smith
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        John
+                    </td>
+                    <td>
+                        Public
+                    <td>
+                        Turnstile 2 - Gate 1
+                    </td>
+                    <td>
+                        2023-11-10 10:00
+                    </td>
+                    <td>
+                        2023-11-10 10:45
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        Jessy
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 2 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-10 09:00
+                    </td>
+                    <td>
+                        2023-11-10 09:45
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</fieldset> *@
+<fieldset class="scheduler-border" id="Tbl4">
+    <legend>Overstayer</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl" >
+            <thead style="color:#E9510E">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Type of Visit</th>
+                    <th>Location</th>
+                    <th>Entry DateTime</th>
+                    <th>Exit DateTime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Shawn
+                    </td>
+                    <td>
+                        Tenant
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 1
+                    </td>
+                    <td>
+                        2023-11-09 09:00
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        Joe Smith
+                    </td>
+                    <td>
+                        Trade Visitor
+                    </td>
+                    <td>
+                        Turnstile 1 - Gate 2
+                    </td>
+                    <td>
+                        2023-11-09 09:00
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#Tbl1").show();
+        $("#Tbl2").hide();
+        $("#Tbl3").hide();
+        $("#Tbl4").hide();
+
+        $('#EntryC').on('click', function () {
+            $("#Tbl1").show();
+            $("#Tbl2").hide();
+            $("#Tbl3").hide();
+            $("#Tbl4").hide();
+        });
+
+        $('#overtayer').on('click', function () {
+            $("#Tbl1").hide();
+            $("#Tbl2").hide();
+            $("#Tbl3").hide();
+            $("#Tbl4").show();
+        });
+
+    });
+</script>
+
+
+
+

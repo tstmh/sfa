@@ -1,0 +1,97 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "DataContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "DBModel",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "ATTSystems.SFA.Model",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[Asset]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AssetType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChangePasswordAudit]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Location]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PasswordSetting]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Status]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Terminal]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UnitDetails]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VisitorIdentity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VisitorLocation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VisitorRegistration]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VisitorTransaction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VisitPurpose]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VisitType]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "desktop-t1nggcs.VMS_SFA.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

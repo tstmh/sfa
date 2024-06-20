@@ -1,0 +1,974 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.ReportViewModel
+@{
+    ViewData["Title"] = "AudittrailDetailsUsr";
+    Layout = null;
+}
+<head>
+
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+
+    <style>
+
+        #LogbtnSearch {
+            background: #E9510E !important;
+            color: #fff;
+            width: 60%;
+        }
+
+            #LogbtnSearch:hover {
+                background: #E9510E;
+            }
+
+        .no-box {
+            background: none !important;
+            border: none !important;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 20px;
+            vertical-align: middle;
+            margin-top: 8px;
+        }
+
+            .switch input {
+                display: none;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #A1A6AB;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 14px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #E9510E;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+        .rwd-table {
+            margin: auto;
+            min-width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+            .rwd-table tr:first-child {
+                border-top: none;
+                background: #E9510E;
+                color: #fff;
+            }
+
+            .rwd-table tr {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                background-color: #f5f9fc;
+            }
+
+            .rwd-table th,
+            .rwd-table td {
+                padding: 1em !important;
+            }
+
+            .rwd-table td {
+                color: #333;
+            }
+
+        #BtnSave {
+            background: #E9510E;
+            color: #fff;
+        }
+
+        #btnpop {
+            background: #E9510E;
+            color: #fff;
+        }
+
+        #btnSearch {
+            background: #E9510E !important;
+            color: #fff;
+            width: 60%;
+        }
+
+            #btnSearch:hover {
+                background: #E9510E;
+            }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        .nav-link.active {
+            color: black;
+        }
+    </style>
+</head>
+<h4 id="deviceHead"><b>User Audit Trail Details</b></h4>
+<div class="register">
+    <ul class="nav nav-tabs  tabs" role="tablist">
+        <li class="nav-item">
+            <b><a class="nav-link active" data-toggle="tab" id="Mt" href="#home1" onclick="toggleActive(this)" role="tab">Modify Type</a></b> &nbsp;&nbsp;
+        </li>
+        <li class="nav-item">
+            <b> <a class="nav-link" data-toggle="tab" id="log" href="#profile1" onclick="toggleActive(this)" role="tab">Login</a></b>
+        </li>
+    </ul>
+
+    <form id="delVstForm" method="post">
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="title">
+                    <br />
+                    <div class="widget-content" style="display:none" id="Modifysearch">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>From Date</label>@*<span class="spanRequired" id="from" style="color:red">*</span>*@
+                                @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control", onkeydown = "return false", id = "SDate", placeholder = "yyyy-MM-dd" })
+                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                <label>To Date</label>@*<span class="spanRequired" id="to" style="color:red">*</span>*@
+                                @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control", onkeydown = "return false", id = "EDate", placeholder = "yyyy-MM-dd" })
+                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2" id="modify">
+                                <label>Modified Type</label>@*<span class="spanRequired" style="color:red">*</span>*@
+                                <select class="form-control" id="modifiedid" name="ManualCheckIn">
+                                    <option value="1">Visitor</option>
+                                    <option value="2">User</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label>User </label>@*<span class="spanRequired" id="from" style="color:red">*</span>*@
+                                @Html.DropDownListFor(model => model.UserEmail, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "userid" })
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btnSearch" type="button" class="btn btn-primary"><i class="fa fa search"></i>Search</button>
+                            </div>
+                            <div class="col-md-2">
+                                @if (@Model.Modulename == "Administrator")
+                                {
+                                    <span id="btnExportExcel" class="btn-export-excel" title="Export Excel" style="cursor: pointer">
+                                        <img src="~/Images/Excel-Download.jpg" width="28" height="34">
+                                    </span>
+                                    <span id="btnExportExcel2" style="display: none;cursor: pointer" class="btn-export-excel" title="Export Excel">
+                                        <img src="~/Images/Excel-Download.jpg" width="28" height="34">
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="tab-pane" id="home1" role="tabpanel">
+            <fieldset class="scheduler-border" id="Auditdtl">
+                <legend>User Audit Trail Details</legend>
+                <div id="tb1">
+                    <div class="table-responsive">
+                        <table id="sample" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl" style="table-layout: fixed; width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Sl.No</th>
+                                    <th>Visitor Name</th>
+                                    <th>Visitor Type</th>
+                                    <th>ID Type</th>
+                                    <th>Passport/NRIC/FIN</th>
+                                    <th>Location</th>
+                                    <th>Modified By</th>
+                                    <th>Modified DateTime</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblBody">
+                                @foreach (var item in Model.VisitorAccessLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                                {
+                                    <tr id="row@(item.Data.Idlst)">
+                                        <td>
+                                            @item.Index
+                                        </td>
+                                        <td>
+                                            @item.Data.VisitorNamelst
+                                        </td>
+                                        <td>
+                                            @item.Data.VisitTypeNamelst
+                                        </td>
+                                        <td>
+                                            @item.Data.Namelst
+                                        </td>
+                                        <td>
+                                            @item.Data.NricOrPassportlst
+                                        </td>
+                                        <td>
+                                            @item.Data.LocationNamelst
+                                        </td>
+                                        <td>
+                                            @item.Data.ModifiedBylst
+                                        </td>
+                                        <td>
+                                            @item.Data.ModifiedDateTime1lst
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="tb2" style="display:none;">
+                    <div class="table-responsive">
+                        <table id="sample2" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl" style="table-layout: fixed; width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Sl No</th>
+                                    <th>User Name</th>
+                                    <th>User Email</th>
+                                    <th>Modified By</th>
+                                    <th>Modified DateTime</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblBody2">
+                                @foreach (var item in Model.VisitorAccessLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                                {
+                                    <tr id="row@(item.Data.Idlst)">
+                                        <td>
+                                            @item.Index
+                                        </td>
+                                        <td>
+                                            @item.Data.UserNamelst
+                                        </td>
+                                        <td>
+                                            @item.Data.UserEmaillst
+                                        </td>
+                                        <td>
+                                            @item.Data.ModifiedBylst
+                                        </td>
+                                        <td>
+                                            @item.Data.ModifiedDateTime1lst
+                                        </td>
+                                        <td>@item.Data.Remarks</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        @*  Login UserDetails *@
+
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="title">
+                    <br />
+                    <div class="widget-content" style="display:none" id="Loginsearch">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>From Date</label>@*<span class="spanRequired" id="fromDate" style="color:red">*</span>*@
+                                @Html.TextBoxFor(model => model.LFomDate, "{0:yyyy-MM-dd}", new { @class = "form-control", onkeydown = "return false", id = "LogSDate", placeholder = "yyyy-MM-dd" })
+                                @Html.ValidationMessageFor(model => model.LFomDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>To Date</label>@*<span class="spanRequired" id="toDate" style="color:red">*</span>*@
+                                @Html.TextBoxFor(model => model.LToDate, "{0:yyyy-MM-dd}", new { @class = "form-control", onkeydown = "return false", id = "LogEDate", placeholder = "yyyy-MM-dd" })
+                                @Html.ValidationMessageFor(model => model.LToDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>User </label>@*<span class="spanRequired" id="Loguser" style="color:red">*</span>*@
+                                @Html.DropDownListFor(model => model.LogUserName, new SelectList(Enumerable.Empty<SelectListItem>()), new { @class = "form-control", id = "loguserid" })
+                            </div>
+                            <br />
+                            <div class="col-md-2">
+                                <button id="LogbtnSearch" type="button" class="btn btn-primary"><i class="fa fa search"></i>Search</button>
+                            </div>
+                            <div class="col-md-1">
+                                @if (@Model.Modulename == "Administrator")
+                                {
+                                    <span id="LogbtnExportExcel" class="btn-export-excel" title="Export Excel" style="cursor: pointer">
+                                        <img src="~/Images/Excel-Download.jpg" width="28" height="34">
+                                    </span>
+                                    <span id="LogbtnExportExcel2" style="display: none;cursor: pointer" class="btn-export-excel" title="Export Excel">
+                                        <img src="~/Images/Excel-Download.jpg" width="28" height="34">
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="tab-pane" id="profile1" role="tabpanel">
+            <fieldset class="scheduler-border" id="logdtls">
+                <legend>Login Details</legend>
+                <div class="table-responsive">
+                    <table id="loginTable" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl" style="table-layout: fixed; width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>User Name</th>
+                                <th>Status</th>
+                                <th>Login DateTime</th>
+                                <th>Logout DateTime</th>
+                                <th>Attempted DateTime</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="LoginBody">
+                            @foreach (var item in Model._usersessiontrackinglist.Select((x, i) => new { Data = x, Index = i + 1 }))
+                            {
+                                <tr id="row@(item.Data.Id)">
+                                    <td>
+                                        @item.Index
+                                    </td>
+                                    <td>
+                                        @item.Data.UserName
+                                    </td>
+                                    <td>
+                                        @item.Data.Status
+                                    </td>
+                                    <td>
+                                        @item.Data.LoginDateTime
+                                    </td>
+                                    <td>
+                                        @item.Data.LogoutDateTime
+                                    </td>
+                                    <td>
+                                        @item.Data.AttemptedDateTime
+                                    </td>
+                                    <td>
+                                        @item.Data.Remarks
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+</div>
+<script>
+    $("document").ready(function () {
+        $("#userid").empty();
+        $.ajax({
+            url: '@Url.Action("LoadUser", "Report")',
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                //  data = JSON.parse(data);
+                if (data != null) {
+                    if (data.Code != null) {
+                        showDialog(data.Message, "userid", "error", "Report", "LoadUser", "CENTER", false, false);
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].Selected) {
+                                $("#userid").append('<option value="' + data[i].userIdlst + '" selected>' + data[i].userNamelst + '</option>');
+                            }
+                            else {
+                                $("#userid").append('<option value="' + data[i].userIdlst + '">' + data[i].userNamelst + '</option>');
+                            }
+                        }
+                    }
+                }
+                else {
+                }
+            },
+            error: function (data) {
+                swal("Error i", "", "error");
+            }
+        });
+    });
+</script>
+<script>
+    $("#btnExportExcel2").click(function () {
+        var ModifiedTypeIdlst = $("#modifiedid").val();
+        var startDate = $("#SDate").val();
+        var UsrrId = $("#userid option:selected").text();
+        var endDate = $("#EDate").val();
+        var parameters = startDate + ";" + endDate + ";" + ModifiedTypeIdlst + ";" + UsrrId;
+
+        // var path = location.pathname.replace("/Home/Index", "");
+        // window.location = path + '/Report/ExportSearchVisitorUser?parameters=' + parameters;
+        window.location = '/Report/ExportSearchVisitorUser?parameters=' + parameters;
+    });
+</script>
+<script>
+    //Before Search
+    $("#btnExportExcel").click(function () {
+        var path = location.pathname.replace("/Home/Index", "");
+        window.location = path + '/Report/ExportVisitorUser';
+    });
+    $(document).ready(function () {
+        var table = $('#sample').dataTable();
+        if (table.fnGetData().length == 0) {
+            $("#btnExportExcel").hide();
+        }
+        else {
+            $("#btnExportExcel").show();
+        }
+    });
+</script>
+<script>
+    //////debugger;
+    $("#btnSearch").click(function () {
+        var EntryDate = $("#SDate").val();
+        var ExitDate = $("#EDate").val();
+        var modtyp = $("#modifiedid option:selected").val();
+        var usrname = $("#userid option:selected").text();
+        var table1 = $('#sample').DataTable();
+        var table2 = $('#sample2').DataTable();
+
+        if (EntryDate == "") {
+            swal("Info", "Please select Start Date", "info");
+            return false;
+        } else if (ExitDate == "") {
+            swal("Info", "Please select End Date", "info");
+            return false;
+        } else if (usrname == "") {
+            swal("Info", "Please select User", "info");
+            return false;
+        } else if (modtyp == 0) {
+            swal("Info", "Please select Audit Type", "info");
+            return false;
+        } 
+        // else if (Date.parse(ExitDate) < Date.parse(EntryDate)) {
+        //     swal("Info", "End Date should be greater than Start Date", "info");
+        //     $("#sample").DataTable().destroy();
+        //     $("#tblBody").empty();
+        //     $("#btnExportExcel").hide();
+        //     $("#btnExportExcel2").hide();
+
+        //     $("#sample").DataTable({
+        //     });
+        //     return false;
+        // }
+        else {
+            // $('#pleaseWaitDialog').modal('show');
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SearchVisitorUserAccessList", "Report")",
+                data: {
+                    StartDate: EntryDate, EndDate: ExitDate, ModifiedTypeId: modtyp, UserName: usrname
+                },
+                cache: false,
+                dataType: "json",
+                success: function (e) {
+                    $("#btnExportExcel").hide();
+                    $("#btnExportExcel2").show();
+
+                    $("#tblBody").empty();
+                    $("#tblBody").empty();
+                    $('#sample').DataTable().clear().destroy();
+                    $('#sample2').DataTable().clear().destroy();
+                    if (e.visitorAccessLists.length > 0) {
+                        $("#btnExportExcel2").show();
+                        //$('#pleaseWaitDialog').modal('hide');
+                        if (modtyp == 1) {
+                            var elm = document.getElementById('tb1');
+                            elm.style.display = 'block';
+
+                            var elm1 = document.getElementById('tb2');
+                            elm1.style.display = 'none';
+                            $("#sample2").hide();
+                            $("#sample").show();
+                            $('#tblBody').empty();
+
+                            for (var i = 0; i < e.visitorAccessLists.length; ++i) {
+                                var index = i + 1;
+                                var mDateTime;
+                                if (e.visitorAccessLists[i].modifiedDateTimelst != null) {
+                                    mDateTime = formatDate(e.visitorAccessLists[i].modifiedDateTimelst);
+                                }
+                                else {
+                                    mDateTime = "";
+                                }
+                                function formatDate(dateTimeString) {
+                                    var date = new Date(dateTimeString);
+                                    var day = date.getDate().toString().padStart(2, '0');
+                                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                    var year = date.getFullYear();
+                                    var hours = date.getHours().toString().padStart(2, '0');
+                                    var minutes = date.getMinutes().toString().padStart(2, '0');
+                                    var seconds = date.getSeconds().toString().padStart(2, '0');
+
+                                    var ampm = hours >= 12 ? 'PM' : 'AM';
+                                    var timeString = hours.toString().padStart(2, '0') + ':' + minutes + ':' + seconds + ' ' + ampm;
+                                    return day + '/' + month + '/' + year + ' ' + timeString;
+                                }
+                                var tableRow = '<tr id="' + e.visitorAccessLists[i].listId +
+                                    '"><td>' + index +
+                                    '</td><td>' + e.visitorAccessLists[i].visitorNamelst +
+                                    '</td><td>' + e.visitorAccessLists[i].visitTypeNamelst +
+                                    '</td><td>' + e.visitorAccessLists[i].namelst +
+                                    '</td><td>' + e.visitorAccessLists[i].nricOrPassportlst +
+                                    '</td><td>' + e.visitorAccessLists[i].locationNamelst +
+                                    '</td><td>' + e.visitorAccessLists[i].modifiedBylst +
+                                    '</td><td>' + mDateTime +
+                                    '</td>';
+                                $("#tblBody").append(tableRow);
+                            }
+                            $("#sample").DataTable();
+                        }
+                        else if (modtyp == 2) {
+                            var elm = document.getElementById('tb1');
+                            elm.style.display = 'none';
+
+                            var elm1 = document.getElementById('tb2');
+                            elm1.style.display = 'block';
+                            $("#sample").hide();
+                            $("#sample2").show();
+                            $('#tblBody2').empty();
+                            for (var i = 0; i < e.visitorAccessLists.length; ++i) {
+                                var index = i + 1;
+                                var mDateTime;
+                                if (e.visitorAccessLists[i].modifiedDateTimelst != null) {
+                                    mDateTime = formatDate(e.visitorAccessLists[i].modifiedDateTimelst);
+                                }
+                                else {
+                                    mDateTime = "";
+                                }
+                                function formatDate(dateTimeString) {
+                                    var date = new Date(dateTimeString);
+                                    var day = date.getDate().toString().padStart(2, '0');
+                                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                                    var year = date.getFullYear();
+                                    var hours = date.getHours().toString().padStart(2, '0');
+                                    var minutes = date.getMinutes().toString().padStart(2, '0');
+                                    var seconds = date.getSeconds().toString().padStart(2, '0');
+                                    var ampm = hours >= 12 ? 'PM' : 'AM';
+                                    var timeString = hours.toString().padStart(2, '0') + ':' + minutes + ':' + seconds + ' ' + ampm;
+                                    return day + '-' + month + '-' + year + ' ' + timeString;
+                                }
+                                var tableRow = '<tr id="' + e.visitorAccessLists[i].listId +
+                                    '"><td>' + index +
+                                    '</td><td>' + e.visitorAccessLists[i].userNamelst +
+                                    '</td><td>' + e.visitorAccessLists[i].userEmaillst +
+                                    '</td><td>' + e.visitorAccessLists[i].modifiedBylst +
+                                    '</td><td>' + mDateTime +
+                                    '</td><td>' +  e.visitorAccessLists[i].remarks +
+                                    '</td>';
+                                $("#tblBody2").append(tableRow);
+                            }
+                            $("#sample2").DataTable();
+                        }
+                    }
+                    else {
+                        swal("Info", "No matching records found", "info");
+                        $("#btnExportExcel2").hide();
+                        //$('#pleaseWaitDialog').modal('hide');
+                    }
+                    $("#sample").DataTable({ "bDestroy": true });
+                    $("#sample2").DataTable({ "bDestroy": true });
+                }
+            });
+        }
+    });
+</script>
+<script type="text/javascript">
+    $("#Mt").click(function () {
+        dtsrefresh = "";
+        var element = document.getElementById("home1");
+        element.classList.add("active");
+        var element1 = document.getElementById("profile1");
+        element1.classList.remove("active");
+    });
+    $("#log").click(function (e) {
+        dtsrefresh = "user";
+        var element = document.getElementById("profile1");
+        element.classList.add("active");
+        var element1 = document.getElementById("home1");
+        element1.classList.remove("active");
+        localStorage.setItem('activeLink', $(e.currentTarget).attr('id'));
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#logdtls").hide();
+        $("#Auditdtl").show();
+        $("#Modifysearch").show();
+
+        $("#modifiedid").change(function () {
+            $("#userid").show();
+            $("#Modifysearch").show();
+        });
+        $("#log").click(function (e) {
+            $("#modify").hide();
+            $("#userid").show();
+            $("#logdtls").show();
+            $("#Auditdtl").hide();
+            $("#Loginsearch").show();
+            $("#Modifysearch").hide();
+        });
+        $("#Mt").click(function () {
+            $("#modify").show();
+            $("#logdtls").hide();
+            $("#Auditdtl").show();
+            $("#Modifysearch").show();
+            $("#Loginsearch").hide();
+        });
+    });
+</script>
+@*Load Login User *@
+<script>
+    $("document").ready(function () {
+        $("#loguserid").empty();
+        $.ajax({
+            url: '@Url.Action("LoadLoginUser", "Report")',
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                //  data = JSON.parse(data);
+                if (data != null) {
+                    if (data.Code != null) {
+                        showDialog(data.Message, "loguserid", "error", "Report", "LoadLoginUser", "CENTER", false, false);
+                    }
+                    else {
+                        $("#loguserid").append('<option value="' + 0 + '" selected>' + "All" + '</option>');
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].Selected) {
+                                $("#loguserid").append('<option value="' + data[i].userIdlst + '" selected>' + data[i].userNamelst + '</option>');
+                            }
+                            else {
+                                $("#loguserid").append('<option value="' + data[i].userIdlst + '">' + data[i].userNamelst + '</option>');
+                            }
+                        }
+                    }
+                }
+                else {
+                }
+            },
+            error: function (data) {
+                swal("Error i", "", "error");
+            }
+        });
+    });
+</script>
+<script>
+    $("#log").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoginUserTracking", "Report")",
+            data: {
+
+            },
+            cache: false,
+            dataType: "json",
+            success: function (e) {
+                $('#loginTable').DataTable().clear().destroy();
+                $("#LoginBody").empty();
+
+                if (e._usersessiontrackinglist.length > 0) {
+                    for (var i = 0; i < e._usersessiontrackinglist.length; ++i) {
+                        var index = i + 1;
+
+                        var sDateTime, eDateTime, attemptDateTime, zone;
+                        if (e._usersessiontrackinglist[i].loginDateTime != null) {
+                            sDateTime = formatDate(e._usersessiontrackinglist[i].loginDateTime);
+                        }
+
+                        else {
+                            sDateTime = "";
+                        }
+
+                        if (e._usersessiontrackinglist[i].logoutDateTime != null) {
+                            eDateTime = formatDate(e._usersessiontrackinglist[i].logoutDateTime);
+                        }
+                        else {
+                            eDateTime = "";
+                        }
+                        if (e._usersessiontrackinglist[i].attemptedDateTime != null) {
+                            attemptDateTime = formatDate(e._usersessiontrackinglist[i].attemptedDateTime);
+                        }
+                        else {
+                            attemptDateTime = "";
+                        }
+                        function formatDate(dateTimeString) {
+                            var date = new Date(dateTimeString);
+                            var day = date.getDate().toString().padStart(2, '0');
+                            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            var year = date.getFullYear();
+                            var hours = date.getHours().toString().padStart(2, '0');
+                            var minutes = date.getMinutes().toString().padStart(2, '0');
+                            var seconds = date.getSeconds().toString().padStart(2, '0');
+
+                            var ampms = hours >= 12 ? 'PM' : 'AM';
+                            var timeString = hours.toString().padStart(2, '0') + ':' + minutes + ':' + seconds + ' ' + ampms;
+                            return day + '/' + month + '/' + year + ' ' + timeString;
+                        }
+                        var tableRow = '<tr id="' + e._usersessiontrackinglist[i].id +
+                            '"><td>' + index +
+                            '</td><td>' + e._usersessiontrackinglist[i].userName +
+                            '</td><td>' + e._usersessiontrackinglist[i].status +
+                            '</td><td>' + sDateTime +
+                            '</td><td>' + eDateTime +
+                            '</td><td>' + attemptDateTime +
+                            '</td><td>' + e._usersessiontrackinglist[i].remarks +
+                            '</td>';
+                        $("#LoginBody").append(tableRow);
+                        $(function () {
+                            $("#loginTable td").each(function () {
+                                if (this.textContent.trim() === "null") {
+                                    this.textContent = "";
+                                }
+                            });
+                        });
+                    }
+                    $("#loginTable").DataTable();
+                }
+            }
+        });
+    });
+
+</script>
+<script>
+    //////debugger;
+    $("#LogbtnSearch").click(function (event) {
+        // ////debugger;
+        event.preventDefault();
+
+        try {
+            var LogFromDate = $("#LogSDate").val();
+            var LogToDate = $("#LogEDate").val();
+            var Logusrname = $("#loguserid option:selected").text();
+
+            if (LogFromDate == "") {
+                swal("Info", "Please select From Date", "info");
+                return false;
+            }
+            else if (LogToDate == "") {
+                swal("Info", "Please select To Date", "info");
+                return false;
+            }
+            // else if (Date.parse(LogToDate) < Date.parse(LogFromDate)) {
+            //     swal("Info", "To Date should be greater than From Date", "info");
+            //     return false;
+            // }
+            else {
+                //$('#pleaseWaitDialog').modal('show');
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "@Url.Action("SearchLoginUserTracking", "Report")",
+                    data: {
+                        LFomDate: LogFromDate, LToDate: LogToDate, LogUserName: Logusrname
+                    },
+                    cache: false,
+                    //dataType: "json",
+                    success: function (data) {
+                        //////debugger;
+                        var e = data
+                        $("#LogbtnExportExcel").hide();
+                        $("#LogbtnExportExcel2").show();
+                        $("#LoginBody").empty();
+                        var table = '';
+                        $("#LoginBody").empty();
+                        $('#loginTable').DataTable().clear().destroy();
+
+                        if (e._usersessiontrackinglist.length > 0) {
+                            $("#LogbtnExportExcel2").show();
+                            // $('#pleaseWaitDialog').modal('hide');
+                            for (var i = 0; i < e._usersessiontrackinglist.length; ++i) {
+                                var index = i + 1;
+
+
+                                var sDateTime, eDateTime, attemptDateTime, zone;
+                                if (e._usersessiontrackinglist[i].loginDateTime != null) {
+                                    sDateTime = formatDate(e._usersessiontrackinglist[i].loginDateTime);
+                                }
+                                else {
+                                    sDateTime = "";
+                                }
+
+                                if (e._usersessiontrackinglist[i].logoutDateTime != null) {
+                                    eDateTime = formatDate(e._usersessiontrackinglist[i].logoutDateTime);
+                                }
+                                else {
+                                    eDateTime = "";
+                                }
+                                if (e._usersessiontrackinglist[i].attemptedDateTime != null) {
+                                    attemptDateTime = formatDate(e._usersessiontrackinglist[i].attemptedDateTime);
+                                }
+                                else {
+                                    attemptDateTime = "";
+                                }
+
+
+                                var table = '<tr id="' + e._usersessiontrackinglist[i].id +
+                                    '"><td>' + index +
+                                    '</td><td>' + e._usersessiontrackinglist[i].userName +
+                                    '</td><td>' + e._usersessiontrackinglist[i].status +
+                                    '</td><td>' + sDateTime +
+                                    '</td><td>' + eDateTime +
+                                    '</td><td>' + attemptDateTime +
+                                    '</td><td>' + e._usersessiontrackinglist[i].remarks +
+                                    '</td>';
+                                //  console.log(table);
+                                $("#LoginBody").append(table);
+
+                            }
+                        }
+                        else {
+                            swal("Info", "No matching records found", "info");
+                            $("#LogbtnExportExcel2").hide();
+                            // $('#pleaseWaitDialog').modal('hide');
+                        }
+                        $("#loginTable").DataTable({ "bDestroy": true });
+                    }
+                });
+            }
+        } catch (err) {
+            // ////debugger;
+        }
+    });
+    function formatDate(dateTimeString) {
+        var date = new Date(dateTimeString);
+        var day = date.getDate().toString().padStart(2, '0');
+        var month = (date.getMonth() + 1).toString().padStart(2, '0');
+        var year = date.getFullYear();
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        var seconds = date.getSeconds().toString().padStart(2, '0');
+
+        var ampms = hours >= 12 ? 'PM' : 'AM';
+        var timeString = hours.toString().padStart(2, '0') + ':' + minutes + ':' + seconds + ' ' + ampms;
+        return day + '/' + month + '/' + year + ' ' + timeString;
+    }
+    $(function () {
+        $("#loginTable td").each(function () {
+            if (this.textContent.trim() === "null") {
+                this.textContent = "";
+            }
+        });
+    });
+</script>
+<script>
+    //Before Search
+    $("#LogbtnExportExcel").click(function () {
+        var path = location.pathname.replace("/Home/Index", "");
+        window.location = path + '/Report/ExportLoginUser';
+    });
+    $(document).ready(function () {
+        var table = $('#loginTable').dataTable();
+        if (table.fnGetData().length == 0) {
+            $("#LogbtnExportExcel").show();
+        }
+        else {
+            $("#LogbtnExportExcel").show();
+        }
+    });
+</script>
+<script>
+    $("#LogbtnExportExcel2").click(function () {
+        var startDate = $("#LogSDate").val();
+        var UsrrId = $("#loguserid option:selected").text();
+        var endDate = $("#LogEDate").val();
+        var parameters = startDate + ";" + endDate + ";" + UsrrId;
+
+        var path = location.pathname.replace("/Home/Index", "");
+        window.location = path + '/Report/ExportSearchLoginUser?parameters=' + parameters;
+    });
+</script>
+<script>
+
+    function toggleActive(link) {
+        var links = document.querySelectorAll('.nav-link'); // Select all links
+        links.forEach(function (item) {
+            if (item === link) {
+                item.classList.add('active'); // Add 'active' class to the clicked link
+            } else {
+                item.classList.remove('active'); // Remove 'active' class from other links
+            }
+        });
+    }
+</script>
+<script>
+    function initializeDatepickers() {
+        // Initialize datepickers for the first set of tabs
+        jQuery("#SDate, #EDate").datepicker({
+            dateFormat: 'yy-mm-dd',
+            onSelect: function (selectedDate) {
+                if (this.id === "SDate") {
+                    jQuery("#EDate").datepicker("option", "minDate", selectedDate);
+                } else if (this.id === "EDate") {
+                    jQuery("#SDate").datepicker("option", "maxDate", selectedDate);
+                }
+            }
+        });
+
+        // Initialize datepickers for the second set of tabs
+        jQuery("#LogSDate, #LogEDate").datepicker({
+            dateFormat: 'yy-mm-dd',
+            onSelect: function (selectedDate) {
+                if (this.id === "LogSDate") {
+                    jQuery("#LogEDate").datepicker("option", "minDate", selectedDate);
+                } else if (this.id === "LogEDate") {
+                    jQuery("#LogSDate").datepicker("option", "maxDate", selectedDate);
+                }
+            }
+        });
+    }
+
+    // Call the initialization function when the page loads
+    jQuery(document).ready(function () {
+        initializeDatepickers();
+    });
+</script>

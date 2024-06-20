@@ -1,0 +1,184 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+@{
+    ViewData["Title"] = "DeviceConfig";
+    Layout = null;
+}
+<link href='@Url.Content("~/css/bootstrap-3.4.1.min.css")' rel="stylesheet" type="text/css" />
+<script src='@Url.Content("~/js/bootstrap-3.4.1.min.js")'></script>
+<style>
+    
+    body {
+        overflow-x: hidden;
+    }
+
+    fieldset.scheduler-border {
+        border-radius: 8px;
+        border: 1px groove #ddd !important;
+        padding: 0 0.4em 0.4em 0.4em !important;
+        margin: 0 0 0.2em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend {
+        font-size: 1.2em !important;
+        text-align: left !important;
+        width: inherit;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    @@media (max-width: 480px) {
+        #deviceHead {
+            margin-top: 28%;
+        }
+    }
+
+</style>
+<h4 id="deviceHead"><b>Staff Registration</b></h4>
+
+<br />
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-block">
+                        <fieldset class="scheduler-border">
+                            <legend>Staff Registration</legend>
+                            <div class="row clearfix">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="deviceName" class="form-label"> Name</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="deviceName" type="text" id="form12" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="floorId" class="form-label">Unique ID</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="deviceName" type="text" id="form12" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="accessPoint" class="form-label">Gender</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="radio" class="form-check-input">
+                                            <span> <label class="form-label">Male</label></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" class="form-check-input">
+                                            <span> <label class="form-label">Female</label></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="ipAddress" class="form-label">Nationality</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control">
+                                                <option value="">Please select an option:</option>
+                                                <option value="option1">Indian</option>
+                                                <option value="option1">Indian</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="deviceId" class="form-label">Mobile No.</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="deviceId" type="text" id="form12" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="Purpose" class="form-label">Designation</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="deviceId" type="text" id="form12" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="Purpose" class="form-label">Email</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="deviceId" type="text" id="form12" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="memberType" class="form-label">Department</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control">
+                                                <option value="">Please select an option:</option>
+                                                <option value="option1">Tenant</option>
+                                                <option value="option1">Staff</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="Purpose" class="form-label">Designation</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control">
+                                                <option value="">Please select an option:</option>
+                                                <option value="option1">Tenant</option>
+                                                <option value="option1">Staff</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                         <div class="col-md-3"></div>
+                                        <div class="col-md-6">
+                                           <input type="file" id="myFile" name="filename">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+
+                                <br />
+                                <br />
+
+                                <div class="row">
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-2" style="text-align:center">
+                                        <button type="button" class="btn" style="color:#fff; background: #E9510E">Register</button>
+                                        <button type="button" class="btn" style="color:#fff; background: grey">Cancel</button>
+                                    </div>
+                                    <div class="col-md-5"></div>
+                                </div>
+                                <br />
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Page body end -->
+    </div>
+</div>

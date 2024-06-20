@@ -1,0 +1,197 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+@{
+    ViewData["Title"] = "Registration List";
+    Layout = null;
+}
+
+<head>
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+    <style>
+
+        .modal-backdrop {
+            opacity: 0.3 !important
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        .rwd-table {
+            margin: auto;
+            min-width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+            .rwd-table tr:first-child {
+                border-top: none;
+                background: #E9510E;
+                color: #fff;
+            }
+
+            .rwd-table tr {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                background-color: #f5f9fc;
+            }
+
+            .rwd-table th,
+            .rwd-table td {
+                padding: 1em !important;
+            }
+
+            .rwd-table td {
+                color: #333;
+            }
+
+        .lnkEdit{
+            border:none;
+        }
+    </style>
+
+</head>
+
+<h4>Manual CheckIn</h4>
+<br />
+<form id="delVstForm" method="post">
+    <fieldset class="scheduler-border">
+        <legend>Manual CheckIn Details</legend>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Visitor Name</th>
+                        <th>Location</th>
+                        <th>ID Type</th>
+                        <th>Passport/NRIC/FIN</th>
+                        <th>Visitor Type</th>
+                        <th>Vehicle No.</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RegistrationViewLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                    {
+                        <tr id="row@(item.Data.listId)">
+                            <td>@item.Index</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listLocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listIdTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listNricOrPassport)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVehicleNo)
+                            </td>
+                            <td align="center">
+                                @*<a href="#" data-id="@item.Data.listId" class="lnkEdit" data-para="@item.Data.listLocationName"><i style="color: #fff; border:thin; background-color:#E9510E;">CheckIn</i></a>*@
+                                <button type="button" class="lnkEdit" style="background-color: #E9510E; color: #fff;" data-param="@item.Data.listId" data-id="@item.Data.listNricOrPassport2" data-para="@item.Data.listLocationName">
+                                    CheckIn
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </fieldset>
+</form>
+<div id="modalDiv">
+</div>
+
+<script>
+    $(function () {
+        $('.customTbl').on('click', '.lnkEdit', function () {    
+            debugger;
+            $('.lnkEdit').addClass('tmpEdit');
+            $('.tmpEdit').removeClass('lnkEdit');
+            setTimeout(function () {
+                $('.tmpEdit').addClass('lnkEdit');
+                $('.lnkEdit').removeClass('tmpEdit');
+            }, 3000);
+            /* End of disable link for 4 seconds */
+
+            var registrationViewModel = {};
+            var _NricOrPassport = $(this).attr('data-id');
+            var _locationname = $(this).attr('data-para');
+            var _Id = $(this).attr('data-param');
+
+            registrationViewModel.Id = _Id;
+            registrationViewModel.NricOrPassport = _NricOrPassport;
+            registrationViewModel.LocationName = _locationname;
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "/AdminPortal/ManualCheckInSave",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(registrationViewModel),
+                success: function (e) {
+                    if (e.resultCode == 200) {
+                        swal("Success", "CheckIn successfull", "success");
+                        var relativeURI = "@Url.Action("ManualCheckIn", "AdminPortal")";
+                        renderPartialView(relativeURI);
+                    }
+                    else {
+                        swal("Warning", "Manual CheckIn Failed", "warning");
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    showDialog(e.statusText, "AdminPortal", "error", "", "", 0, false, false);
+                    $('#logoutForm').submit();
+                },
+            });
+        });
+    });
+
+    function RenderPartialView1(relativeURI, modalType) {
+        $.ajax({
+            url: relativeURI,
+            type: "Get",
+            cache: false,
+            success: function (data) {
+                //custom showing popup
+                $("#modalDiv").html("");
+                $("#modalDiv").html(data);
+                $(modalType).modal('show');
+            },
+            error: function (data) {
+                swal("info", data.statusText, "info");
+            }
+        });
+    }
+</script>

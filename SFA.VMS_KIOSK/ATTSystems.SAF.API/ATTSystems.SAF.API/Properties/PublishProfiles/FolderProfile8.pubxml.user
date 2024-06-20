@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Soumya data\ATTSystem_SFA_project\TFS_180324\KIOSK\API</_PublishTargetUrl>
+    <History>True|2024-04-01T12:06:29.6701462Z;True|2024-04-01T12:41:51.8989665+05:30;True|2024-04-01T12:41:09.1565874+05:30;True|2024-04-01T11:33:48.5142933+05:30;True|2024-03-31T19:19:27.3070487+05:30;True|2024-03-29T15:12:06.8239921+05:30;True|2024-03-29T13:19:43.6744907+05:30;True|2024-03-29T13:19:27.7787870+05:30;True|2024-03-29T13:19:03.7728389+05:30;True|2024-03-29T13:18:48.1762899+05:30;True|2024-03-29T13:15:19.1158339+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

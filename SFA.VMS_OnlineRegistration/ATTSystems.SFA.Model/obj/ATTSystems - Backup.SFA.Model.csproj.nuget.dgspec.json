@@ -1,0 +1,69 @@
+{
+  "format": 1,
+  "restore": {
+    "F:\\ATTSystems\\Online_portal_SFA\\OnlinePortal-WEB_23012024\\ATTSystems.SFA.Model\\ATTSystems - Backup.SFA.Model.csproj": {}
+  },
+  "projects": {
+    "F:\\ATTSystems\\Online_portal_SFA\\OnlinePortal-WEB_23012024\\ATTSystems.SFA.Model\\ATTSystems - Backup.SFA.Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "F:\\ATTSystems\\Online_portal_SFA\\OnlinePortal-WEB_23012024\\ATTSystems.SFA.Model\\ATTSystems - Backup.SFA.Model.csproj",
+        "projectName": "ATTSystems - Backup.SFA.Model",
+        "projectPath": "F:\\ATTSystems\\Online_portal_SFA\\OnlinePortal-WEB_23012024\\ATTSystems.SFA.Model\\ATTSystems - Backup.SFA.Model.csproj",
+        "packagesPath": "C:\\Users\\ATTSYSTEMSGROUP\\.nuget\\packages\\",
+        "outputPath": "F:\\ATTSystems\\Online_portal_SFA\\OnlinePortal-WEB_23012024\\ATTSystems.SFA.Model\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ATTSYSTEMSGROUP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.25, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>
+
+    </title>
+    <style>
+        body{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        @@media (min-width: 360px) and (max-width: 767px) {
+
+            .btn:not(.btn-link):not(.btn-circle) {
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                -ms-border-radius: 2px;
+                border-radius: 2px;
+                border: none;
+                font-size: 12px;
+                outline: none;
+                margin-top: 10px;
+            }
+        }
+
+        #divMain {
+            color: #E9510E;
+            text-align: center;
+        }
+
+        #btnEnglish, #btnChinese, #btnMalay {
+            background: #E9510E;
+            height: 60px;
+            width: 250px;
+            color: white;
+            font-size: 16px;
+        }
+
+        #btnWidth {
+            background: #E9510E;
+            color: white;
+        }
+    </style>
+
+    <script src="~/js/FontAwsome.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12" id="divMain">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" alt="Logo"/>
+            <br /><br /><br />
+            <h1><strong>Visitor Management System</strong></h1>
+            <br />
+
+            <br /><br /><br /> <br /><br /><br />
+            <div id="my-buttons">
+               
+                <button type="button" id="btnEnglish" class="btn btn-lg" data-toggle="modal" data-target="#myModal">Register</button>
+                <button type="button" id="btnChinese" class="btn btn-lg" data-toggle="modal" data-target="#chineseModel">登记</button>
+                @*<button type="button" id="btnMalay" class="btn btn-lg" data-toggle="modal" data-target="#malayModel">Daftar</button>*@
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> PDPA Terms and Conditions</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="" id="addForm" method="post">
+                    <div class="modal-body">
+                        <div class="row clearfix">
+                            <div class="col-md-12">                         
+                                By pressing the below 'I ACCEPT' button, you agree that SFA may collect,use and disclose your
+                                personal data for the purpose of processing this registration.
+                            </div>
+                        </div>
+                        <br />
+                        <div class="modal-footer">
+                            <button id="btnWidth" type="button" onclick='window.location = "@Url.Action("LocationSelector", "OnlinePortal")";' class="btn waves-effect" data-dismiss="modal">I ACCEPT</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="chineseModel" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> PDPA 条款和条件</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="" id="addForm" method="post">
+                    <div class="modal-body">
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                                By pressing the below 'I ACCEPT' button, you agree that SFA may collect,use and disclose your
+                                personal data for the purpose of processing this registration.
+                            </div>
+                        </div>
+                        <br />
+                        <div class="modal-footer">
+                            <button id="btnWidth" type="button" onclick='window.location = "@Url.Action("ChinLocationSelector", "OnlinePortal")";' class="btn waves-effect" data-dismiss="modal">
+                                我接受
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="malayModel" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> Terma dan Syarat PDPA</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="" id="addForm" method="post">
+                    <div class="modal-body">
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                      
+                                Dengan menekan butang 'SAYA TERIMA' di bawah, anda bersetuju bahawa SFA boleh mengumpul, 
+                                menggunakan dan mendedahkan data peribadi anda untuk tujuan memproses pendaftaran ini.
+                            </div>
+                        </div>
+                        <br />
+                        <div class="modal-footer">
+                            <button id="btnWidth" type="button" onclick='window.location = "@Url.Action("MalayLocationSelector", "OnlinePortal")";' class="btn waves-effect" data-dismiss="modal">
+                                SAYA TERIMA
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="modalDiv">
+    </div>
+</body>
+
+</html>

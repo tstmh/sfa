@@ -1,0 +1,60 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.KioskViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnStart {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+
+   <script src="~/js/FontAwsome.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" /> 
+</head>
+
+<body class="homepage" style="height: 100%; width: 100%; margin: 0; padding: 0;overflow-x:hidden" onclick="@("window.location.href='" + @Url.Action("TermsandConditions", "Kiosk") + "'");">
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-12" style="color:#E9510E;text-align:center;">
+           
+            <img src="~/Images/Singapore_Food_Agency_logo.png" alt="Logo" /> 
+            @* <img src="@Url.Content("~/Images/Singapore_Food_Agency_logo.png")" alt="Logo" /> *@
+            <br /><br /><br /><br /><br /><br />
+            <h1><strong>Self Registration Kiosk</strong></h1>
+            <br /><br /><br />
+
+            <h3>Touch the Screen to begin</h3>
+                   <br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br />
+        </div>
+
+    </div>
+</body>
+
+</html>
+

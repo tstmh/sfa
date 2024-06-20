@@ -1,0 +1,99 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnAccept {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: #E9510E;
+        }
+
+        #white-box {
+            border: 1px solid grey;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 10px;
+            /*box-shadow:rgba(0,0,0,0.25) 1.95px 10px;*/
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            border-radius: 8px;
+             /*position: absolute;*/
+            top: 0;
+            bottom: 0;
+              margin: auto;
+            width: 360px;
+            height: 400px;      
+           
+        }
+    </style>
+
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+</head>
+
+<body class="homepage" style="overflow-x:hidden">
+    <br />
+    <div class="row" style="border-bottom:4px solid #E9510E">
+        <div class="col-md-4">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" height="55" style="padding-left: 30px;" />
+        </div>
+        <div class="col-md-4" style="color: #E9510E;text-align:center;margin-left:2%">
+            <h2>Visitor Pre- Registration</h2>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-5">
+        </div> 
+        <div class="col-md-3" id="white-box">
+            <h3 style="color:#E9510E;text-align:center;">Visitor Management System</h3>
+            <br />
+            <h4 style="color:#E9510E">Sign In</h4>
+            <input type="text" id="country" name="country" value="" class="form-control" placeholder="Your email address">
+            <br />
+            <input type="text" id="country" name="country" value="" class="form-control" placeholder="Password">
+            <br />
+            <div class="col d-flex justify-content-end align-items-end" style="float:right">
+                <a href="#" id="resetcode"><span style="color:#38425e;cursor:pointer">Forgot password?</span></a>
+            </div>
+         
+            <br /> <br />
+            <div class="d-grid">
+                <button id="btnLogin" onclick="@("window.location.href='" + @Url.Action("PreRegistrationLayout", "Home") + "'");" style="color: white; background-color:#38425e;width:100%" value="Sign in" class="btn" type="submit">Sign In</button>
+            </div>
+            <br />
+            <div class="d-grid">
+                <button id="btnCreate" onclick="@("window.location.href='" + @Url.Action("PreRegistrationCreateAccount", "Home") + "'");" style="color: white; background-color:#E9510E;width:100%" value="Sign in" class="btn" type="submit">Create Account</button>
+            </div>
+           <br /><br />
+        </div>
+        <div class="col-md-4">
+        </div>
+
+    </div>
+  
+</body>
+
+</html>
+

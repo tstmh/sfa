@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>F:\SAF_API_14_03_2024\SFA.VMS_ADMIN_VAPT\API</_PublishTargetUrl>
+    <History>True|2024-04-04T07:02:20.9433736Z;True|2024-04-03T13:53:28.2149655+05:30;True|2024-04-03T12:28:12.0596355+05:30;True|2024-04-01T10:11:37.3394049+05:30;True|2024-03-27T10:38:28.0920624+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

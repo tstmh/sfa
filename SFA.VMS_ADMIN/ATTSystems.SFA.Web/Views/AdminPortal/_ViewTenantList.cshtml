@@ -1,0 +1,94 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+
+<style>
+    .modal-backdrop {
+        opacity: 0.3 !important
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        /*width: 100%;*/
+    }
+
+    @@media (max-width: 480px) {
+        #btnWidth {
+            width: 100%
+        }
+    }
+</style>
+
+<div class="modal fade" id="viewTenantlistModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" style="max-width:70%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> View Tenant List Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="" id="viewForm" method="post">
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                               <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="scheduleName" class="form-label"> Visitor Name</label>
+                                    <input asp-for="scheduleName" type="text" id="country" name="country" value="Shawn" class="form-control" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="floorName">Visitor ID</label>
+                                    <input asp-for="doorId" type="text" id="country" name="country" value="101D" class="form-control" disabled>                         
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="floorName">Location</label>
+                                    <input asp-for="doorId" type="text" id="country" name="country" value="Jurong West" class="form-control" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="doorId">Vehicle No.(for delivery type)</label>
+                                    <input asp-for="doorId" type="text" id="country" name="country" value="AAB202Z" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <br />
+                         
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="floorName">Reg. Date</label>
+                                    <input asp-for="doorId" type="text" id="country" name="country" value="05/03/2023" class="form-control" disabled>                         
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="doorId">Visitor Type</label>
+                                    <input asp-for="doorId" type="text" id="country" name="country" value="Tenant Worker" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label asp-for="Temperature" class="form-label">Last Entry Date</label>
+                                    <input asp-for="Temperature" type="text" id="country" name="country" value="25/10/2023" class="form-control" disabled>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="doorId">Company Name</label>
+                                    <input asp-for="doorId" type="text" id="country" name="country" value="ABC Fishery Pvt Ltd." class="form-control" disabled>
+                                </div>
+                            </div>
+                            <br />
+                           
+
+                        </div>
+                    </div>
+                    <br />
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

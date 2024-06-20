@@ -1,0 +1,249 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+@{
+    ViewData["Title"] = "DoorAccess";
+    Layout = null;
+}
+
+<style>
+
+    fieldset.scheduler-border {
+        border-radius: 8px;
+        border: 1px groove #ddd !important;
+        padding: 0 0.4em 0.4em 0.4em !important;
+        margin: 0 0 0.2em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend {
+        font-size: 1.2em !important;
+        text-align: left !important;
+        width: inherit;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+        .rwd-table td {
+            color: #333;
+        }
+
+    .table-responsive1 {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+</style>
+
+<script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+<script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+<script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+<h4 id="doorHead">Public Visitor</h4>
+<div class="row">
+    <div class="col-lg-4">    
+    </div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6">
+        <div class="align-right" style="padding-right: 10px; padding-top: 10px;">
+            <button type="button" data-toggle="modal" data-target="#myModal" id="btnAdd"
+                    class="btn btn-circle waves-effect waves-circle waves-float btnAdd" value="Add" title="Add" style="background: #E9510E;color:white">
+                <i class="material-icons">&#xE145;</i>
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<fieldset class="scheduler-border">
+    <legend>Public Visitor Details</legend>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Contact Number</th>
+                    <th>Visitor ID</th>
+                    <th>Company</th>
+                    <th>Visitor Type</th>
+                    <th>Vehicle No.</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        Shawn
+                    </td>
+                    <td>
+                        98745632
+                    </td>
+                    <td>
+                        101F
+                    </td>
+                    <td>
+                        Landscape Pte Ltd
+                    </td>
+                    <td>
+                        Visitor
+                    </td>
+                    <td>SBY202Z</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                        <a href="#" data-id="" class="lnkDelete" title="Delete" data-para=""><i class="material-icons" style="color: #E9510E">delete</i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        James
+                    </td>
+                    <td>
+                        88654712
+                    </td>
+                    <td>
+                        101D
+                    </td>
+                    <td>
+                        Plumping Pte Ltd
+                    </td>
+                    <td>
+                        Visitor
+                    </td>
+                    <td>AAB202Z</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                        <a href="#" data-id="" class="lnkDelete" title="Delete" data-para=""><i class="material-icons" style="color: #E9510E">delete</i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        John
+                    </td>
+                    <td>
+                        89654721
+                    </td>
+                    <td>
+                        102F
+                    </td>
+                    <td>
+                        Plumping Pte Ltd
+                    </td>
+                    <td>
+                        Tentant
+                    </td>
+                    <td>ACY202Z</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                        <a href="#" data-id="" class="lnkDelete" title="Delete" data-para=""><i class="material-icons" style="color: #E9510E">delete</i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        Jessy
+                    </td>
+                    <td>
+                        87545632
+                    </td>
+                    <td>
+                        102D
+                    </td>
+                    <td>
+                        Landscape Pte Ltd
+                    </td>
+                    <td>
+                        Visitor
+                    </td>
+                    <td>SBY111Z</td>
+                    <td align="center">
+                        <a href="#" data-id="" class="lnkEdit" title="Edit" data-para=""><i class="material-icons" style="color: #E9510E">mode_edit</i></a>
+                        <a href="#" data-id="" class="lnkDelete" title="Delete" data-para=""><i class="material-icons" style="color: #E9510E">delete</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</fieldset>
+
+<div id="modalDiv">
+</div>
+
+<script>
+
+    $(function () {
+        /* Add Method Here */
+        $('#btnAdd').click(function () {
+            $('.btnAdd').attr('disabled', true);
+            setTimeout(function () {
+                $('.btnAdd').attr('disabled', false);
+            }, 4000);
+            var relativeURI = "@Url.Action("SingleRegisterModal", "Home")";
+            RenderPartialView(relativeURI, "#singleregisterModal");
+        });
+    });
+
+    $('.toggle-input').click(function () {
+        swal("Error", "Failed to upload template", "error");
+
+    });
+
+
+    function RenderPartialView(relativeURI, modalType) {
+        $.ajax({
+            url: relativeURI,
+            type: "Get",
+            cache: false,
+            success: function (data) {
+                //custom showing popup
+                $("#modalDiv").html("");
+                $("#modalDiv").html(data);
+                $(modalType).modal('show');
+            },
+            error: function (data) {
+                /*alert("==1== " + data.statusText)*/
+                swal("info", data.statusText, "info");
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,163 @@
+﻿@model IEnumerable<ATTSystems.NetCore.Model.ViewModel.RoleViewModel>
+@{
+    ViewData["Title"] = "ListRole";
+    Layout = null;
+}
+<style>
+    @@media (max-width: 480px) {
+        #roleHead {
+            margin-top: 20%;
+        }
+    }
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+        .rwd-table td {
+            color: #333;
+        }
+</style>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h4 id="roleHead" style="padding-left: 10px; padding-top: 10px;">Role Listing</h4>
+    </div>
+    <div class="col-lg-6">
+        <div class="align-right" style="padding-right: 10px; padding-top: 10px;">
+            <button type="button" data-toggle="modal" data-target="#myModal" id="btnAdd"
+                    class="btn btn-circle waves-effect waves-circle waves-float btnAdd" value="Add" title="Add" style="background: #E9510E;color:white">
+                <i class="material-icons">&#xE145;</i>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="body">
+    <form id="delRoleForm" method="post">
+        @Html.AntiForgeryToken()
+        <table class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl">
+            <thead style="background: #428bca;color:white">
+                <tr>
+                    <th>
+                        Role
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Permission
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="row@(item.Id)">
+
+                        <td id="col_Role_Name">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td id="col_Description">
+                            <span title="@Html.DisplayFor(modelItem => item.Description)">@Html.DisplayFor(modelItem => item.Description)</span>
+                        </td>
+                        <td id="col_Permission">
+                            <span title="@Html.DisplayFor(modelItem => item.AllowPermission)">@Html.DisplayFor(modelItem => item.AllowPermission)</span>
+                        </td>
+                        <td align="center">
+                            <a href="#" data-id="@item.Id" class="lnkEdit" title="Edit" data-para="@item.Id"><i class="material-icons" style="color:#E9510E">mode_edit</i></a>
+                            <a href="#" data-id="@item.Id" class="lnkDelete" title="Delete" data-para="@item.Id"><i class="material-icons" style="color:#E9510E">delete</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+</div>
+<!-- Modal Area -->
+<div id="modalDiv">
+</div>
+
+<script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+<script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+<script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+<script type="text/javascript">
+    $(function () {
+        /* Add Method Here */
+        $('#btnAdd').click(function () {
+            $('.btnAdd').attr('disabled', true);
+            setTimeout(function () {
+                $('.btnAdd').attr('disabled', false);
+            }, 4000);
+            var relativeURI = "@Url.Action("CreateRoleModal", "Setting")";
+            RenderPartialView(relativeURI, "#addRoleModal");
+        });
+        //script with partial render
+        function RenderPartialView(relativeURI, modalType) {
+            $.ajax({
+                url: relativeURI,
+                type: "Get",
+                cache: false,
+                success: function (data) {
+                    //custom showing popup
+                    $("#modalDiv").html("");
+                    $("#modalDiv").html(data);
+                    $(modalType).modal('show');
+                },
+                error: function (data) {
+                    swal("Warning", data.statusText, "error");
+                    $('#logoutForm').submit();
+                }
+            });
+        }
+        /* Delete Method Here */
+        $('.customTbl').on('click', '.lnkDelete', function () {
+            var _roleid = $(this).attr('data-para');
+            var token = $('input[name="__RequestVerificationToken"]', $('#delRoleForm')).val();
+            deleteDialog("Setting", "DeleteRole", _roleid, token);
+        });
+
+        /* Edit Method Here */
+        $('.customTbl').on('click', '.lnkEdit', function () {
+            /* Disable link for 4 seconds */
+
+            $('.lnkEdit').addClass('tmpEdit');
+            $('.tmpEdit').removeClass('lnkEdit');
+            setTimeout(function () {
+                $('.tmpEdit').addClass('lnkEdit');
+                $('.lnkEdit').removeClass('tmpEdit');
+            }, 3000);
+            /* End of disable link for 4 seconds */
+            var _msgId = $(this).attr('data-para');
+
+            if (_msgId != "") {
+                var relativeURI = "@Url.Action("EditRoleModal", "Setting", new { id = "_para1" })".replace("_para1", _msgId);
+                RenderPartialView(relativeURI, "#editRoleModal");
+            }
+        });
+
+    });
+
+</script>

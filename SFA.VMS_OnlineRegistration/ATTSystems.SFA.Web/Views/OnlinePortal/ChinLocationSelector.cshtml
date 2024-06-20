@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+
+    </title>
+    <style>
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @@media (min-width: 360px) and (max-width: 767px) {
+
+            .btn:not(.btn-link):not(.btn-circle) {
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                -ms-border-radius: 2px;
+                border-radius: 2px;
+                border: none;
+                font-size: 12px;
+                outline: none;
+                margin-top: 10px;
+            }
+        }
+
+        #my-buttons {
+            display: inline-grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 5px;
+        }
+
+        #btnJurong, #btnPasir {
+            background: #E9510E;
+            height: 60px;
+            width: 270px;
+            color: white;
+            font-size: 16px;
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right
+        }
+
+    </style>
+    <script src="~/js/FontAwsome.js"></script>
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    <link href='@Url.Content("~/css/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+    <link href='@Url.Content("~/css/style.css")' rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+ 
+    <script src="~/js/bootstrap.min.js"></script>
+</head>
+
+<body class="homepage" style="overflow-x:hidden">
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8" style="text-align:center;">
+            <img src="~/Images/Singapore_Food_Agency_logo.png" alt="Logo"/>
+
+        </div>
+        <div class="col-md-2">
+            <button id="btnBack" onclick="@("window.location.href='" + @Url.Action("Register", "OnlinePortal") + "'");" class="" >
+                <em class="fa fa-home" style="font-size:48px;color:#E9510E"></em>
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12" style="color:#E9510E;text-align:center;">
+            <h1><strong>访客办理系统</strong></h1>
+            <br />
+            <br /><br /><br />
+            <h3>请选择地点:</h3>
+            <br />
+
+            <div>
+                <button type="button" value="1" id="btnJurong" class="btn btn-lg">裕廊渔港</button>
+                <button type="button" value="2" id="btnPasir" class="btn btn-lg">巴西班让果菜批发中心</button>
+
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        $("#btnJurong").click(function (e) {
+            var _loc1 = $("#btnJurong").val();
+
+            window.location.href = '@Url.Action("ChinRegisterDetails", "OnlinePortal")?locId=' + _loc1;
+
+        });
+        $("#btnPasir").click(function (e) {
+
+            var _loc2 = $("#btnPasir").val();
+
+            window.location.href = '@Url.Action("ChinRegisterDetails", "OnlinePortal")?locId=' + _loc2;
+
+        });
+    </script>
+
+    <script type="text/javascript" language="javascript">
+        // window.onload = window.history.forward(0);
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+    </script>
+</body>
+
+</html>

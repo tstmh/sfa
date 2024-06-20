@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
+    <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
+    <ActiveDebugProfile>ATTSystems.SAF.API</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>D:\ATT Systems\ATTSystem_SFA_project\TFS_180324\KIOSK\KIOSK_UPDATED_140524\SFA.VMS_KIOSK_ Realease 2\ATTSystems.SAF.API\ATTSystems.SAF.API\Properties\PublishProfiles\FolderProfile13.pubxml</NameOfLastUsedPublishProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+</Project>

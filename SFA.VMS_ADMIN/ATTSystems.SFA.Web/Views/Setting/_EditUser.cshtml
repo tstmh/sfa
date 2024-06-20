@@ -1,0 +1,176 @@
+﻿@model ATTSystems.NetCore.Model.ViewModel.UserViewModel
+
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="~/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<script src="~/js/select2.full.min.js"></script>
+<link href="~/css/select2.min.css" rel="stylesheet" />
+<script src="~/js/select2-data.js"></script>
+<script src="~/js/jquery.validate.js"></script>
+<script src='~/js/admin.js'></script>
+
+@*<link rel="stylesheet" href="~/css/bootstrap-3.4.1.min.css">
+
+<script src="~/js/bootstrap-3.4.1.min.js"></script>*@
+<style>
+
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+</style>
+
+<style>
+    .modal-backdrop {
+        opacity: 0.1 !important
+    }
+</style>
+<div class="modal " id="editUserModal" role="dialog" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit User</h4>
+            </div>
+            <form id="editUserForm" method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Password)
+                @Html.HiddenFor(model => model.ConfirmPassword)
+
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">User Name @* <span class="spanRequired">*</span> *@</label>
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", id = "uname" })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">Email Address</label>
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <span>
+                                    <strong><label class="form-label">Reset Password </label></strong>
+                                    <label>Note: The password will reset to User@1234567.</label>
+                                    <input type="checkbox" id="pwd" name="SelectedRoles" value="challow" class="checkbox-inline">
+                                   
+                                </span>
+
+
+                            </div>
+
+                            <div class="form-group p-t-5">
+                                <label class="form-label">Role@* <span class="spanRequired">*</span> *@</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="roleSelect" multiple="multiple" name="multirole" class="multiselect-ui form-control">
+                                            @foreach (var role in Model.RoleList)
+                                            {
+                                                if (role.IsSelected)
+                                                {
+                                                    <option selected="selected" value="@role.Id">@role.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@role.Id">@role.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row clearfix js-sweetalert divModalFooterButton">
+                        <button type="button" class="btn " id="btnUserEditSave" style="color:#fff; background: #E9510E">Update</button>
+                        <button type="button" class="btn " data-dismiss="modal" id="btnclose" style="background: grey;color:white">Close</button>
+                        
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $("#roleSelect").select2({
+            placeholder: 'Choose',
+            allowClear: true,
+            fontsize: 100,
+
+        });
+        //$('#roleSelect').multiselect({
+        //    includeSelectAllOption: true
+        //});
+        //$('#deptSelect').multiselect({
+        //    includeSelectAllOption: true
+        //});
+
+        //add foues class script
+        $('.form-line').addClass("focused");
+
+        $("#btnUserEditSave").click(function () {
+            var role = $("#roleSelect").val();
+            if ($("#uname").val() == "") {
+                swal("Info", "Please enter username", "info");
+                return false;
+            }
+            else if (role == "") {
+                swal("Info", "Please select a role", "info");
+                return false;
+            }
+            $("#loader").modal();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EditUser", "Setting")",
+                data: $("#editUserForm").serialize(),
+                cache: false,
+                dataType: "json",
+                success: function (e) { SuccessEditUser(e); },
+                error: function (e) { FailEditUser(e); },
+            });
+        });
+    });
+
+    var prevErr = [];
+    function SuccessEditUser(e) {       
+        $("#loader").modal('hide');
+        if (e.code == 200) {           
+            $('#editUserModal').modal('hide');
+            showDialog(e.resultDescription, "User Edited", "success", "Setting", "ListUser", 0, false, false);
+        }
+        else {           
+            showDialog(e.resultDescription, "Edit User", "error", "Setting", "ListUser", 0, false, false);
+        }
+    }
+
+    function FailEditUser(e) {
+        $("#loader").modal('hide');
+        showDialog(e.statusText, "User", "error", "", "", 0, false, false);
+        $('#logoutForm').submit();
+    }
+
+    $('#btnclose').click(function () {
+        $("#edituserModal").modal('hide');
+    });
+    $('.close').click(function () {
+        $("#edituserModal").modal('hide');
+    });
+</script>

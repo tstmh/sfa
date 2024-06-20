@@ -1,0 +1,411 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATT SYSTEMS - Project Management System</title>
+
+    <!-- Material Icon -->
+    <link rel="stylesheet" type="text/css" href="/css/icon.css" media="screen" />
+
+    <link href='/css/bootstrap.min.css' rel="stylesheet" type="text/css" />
+    <link href='/css/style.css' rel="stylesheet" type="text/css" />
+    <link href="/css/customizeStyle.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/css/waves.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/css/sweetalert2.min.css" rel="stylesheet" />
+    <script src="/js/jquery-3.7.1.min.js"></script>
+
+    <script src='/js/bootstrap.min.js'></script>
+
+    <script src="~/js/FontAwsome.js"></script>
+    @*    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+    *@
+    <link href="~/css/materialIcons.css" rel="stylesheet">
+    <!-- Custom Js -->
+
+    <script src='/js/admin.js'></script>
+    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
+
+   @* <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>*@
+    <style>
+        ul#menu li {
+            display: inline;
+        }
+
+        @@media (max-width: 480px) {
+            #alignList {
+                margin-top: -40%;
+            }
+        }
+
+        @@media (max-width: 600px) {
+            nav, article {
+                width: 100%;
+                height: auto;
+            }
+        }
+         fieldset.scheduler-border {
+        border-radius: 8px;
+        border: 1px groove #ddd !important;
+        padding: 0 0.4em 0.4em 0.4em !important;
+        margin: 0 0 0.2em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend {
+        font-size: 1.2em !important;
+        text-align: left !important;
+        width: inherit;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+        .rwd-table td {
+            color: #333;
+        }
+    </style>
+</head>
+<body style="background-color: #fff;margin:0;padding:0">
+
+    <!-- #END# Overlay For Sidebars -->
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #D5D5D6; color: #fff; border: 0px; height: 50px; padding-top: 5px;">
+        <div class="row clearfix col-md-12" style="border: 0px solid red;">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a href="#">
+                    <span class="material-icons md-24" id="sideMenuBtn" style="">arrow_back</span>
+                    <img src="/Images/Singapore_Food_Agency_logo.png" height="45" style="padding-left: 30px;" id="logoId" />
+                </a>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1"></div>
+            <div class=" col-lg-8 col-md-8 col-sm-8">
+                <div class="header-right">
+                    <h3 style="color:#E9510E; text-align:center;margin-top:10px;">Visitor Management System</h3>
+                </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1"></div>
+
+            <form action="/Auth/Logoff" id="logoutForm" method="post">
+                <div id="navbar-collapse" style="float: right; padding-right: 1px; ">
+                    <ul class="nav navbar-nav navbar-right">
+                    <li id="alignList">
+                    <label style="color: #E9510E;font-weight:bold; padding-top: 15px; cursor: pointer;" onclick="MyFunction();"></label>
+                    <a href="#" onclick="MyFunction();" style="color: #E9510E;font-weight:bold; margin-top:-36px"><i class="material-icons">more_vert</i><i class="material-icons" style="font-size:24px;">account_circle</i></a>
+                    </li>
+                    <li>
+                    <ul class="dropdown-menu" style="padding-top: 40px;">
+
+                    <li class="header" style="text-align: left; padding-left: 20px;">
+                    Hi :
+                    <span class="lblHeadUserName"><strong></strong></span>
+                    </li>
+
+                    <li class="body">
+                    <a id="btnChangeCode" href="#">
+                    <i class="material-icons">verified_user</i> Change Password
+                    </a>
+                    </li>
+                    <li class="body">
+                    <a id="linkLogout" href="javascript:void(0);">
+                    <i class="material-icons">exit_to_app</i> Logout
+                    </a>
+                    </li>
+                    <li class="body">
+                    <br />
+                    <a id="btnClosePanel" href="#">
+                    <i class="material-icons">close</i>
+                    <span>Close</span>
+                    </a>
+                    </li>
+                    </ul>
+                    </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="row clearfix" style="margin-right: -2px; margin-top:-10px; border: 0px solid orange;">
+            <div class="container-fluid" style=" border: 0px solid green;">
+                
+
+                <div id="PartialView">
+                </div>
+
+            </div>
+            <!-- #END# Exportable Table -->
+        </div>
+        
+    </section>
+
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar" style="background-color: #D5D5D6; margin-left: 0px;">
+            <!-- Menu -->
+            <br />
+            <div class="menu">
+                 <ul class="list">
+                <li>
+                <a id="btnHome" href="#" style="padding-left: 20px; margin-top:10px;">
+                <i class="fa fa-home" style="font-size:48px;color:#E9510E">
+                     <span style="color: #E9510E;font-size:20px">Home</span>
+                </i>
+                </a>
+               @* <p style="font-size:14px;color:#E9510E;">Home</p>*@
+                </li>
+              @*  <li>
+                <a id="btnHome" href="#" style="padding-left: 20px; margin-top:10px;">
+                <i class="fa fa-pencil-square-o" style="font-size:48px;color:#E9510E"></i>
+                </a>
+                </li>*@
+                <li style="display:inline-flex">
+                <a id="btnRegister" href="#" style="padding-left: 20px; margin-top:10px;">
+                <i class="material-icons" style="font-size:48px;color:#E9510E">
+                edit_square 
+                </i> <span style="color: #E9510E;font-size:20px">Registration</span>
+                </a>
+                @*<p style="font-size:14px;color:#E9510E;">Registration</p>*@
+
+                </li>
+                </ul>
+
+              @*  <ul class="list">
+                    <li>
+                        <a id="btnHome" href="#" style="padding-left: 20px; margin-top:10px;">
+                            <i class="fa fa-home" style="font-size:48px;color:#E9510E">
+                                <span style="font-size:24px;color:#E9510E;">Home</span>
+                            </i>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a id="btnHome" href="#" style="padding-left: 20px; margin-top:10px;">
+                            <i class="material-icons" style="font-size:48px;color:#E9510E">
+                                edit_square
+                                <span style="font-size:24px;color:#E9510E;">Registration</span>
+                            </i>
+                        </a>
+
+                    </li>
+                </ul>*@
+            </div>
+
+        </aside>
+    </section>
+
+
+
+    <div class="modal fade modalcenter" data-backdrop="static" id="loader" role="dialog" style="overflow-y: hidden; overflow-x: hidden; ">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content" style="opacity: 0.7;">
+                <div class="modal-body" align="center">
+                    <div class="loader"></div>
+                    <h4>Processing, please wait.....  </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        $(function() {
+            $.AdminBSB.leftSideBar.activate();
+            //$("#loader").modal();
+            ResizeContentContainer();
+            window.onresize = ResizeContentContainer;
+        });
+
+        function MyFunction() {
+            $(".dropdown-menu").toggle();
+        }
+
+        function SetActiveModule(module) {
+            $('.list>li').removeClass('active');
+            $('.list>li').find('a#' + module).parent().addClass('active');
+            $('.ml-menu>li').removeClass('active');
+            $('.ml-menu>li').find('a#' + module).parent().addClass('active');
+            if ($('.ml-menu').find('li.active').length <= 0) {
+                $('.menu-toggle').removeClass('toggled');
+                $('.ml-menu').css({ 'display': 'none' });
+            }
+        }
+
+        //$("#btnHome").click(function() {
+        //    var relativeURI = "/Home/PreRegistrationHomePage";
+        //    renderPartialView(relativeURI);
+
+        //});
+
+        $('#btnRegister').click(function() {
+            //SetActiveModule('btndoor');
+            controllerName = 'Home';
+            var relativeURI = "/Home/PreRegistrationRegisterPage";
+            renderPartialView(relativeURI);
+        });
+        $('#btnHome').click(function() {
+            //SetActiveModule('btndoor');
+            controllerName = 'Home';
+            var relativeURI = "/Home/PreRegistrationHomePage";
+            renderPartialView(relativeURI);
+        });
+       
+        $('#btnRoleList').click(function() {
+            SetActiveModule('btnRoleList');
+            controllerName = 'Setting';
+            var relativeURI = "/Setting/ListRole";
+            renderPartialView(relativeURI);
+        });
+
+        $('#btnDeptList').click(function() {
+            SetActiveModule('btnDeptList');
+            controllerName = 'Setting';
+            var relativeURI = "/Setting/ListDepartment";
+            renderPartialView(relativeURI);
+        });
+        $('#btnPwdList').click(function() {
+            SetActiveModule('btnPwdList');
+            controllerName = 'Setting';
+            var relativeURI = "/Setting/ListPasswordSetting";
+            renderPartialView(relativeURI);
+        });
+        $('#btnUserList').click(function() {
+            SetActiveModule('btnUserList');
+            controllerName = 'Setting';
+            var relativeURI = "/Setting/ListUser";
+
+            renderPartialView(relativeURI);
+        });
+
+
+        $('#btnAttendance').click(function() {
+            //renderPartialView(relativeURI);
+            alert("No Implemented - AduitTrail");
+        });
+
+
+
+        $('#btnRegistration').click(function() {
+            //renderPartialView(relativeURI);
+            alert("No Implemented - Registration");
+        });
+
+        $('#btnEnrolledList').click(function() {
+            //renderPartialView(relativeURI);
+            alert("No Implemented - EnrolledList");
+        });
+
+        $("#btnClosePanel").click(function() {
+            $(".dropdown-menu").toggle();
+        });
+
+
+        $("#sideMenuBtn").click(function() {
+
+            if (document.getElementById("leftsidebar").style.marginLeft != "0px") {
+                document.getElementById("leftsidebar").style.marginLeft = "0px";
+                $("#sideMenuBtn").text("arrow_back");
+            }
+            else {
+                document.getElementById("leftsidebar").style.marginLeft = ($("#leftsidebar").width() * -1) + "px";
+                $("#sideMenuBtn").text("menu");
+            }
+        });
+
+        $('#linkLogout').on('click', function() {
+            LogoutDialog("logoutForm");
+        });
+        function renderPartialView(relatetiveURI) {
+
+            $.ajax({
+                url: relatetiveURI,
+                type: "GET",
+                cache: false,
+                beforeSend: function() {
+                    $('.page-loader-wrapper').delay(5).fadeIn();
+                },
+                complete: function() {
+                    $('.page-loader-wrapper').delay(5).fadeOut();
+                },
+                success: function(data) {
+                    $("#PartialView").html("");
+                    try {
+                        if (data != null) {
+                            $("#PartialView").html(data);
+                        }
+                        else {
+                            // something wrong - logout
+                            $('#logoutForm').submit()
+                        }
+                    }
+                    catch (err) {
+                        swal("Error", err.message, "error");
+                        // alert(err.message);
+                    }
+                },
+                error: function(data) {
+                    swal("Error", data.statusText, "error");
+                }
+            });
+        }
+
+
+        function ResizeContentContainer() {
+            if ($(window).width() < 1170) {
+                document.getElementById("leftsidebar").style.marginLeft = ($("#leftsidebar").width() * -1) + "px";
+                $("#sideMenuBtn").text("menu");
+
+                $("#sideMenuBtn").show();
+
+            }
+            else {
+                document.getElementById("leftsidebar").style.marginLeft = "0px";
+                $("#sideMenuBtn").text("arrow_back");
+                $("#sideMenuBtn").hide();
+
+            }
+        }
+
+    </script>
+
+
+    <!-- Visual Studio Browser Link -->
+    <script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestId="f37d43bf567540ecbbd7cdf9d8e945be" data-requestMappingFromServer="false" data-connectUrl="http://localhost:53355/6b0de3d85a1f42ae81c85bdd3228d225/browserLink"></script>
+    <!-- End Browser Link -->
+
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+</body>
+</html>

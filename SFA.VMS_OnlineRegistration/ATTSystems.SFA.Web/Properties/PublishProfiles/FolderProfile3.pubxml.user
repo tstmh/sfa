@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>F:\ATTSystems\Online_portal_SFA\SFA_HOST_191223\WEB</_PublishTargetUrl>
+    <History>True|2024-01-23T06:59:14.2419396Z;True|2024-01-23T12:11:12.6243592+05:30;True|2024-01-19T13:07:26.1312954+05:30;True|2024-01-19T12:28:38.5736911+05:30;True|2024-01-18T16:41:29.5029842+05:30;True|2024-01-18T16:41:10.2414524+05:30;True|2024-01-18T16:39:41.9585994+05:30;True|2024-01-18T16:32:58.0078561+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,409 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+@{
+    ViewData["Title"] = "Blacklist";
+    Layout = null;
+}
+<head>
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+    <style>
+
+        body {
+            overflow-x: hidden;
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 20px;
+            vertical-align: middle;
+            margin-top: 8px;
+        }
+
+            .switch input {
+                display: none;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #A1A6AB;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 14px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #E9510E;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+
+        .rwd-table {
+            margin: auto;
+            min-width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+            .rwd-table tr:first-child {
+                border-top: none;
+                background: #E9510E;
+                color: #fff;
+            }
+
+            .rwd-table tr {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                background-color: #f5f9fc;
+            }
+
+            .rwd-table th,
+            .rwd-table td {
+                padding: 1em !important;
+            }
+
+            .rwd-table td {
+                color: #333;
+            }
+
+        #BtnSave {
+            background: #E9510E;
+            color: #fff;
+        }
+
+        #btnpop {
+            background: #E9510E;
+            color: #fff;
+        }
+
+    </style>
+
+</head>
+
+<h4 id="deviceHead"><b>BlackListed Visitors</b></h4>
+<br />
+@*<div class="row">
+    <div class="col-lg-4">
+        <fieldset class="scheduler-border">
+            <legend>Upload Bulk Blacklist Visitors</legend>
+            <div class="d-flex align-items-center">
+                <a href="~/Excel/Blacklist Template.xlsx" onclick="" class="form-label" style="">
+                    <img src="~/Images/Excel-Download.jpg" width="15" height="20">
+                    <span style="color:#1f5bd3;cursor:pointer">Download Template</span>
+                </a>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <a style="" class="form-label" id="blacklist_btnUpload" data-toggle="modal" data-target="">
+                    <img src="~/Images/excel.jpg" width="15" height="20" />
+                    <span style="color:#1f5bd3;cursor:pointer">Upload</span>
+                </a>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-lg-2"></div>
+    <div class="col-lg-6">
+    </div>
+</div>
+<br />
+<br />*@
+<div class="row">
+  
+    @if (@Model.Modulename == "Administrator")
+    {
+        <div class="col-md-3" style="float:right">
+            <span id="btnExporblacklist" class="btn-export-excel" title="Export Excel" style="cursor: pointer">
+                <img src="~/Images/Excel-Download.jpg" width="28" height="34">
+                <span style="color:black;cursor:pointer">Dowload BlackList Details</span>
+            </span>
+
+        </div>
+    }
+
+</div>
+<fieldset class="scheduler-border">
+    <legend>Visitor Blacklist</legend>
+    <div class="table-responsive">
+        <table id="simple" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl" style="table-layout: fixed; width: 100%">
+            <thead>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Visitor Name</th>
+                    <th>Location</th>
+                   @*  <th>ID Type</th> *@
+                    <th>Passport/NRIC/FIN</th>
+                    <th>Visitor Type</th>
+                   @*  <th>Vehicle Number</th> *@
+                    <th style="display:none;">Entry Date</th>
+                    <th style="display:none;">Exit Date</th>
+                    <th style="display:none;">Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.RegistrationViewLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                {
+                    <tr id="row@(item.Data.listId)">
+                        <td>@item.Index</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data.listVisitorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data.listLocationName)
+                        </td>
+                       @*  <td>
+                            @Html.DisplayFor(modelItem => item.Data.listIdTypeName)
+                        </td> *@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data.listNricOrPassport)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data.listVisitorTypeName)
+                        </td>
+                        @* <td>
+                            @Html.DisplayFor(modelItem => item.Data.listVehicleNo)
+                        </td> *@
+                        <td style="display:none;">
+                            @Html.DisplayFor(modelItem => item.Data.listentrydate)
+                        </td>
+                        <td style="display:none;">
+                            @Html.DisplayFor(modelItem => item.Data.listexitdate)
+                        </td>
+                        <td style="display:none;">
+                            @Html.DisplayFor(modelItem => item.Data.listVisitorEmail)
+                        </td>
+                        <td align="center">
+                            <label class="switch">
+                                <input data-id="@item.Data.duplicateNricOrPassport" data-para="@item.Data.listId" id="rd" class="pr" type="checkbox" data-toggle="modal" data-target="#myModal" checked=@item.Data.duplicateNricOrPassport />
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+<script>
+    $(document).ready(function () {
+        $('#pleaseWaitDialog').modal('hide');
+    });
+</script>
+
+<div id="modalDiv"></div>
+
+<div class="modal fade" id="myModal" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Visitor Name</label><p id="visitorname"></p>
+                        <br />
+                        <label>ID Type</label><p id="idtypename"></p>
+                        <br />
+                        <label>Visitor Type</label><p id="visitortypename"></p>
+                        <br />
+                        <label>Visitor Registration DateTime</label><p id="visitentrydate"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Location </label><p id="locationname"></p>
+                        <br />
+                        <label>Passport/NRIC/FIN</label><p id="nric_passport"></p>
+                        <br />
+                        <label>Email Address</label><p id="visitoremail"></p>
+                        <br />
+                        <label>Visitor Expiry DateTime</label><p id="visitexitdate"></p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    @* <input type="checkbox" class="chbx" id="cbxmap" /> *@ Agree To Blacklist/Unblacklist this Visitor?
+                </div>
+                <br />
+                <div class="row">
+                    <label>Please Enter Reason</label>
+                    @Html.TextBoxFor(model => model.ReasonToBlacklist, new { @class = "form-control", id = "reason", onpaste = "return false;" })
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="BtnSave" class="btn waves-light" style="background: #E9510E;color:white">Submit</button>
+                <button type="button" class="btn waves-light" id="btnpop" style="background: grey;color:white" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".pr").click(function () {
+        var clickedRow = $(this).closest('tr').find('td');
+        var _visitorname = $(clickedRow).eq(1).text().trim();
+        var _locationname = $(clickedRow).eq(2).text().trim();
+        var _idtypename = $(clickedRow).eq(3).text().trim();
+        var _nricpassword = $(clickedRow).eq(4).text().trim();
+        var _visitortypename = $(clickedRow).eq(5).text().trim();
+        var _visitentrydate = $(clickedRow).eq(7).text().trim();
+        var _visitexitdate = $(clickedRow).eq(8).text().trim();
+        var _visitoremail = $(clickedRow).eq(9).text().trim();
+
+        document.getElementById('visitorname').innerHTML = _visitorname;
+        document.getElementById('locationname').innerHTML = _locationname;
+        document.getElementById('idtypename').innerHTML = _idtypename;
+        document.getElementById('nric_passport').innerHTML = _nricpassword;
+        document.getElementById('visitortypename').innerHTML = _visitortypename;
+        document.getElementById('visitentrydate').innerHTML = _visitentrydate;
+        document.getElementById('visitexitdate').innerHTML = _visitexitdate;
+        document.getElementById('visitoremail').innerHTML = _visitoremail;
+    })
+
+    $('#simple').on('click', '.pr', function () {
+        // $('.chbx').prop('checked', false);
+        // $('#BtnSave').attr('disabled', true);
+        var id = $(this).attr('data-para');
+        window.sessionStorage.setItem("siteid", id);
+        var check = $(this).attr('data-id');
+        window.sessionStorage.setItem("check", check);
+    });
+
+    $("#BtnSave").click(function () {
+        var _reason = $("#reason").val();
+        if (_reason.trim() == "") {
+            swal("Info", "Please Enter Reason", "info");
+            return false;
+        }
+        else {
+            var id = window.sessionStorage.getItem("siteid");
+            window.sessionStorage.removeItem("siteid");
+            var check = window.sessionStorage.getItem("check");
+            window.sessionStorage.removeItem("check");
+
+            var registrationViewModel = {};
+            registrationViewModel.id = id;
+            registrationViewModel.reasonToBlacklist = _reason;
+
+            if (id > 0) {
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: "/AdminPortal/Blacklist_Trigger",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(registrationViewModel),
+                    success: function (data) {
+                        window.sessionStorage.removeItem("_type");
+                        window.sessionStorage.setItem("_type", "2");
+                        if (data.resultCode == 200) {
+                            $('#myModal').modal('hide');
+                            // $('#cbxmap').prop('checked', false);
+                            if (check == "False") {
+                                showDialog("Visitor Blacklisted Successfully", "Update", "success", "AdminPortal", "BlackList", 0, false, false)
+                            }
+                            if (check == "True") {
+                                showDialog("Visitor Removed from the Blacklist", "Update", "success", "AdminPortal", "BlackList", 0, false, false)
+                            }
+                        } else {
+
+                        }
+                    },
+                });
+            }
+        }
+    });
+
+    $("#btnpop").click(function () {
+        $('#myModal').modal('hide');
+        $('.modal-backdrop').remove();
+        var relativeURI = "@Url.Action("BlackList", "AdminPortal")";
+        renderPartialView(relativeURI);
+    });
+
+    //Excel upload
+    $("#blacklist_btnUpload").click(function () {
+        var relativeURI = '@Url.Action("UploadBlacklist", "AdminPortal")';
+        RenderPartialView1(relativeURI, "#blacklist_uploadExcelModal");
+    });
+
+</script>
+
+<script>
+    // $(document).ready(function () {
+    //     const checkbox = document.getElementById('cbxmap')
+    //     $('#BtnSave').attr('disabled', true);
+    //     checkbox.addEventListener('change', (event) => {
+    //         if (event.currentTarget.checked) {
+    //             $('#BtnSave').attr('disabled', false); //disable input
+    //         } else {
+    //             $('#BtnSave').attr('disabled', true); //disable input
+    //         }
+    //     })
+    // });
+</script>
+<script>
+
+    $("#btnExporblacklist").click(function () {
+        var path = location.pathname.replace("/Home/Index", "");
+        window.location = path + '/AdminPortal/ExportblacklistVisitor';
+    });
+</script>

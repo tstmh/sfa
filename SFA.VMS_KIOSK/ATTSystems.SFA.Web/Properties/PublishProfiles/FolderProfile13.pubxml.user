@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\ATT Systems\ATTSystem_SFA_project\SFA_KIOSK_MOBILE\HOST\WEB_Kiosk</_PublishTargetUrl>
+    <History>True|2024-04-24T05:08:10.2858320Z;True|2024-04-24T09:27:10.5443082+05:30;True|2024-04-24T09:25:21.4899983+05:30;True|2024-04-24T09:00:07.9853441+05:30;True|2024-04-23T13:38:35.1755147+05:30;True|2024-04-23T13:22:12.8716261+05:30;True|2024-04-23T12:37:01.9129349+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

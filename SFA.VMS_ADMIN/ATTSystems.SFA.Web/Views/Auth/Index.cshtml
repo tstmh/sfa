@@ -1,0 +1,12 @@
+﻿<script src='@Url.Content("~/js/jquery-3.7.1.min.js")'></script>
+@{
+    Layout = null;
+}
+<h4>Expired</h4>
+@using (Html.BeginForm("Logoff", "Auth", FormMethod.Post, new { id = "logoutForm" }))
+{
+}
+
+<script>
+    $('#logoutForm').submit()
+</script>

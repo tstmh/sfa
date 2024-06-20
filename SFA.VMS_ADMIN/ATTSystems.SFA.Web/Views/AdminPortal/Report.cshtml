@@ -1,0 +1,445 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.AdminPortalViewModel
+
+@{
+    ViewData["Title"] = "Report";
+    Layout = null;
+}
+<style>
+   /* fieldset {
+        border: 2px solid #ddd !important;
+        margin: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        padding-left: 10px !important;
+        border-color: #0f3f3c !important;
+    }*/
+
+    body{
+        overflow-x:hidden;
+    }
+    fieldset.scheduler-border {
+        border-radius: 8px;
+        border: 1px groove #ddd !important;
+        padding: 0 0.4em 0.4em 0.4em !important;
+        margin: 0 0 0.2em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+    legend {
+        font-size: 1.2em !important;
+        text-align: left !important;
+        width: inherit;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+
+    .rwd-table {
+        margin: auto;
+        min-width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+    }
+
+        .rwd-table tr:first-child {
+            border-top: none;
+            background: #E9510E;
+            color: #fff;
+        }
+
+        .rwd-table tr {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f9fc;
+        }
+
+            .rwd-table tr:nth-child(odd):not(:first-child) {
+                background-color: #ebf3f9;
+            }
+
+        .rwd-table th {
+            display: none;
+        }
+
+        .rwd-table td {
+            display: block;
+        }
+
+            .rwd-table td:first-child {
+                margin-top: .5em;
+            }
+
+            .rwd-table td:last-child {
+                margin-bottom: .5em;
+            }
+
+            .rwd-table td:before {
+                content: attr(data-th) ": ";
+                font-weight: bold;
+                width: 120px;
+                display: inline-block;
+                color: #000;
+            }
+
+        .rwd-table th,
+        .rwd-table td {
+            text-align: left;
+        }
+
+    .rwd-table {
+        color: #333;
+        border-radius: .4em;
+        overflow: hidden;
+    }
+
+        .rwd-table tr {
+            border-color: #bfbfbf;
+        }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: .5em 1em;
+        }
+
+
+            .rwd-table td:before {
+                display: none;
+            }
+
+        .rwd-table th,
+        .rwd-table td {
+            display: table-cell;
+            padding: .25em .5em;
+        }
+
+            .rwd-table th:first-child,
+            .rwd-table td:first-child {
+                padding-left: 0;
+            }
+
+            .rwd-table th:last-child,
+            .rwd-table td:last-child {
+                padding-right: 0;
+            }
+
+        .rwd-table th,
+        .rwd-table td {
+            padding: 1em !important;
+        }
+
+
+
+    /* THE END OF THE IMPORTANT STUFF */
+
+    /* Basic Styling */
+
+
+    .container {
+        display: block;
+        text-align: center;
+    }
+
+    h3 {
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        font-size: 1.5em;
+        color: #cecece;
+    }
+
+        h3:before {
+            content: "\25C0";
+            position: absolute;
+            left: -50px;
+            -webkit-animation: leftRight 2s linear infinite;
+            animation: leftRight 2s linear infinite;
+        }
+
+        h3:after {
+            content: "\25b6";
+            position: absolute;
+            right: -50px;
+            -webkit-animation: leftRight 2s linear infinite reverse;
+            animation: leftRight 2s linear infinite reverse;
+        }
+         .table-responsive1 {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+      @@media (max-width: 480px) {          
+            #heading{
+                  margin-top:25%;
+                  
+            }
+        }
+
+</style>
+<h4 id="heading">Reports</h4>
+<br />
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-block">
+                        <fieldset class="scheduler-border">
+                            <legend>Report</legend>
+                            <div class="row clearfix">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="memberType" class="form-label">Select Door</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control" asp-for="accessPoint">
+                                                <option value="">Please select an option:</option>
+                                                <option value="Door1">Student</option>
+                                                <option value="Door2">Staff</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="memberType" class="form-label">Member Type</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control">
+                                                <option value="">Please select an option:</option>
+                                                <option value="option1">Student</option>
+                                                <option value="option1">Staff</option>
+                                                <option value="option1">Lecture</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="startTime" class="form-label">Start Time</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="startTime" type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label asp-for="endTime" class="form-label">End Time</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input asp-for="endTime" type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br /><br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <center>
+                                            <button type="button" class="btn btn-info" style="color:#fff; background: #488ccc">Search</button>
+                                        </center>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Page body end -->
+    </div>
+</div>
+
+<br />
+<br />
+<div class="container">
+      <div class="table-responsive1">
+    <table class="rwd-table">
+        <tbody>
+            <tr>
+                <th>Sl.No</th>
+                <th>ID</th>
+                <th>Member Type</th>
+                <th>Door</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+            </tr>
+            <tr>
+                <td data-th="Supplier Code">
+                    1
+                </td>
+                <td data-th="Supplier Name">
+                    HR_101
+                </td>
+                <td data-th="Invoice Number">
+                    Student
+                </td>
+                <td data-th="Invoice Date">
+                    Door_101
+                </td>
+                <td data-th="Due Date">
+                    12/10/2023
+                </td>
+                <td data-th="Net Amount">
+                    18/10/2023
+                </td>
+            </tr>
+            <tr>
+                <td data-th="Supplier Code">
+                    2
+                </td>
+                <td data-th="Supplier Name">
+                    HR_102
+                </td>
+                <td data-th="Invoice Number">
+                    Staff
+                </td>
+                <td data-th="Invoice Date">
+                    Door_102
+                </td>
+                <td data-th="Due Date">
+                    12/10/2023
+                </td>
+                <td data-th="Net Amount">
+                    18/10/2023
+                </td>
+            </tr>
+            <tr>
+                <td data-th="Supplier Code">
+                    3
+                </td>
+                <td data-th="Supplier Name">
+                    HR_103
+                </td>
+                <td data-th="Invoice Number">
+                    Lecture
+                </td>
+                <td data-th="Invoice Date">
+                    Door_103
+                </td>
+                <td data-th="Due Date">
+                    12/10/2023
+                </td>
+                <td data-th="Net Amount">
+                    18/10/2023
+                </td>
+            </tr>
+            <tr>
+                <td data-th="Supplier Code">
+                    4
+                </td>
+                <td data-th="Supplier Name">
+                    HR_104
+                </td>
+                <td data-th="Invoice Number">
+                    Student
+                </td>
+                <td data-th="Invoice Date">
+                    Door_104
+                </td>
+                <td data-th="Due Date">
+                    12/10/2023
+                </td>
+                <td data-th="Net Amount">
+                    18/10/2023
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+
+
+@*<fieldset>
+    <legend>Report</legend>
+    <div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label asp-for="doorId" class="form-label">Select Door</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" style="width:300px; border-color:#0f3f3c">
+                            <option value="">Please select an option:</option>
+                            <option value="option1">Door101</option>
+                            <option value="option1">Door102</option>
+
+
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label asp-for="memberType" class="form-label">Member Type</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" style="width:300px; border-color:#0f3f3c">
+                            <option value="">Please select an option:</option>
+                            <option value="option1">Student</option>
+                            <option value="option1">Staff</option>
+                            <option value="option1">Lecture</option>
+
+
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <br />
+
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label asp-for="startTime" class="form-label">Start Time</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span>  <input asp-for="startTime" type="time" class="form-control" style="width:300px; border-color:#0f3f3c"></span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label asp-for="endTime" class="form-label">End Time</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span>  <input asp-for="endTime" type="time" class="form-control" style="width:300px; border-color:#0f3f3c"></span>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12"><center><button type="button" class="btn btn-info" style="color:#fff; background: #488ccc">Search</button></center></div>
+
+        </div>
+
+    </div>
+
+</fieldset>*@

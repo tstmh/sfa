@@ -1,0 +1,141 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.KioskViewModel
+@{
+    ViewData["Title"] = "Nricconfirm";
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        NRIC Message
+    </title>
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            transform-origin: center center;
+        }
+
+        #btnBack {
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            float: right;
+            margin-top: -22%;
+        }
+
+        .white-box {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            color: black;
+            width: fit-content;
+            border-radius: 8px;
+            transform: scale(1.6);
+        }
+
+        #headDiv {
+            color: #E9510E;
+            text-align: center;
+        }
+
+        #mainDiv {
+            margin-top: 10%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="~/css/fontawsome.min.css" />
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+
+    <div class="col-md-12" id="headDiv">
+        <br />
+        <br />
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <br /> <br />
+            <br /><br /><br />
+            <img src="~/images/Singapore_Food_Agency_logo.png" height="150" width="250" alt="logo" />
+            <br /><br /> <br /><br />
+            <br />
+            <br />
+            <br /><br />
+        </div>
+        <div class="col-md-2">
+            <button id="btnBack" onclick="window.location.href='/Kiosk/SelectLanguage';">
+                <img src="~/images/homeicon.png" alt="home" width="95" />
+            </button>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="row" id="mainDiv">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 text-center">
+            <div class="white-box" style="margin: 0 auto; width: fit-content;">
+                <br /><br />
+                <h1><strong style="font-size: xxx-large;">Thank You</strong></h1>
+                <p style="font-size: 25px;"><strong>@Model.visitorName</strong></p>
+                <p style="font-size: 36px;">
+                    &nbsp;&nbsp; Your registration is valid for 1 year, &nbsp;&nbsp;<br />
+                    &nbsp;  From @Html.DisplayFor(Model => Model.NricFromdate)&nbsp;
+                    &nbsp; <br />to @Html.DisplayFor(Model => Model.NricTodate)
+                </p>
+                <br>
+                <br> <br> <br>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+
+    <script>
+        function onInactive(ms, callback) {
+            var timeout;
+            window.addEventListener("mousemove", resetTimer, false);
+            window.addEventListener("mousedown", resetTimer, false);
+            window.addEventListener("keypress", resetTimer, false);
+            window.addEventListener("touchmove", resetTimer, false);
+            startTimer();
+
+            function startTimer() {
+                timeout = setTimeout(callback, ms);
+            }
+
+            function resetTimer() {
+                clearTimeout(timeout);
+                startTimer();
+            }
+        }
+
+        onInactive(7000, function () {
+            window.location.href = '/Kiosk/SelectLanguage';
+        });
+    </script>
+
+    <script type="text/javascript" language="javascript">
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+﻿@model ATTSystems.SFA.Model.ViewModel.RegistrationViewModel
+
+@{
+    ViewData["Title"] = "Registration List";
+    Layout = null;
+}
+
+<head>
+    <script src='@Url.Content("~/js/jquery-datatable.js")'></script>
+    <script src='@Url.Content("~/js/jquery.dataTables.js")'></script>
+    <script src='@Url.Content("~/js/dataTables.bootstrap.js")'></script>
+
+
+
+    @* <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" /> *@
+    <style>
+
+        .modal-backdrop {
+            opacity: 0.3 !important
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        fieldset.scheduler-border {
+            border-radius: 8px;
+            border: 1px groove #ddd !important;
+            padding: 0 0.4em 0.4em 0.4em !important;
+            margin: 0 0 0.2em 0 !important;
+            -webkit-box-shadow: 0px 0px 0px 0px #000;
+            box-shadow: 0px 0px 0px 0px #000;
+        }
+
+        legend {
+            font-size: 1.2em !important;
+            text-align: left !important;
+            width: inherit;
+            padding: 0 10px;
+            border-bottom: none;
+        }
+
+        .rwd-table {
+            margin: auto;
+            min-width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+            .rwd-table tr:first-child {
+                border-top: none;
+                background: #E9510E;
+                color: #fff;
+            }
+
+            .rwd-table tr {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                background-color: #f5f9fc;
+            }
+
+            .rwd-table th,
+            .rwd-table td {
+                padding: 1em !important;
+            }
+
+            .rwd-table td {
+                color: #333;
+            }
+    </style>
+
+</head>
+
+<h4 id="doorHead">Registered Visitors</h4>
+<br />
+<form id="visitReg" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-4">
+            <fieldset class="scheduler-border">
+                <legend>Upload Bulk Registration</legend>
+                <div class="d-flex align-items-center">
+                    <a href="~/Excel/Registration Template.xlsx" onclick="" class="form-label" style="">
+                        <img src="~/Images/Excel-Download.jpg" width="15" height="20">
+                        <span style="color:#1f5bd3;cursor:pointer">Download Template</span>
+                    </a>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <a style="" class="form-label" id="btnUpload" data-toggle="modal" data-target="">
+                        <img src="~/Images/excel.jpg" width="15" height="20" />
+                        <span style="color:#1f5bd3;cursor:pointer">Upload</span>
+                    </a>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="col-lg-5">
+            @if (@Model.Modulename == "Administrator")
+            {
+                <fieldset class="scheduler-border">
+                    <legend>Download Registered Visitors</legend>
+                    <div class="d-flex align-items-center">
+                        <span id="btnExportExceljfp" class="btn-export-excel" title="Export Excel" style="">
+                            <img src="~/Images/Excel-Download.jpg" width="15" height="20">
+                            <span style="color:#1f5bd3;cursor:pointer">Download JFP Visitors</span>
+                        </span>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <span id="btnExportExcelppwc" class="btn-export-excel" title="Export Excel" style="">
+                            <img src="~/Images/Excel-Download.jpg" width="15" height="20">
+                            <span style="color:#1f5bd3;cursor:pointer">Download PPWC Visitors</span>
+                        </span>
+                    </div>
+                </fieldset>
+            }
+        </div>
+
+        <div class="col-lg-3">
+            <div class="align-right" style="padding-right: 10px; padding-top: 10px;">
+                <button type="button" data-toggle="modal" data-target="#myModal" id="btnAdd"
+                        class="btn btn-circle waves-effect waves-circle waves-float btnAdd" value="Add" title="Add" style="background: #E9510E;color:white">
+                    <i class="material-icons">&#xE145;</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+
+
+    <fieldset class="scheduler-border">
+        <legend>Registration Details</legend>
+        <div class="table-responsive">
+            <table id="myTable" class="table table-bordered table-striped table-hover js-basic-example dataTable rwd-table customTbl" style="table-layout: fixed; width: 100%">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Visitor Name</th>
+                        <th>Location</th>
+                        <th>ID Type</th>
+                        <th>Passport/NRIC/FIN</th>
+                        <th>Visitor Type</th>
+                        <th>Vehicle Number</th>
+                        <th>Registration DateTime</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var item in Model.RegistrationViewLists.Select((x, i) => new { Data = x, Index = i + 1 }))
+                    {
+                        <tr id="row@(item.Data.listNricOrPassport2)">
+                            <td>@item.Index</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listLocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listIdTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listNricOrPassport)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVisitorTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data.listVehicleNo)
+                            </td>
+                            <td>@item.Data.listentrydate</td>
+                            <td align="center">
+                                <a href="#" data-id="@item.Data.listNricOrPassport2" class="lnkEdit" title="Edit" data-para="@item.Data.listNricOrPassport2"><i class="material-icons" style="color: #E9510E">edit</i></a>
+                                @*                             <a href="#" data-id="@item.Data.listNricOrPassport2" class="lnkDelete" title="Delete" data-para="@item.Data.listNricOrPassport2"><i class="material-icons" style="color: #E9510E">delete</i></a>
+                            *@                            <button type="button" class="btn view" style="background-color: #E9510E; color: #fff;" data-id="@item.Data.listNricOrPassport2" data-para="@item.Data.listNricOrPassport2">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#pleaseWaitDialog').modal('hide');
+    });
+</script>
+<div id="modalDiv">
+</div>
+
+<script>
+
+    //Excel upload
+    $("#btnUpload").click(function () {
+        var relativeURI = '@Url.Action("UploadRegistration", "AdminPortal")';
+        RenderPartialView1(relativeURI, "#uploadExcelModal");
+    });
+
+    $(function () {
+        $('.customTbl').on('click', '.lnkDelete', function () {
+            var _vstid = $(this).attr('data-para');
+            var token = $('input[name="__RequestVerificationToken"]', $('#visitReg')).val();
+            deleteDialog("AdminPortal", "DeleteVisitor", _vstid, token);
+            // window.setTimeout(function () {
+            //     var relativeURI = "@Url.Action("PreRegistration", "AdminPortal")";
+            //     renderPartialView(relativeURI);
+            // }, 500)
+        });
+        $('.customTbl').on('click', '.lnkEdit', function () {
+
+            $('.lnkEdit').addClass('tmpEdit');
+            $('.tmpEdit').removeClass('lnkEdit');
+            setTimeout(function () {
+                $('.tmpEdit').addClass('lnkEdit');
+                $('.lnkEdit').removeClass('tmpEdit');
+            }, 3000);
+            /* End of disable link for 4 seconds */
+            var _msgId = $(this).attr('data-para');
+
+            if (_msgId != "") {
+                var relativeURI = "@Url.Action("EditRegModel", "AdminPortal", new { id = "_para1" })".replace("_para1", _msgId);
+                RenderPartialView1(relativeURI, "#editregmodel");
+            }
+        });
+
+        /* Add Method Here */
+        $('#btnAdd').click(function () {
+            $('.btnAdd').attr('disabled', true);
+            setTimeout(function () {
+                $('.btnAdd').attr('disabled', false);
+            }, 4000);
+            var relativeURI = "@Url.Action("SingleRegisterModal", "AdminPortal")";
+            RenderPartialView1(relativeURI, "#singleregisterModal");
+        });
+
+        $('.customTbl').on('click', '.view', function () {
+            var _msgId = $(this).attr('data-para');
+            if (_msgId != "") {
+                var relativeURI = "@Url.Action("ViewAllDetails", "AdminPortal", new { id = "_para1" })".replace("_para1", _msgId);
+                RenderPartialView1(relativeURI, "#viewAllDetails");
+            }
+        });
+    });
+
+    $('.toggle-input').click(function () {
+        swal("Error", "Failed to upload template", "error");
+    });
+
+    function RenderPartialView1(relativeURI, modalType) {
+        $.ajax({
+            url: relativeURI,
+            type: "Get",
+            cache: false,
+            success: function (data) {
+                //custom showing popup
+                $("#modalDiv").html("");
+                $("#modalDiv").html(data);
+                $(modalType).modal('show');
+            },
+            error: function (data) {
+                swal("info", data.statusText, "info");
+            }
+        });
+    }
+
+
+</script>
+<script>
+
+    $("#btnExportExceljfp").click(function () {
+        exportData(1, "Jurong Fishery Port"); // LocationId for Jurong Fishery Port
+    });
+
+    $("#btnExportExcelppwc").click(function () {
+        exportData(2, "Pasir Panjang Wholesale Centre"); // LocationId for PPWC
+    });
+
+    function exportData(locationId, locationName) {
+        var path = location.pathname.replace("/Home/Index", "");
+        window.location = `${path}/AdminPortal/ExportVisitorRegistrationsToExcel?locationId=${locationId}&locationName=${locationName}`;
+    }
+
+
+    var prevErr = [];
+    function SuccessCreate(e) {
+        var msg = e.message;
+        var isDelete = false;
+        var isUpdate = false;
+        if (e.resultCode == 200) {
+            if (e.modalType == "Add") {
+                $('#singleregisterModal').modal('hide');
+                showDialog(msg, e.modalType + " Visitor", "success", "AdminPortal", "PreRegistration", 0, isUpdate, isDelete);
+            } else if (e.modalType == "Update") {
+                $('#editFloorModal').modal('hide');
+                showDialog(msg, e.modalType + " Visitor", "success", "AdminPortal", "PreRegistration", 0, isUpdate, isDelete);
+            }
+            else if (e.modalType == "Delete") {
+                isDelete = true;
+                showDialog(msg, e.modalType + " Visitor", "success", "AdminPortal", "PreRegistration", 0, isUpdate, isDelete);
+            }
+            else {
+                $('#addFloorModal').modal('hide');
+            }
+
+        } else if (e.resultCode == 300) {
+            if (e.modalType == "Add") {
+                $('#singleregisterModal').modal('hide');
+                showDialog(msg, e.modalType + " Visitor", "success", "AdminPortal", "PreRegistration", 0, isUpdate, isDelete);
+            }
+        } else if (e.resultCode == 400) {
+            if (e.modalType == "Add") {
+                $('#singleregisterModal').modal('hide');
+                showDialog(msg, e.modalType + " Visitor", "success", "AdminPortal", "PreRegistration", 0, isUpdate, isDelete);
+            }
+        }
+        else { // ==> validation error
+
+            if (e.Code == 201 && e.ModalType != "Delete") {
+                // clear previous error message
+                if (prevErr.length > 0) {
+                    for (i = 0; i < prevErr.length; i++) {
+                        $(prevErr[0]).html("");
+                    }
+                }
+
+                // process error message
+                prevErr = [];
+                var errTok = e.Message.split("|");
+
+                for (i = 0; i < errTok.length; i++) {
+                    var tok = errTok[i].split(":");
+
+                    prevErr.push('#' + tok[0])
+                    $('#' + tok[0]).html(tok[1]);
+                }
+            }
+
+            showDialog(msg, e.ModalType + " Floor", "error", "Floor", "ListFloor", 0, false, false);
+        }
+    }
+
+    function FailCreate(e) {
+        showDialog(e.statusText, "Floor", "error", "", "", 0, false, false);
+    }
+</script>
+
+@*   @section Scripts {
+    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable()
+        });
+    </script>
+
+    }
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable(
+            {
+                ajax: {
+                    url: '@Url.Action("GetRegisteredVisitor", "AdminPortal")',
+                    type: "POST",
+                    // success: function (e) {
+
+                    //     debugger;
+                    //     for (var i = 0; i < e.length; ++i) {
+                    //         var index = i + 1;
+                    //         var tableRow = '<tr id="' + e[i].listId +
+                    //             '"><td>' + index +
+                    //             '</td><td>' + e[i].listVisitorName +
+                    //             '</td><td>' + e[i].listLocationName +
+                    //             '</td><td>' + e[i].ListIdTypeName +
+                    //             '</td><td>' + e[i].listNricOrPassport +
+                    //             '</td><td>' + e[i].listVehicleNo +
+                    //             '</td><td>' + e[i].listVisitorTypeName +
+                    //             '</td><td>' + e[i].listentryDate +
+                    //             '</td>';
+                    //         $("#tblBody").append(tableRow);
+                    //     }
+                    // }
+                },
+                processing: true,
+                serverSide: true,
+                filter: true,
+                columns: [
+                    { data: "listVisitorName", name: "listVisitorName" },
+                    { data: "listLocationName", name: "listLocationName" },
+                    { data: "ListIdTypeName", name: "ListIdTypeName" },
+                    { data: "listNricOrPassport", name: "listNricOrPassport" },
+                    { data: "listVehicleNo", name: "listVehicleNo" },
+                    { data: "listVisitorTypeName", name: "listVisitorTypeName" },
+                    { data: "listentryDate", name: "listentryDate" },
+                ]
+            }
+        );
+    });
+</script> *@

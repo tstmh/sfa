@@ -1,0 +1,144 @@
+﻿@model ATTSystems.NetCore.Model.ViewModel.RoleViewModel
+<!-- Modal -->
+<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="~/js/bootstrap-multiselect.js" type="text/javascript"></script>
+@*<script src="~/js/jquery.validate.js"></script>
+<script src='~/js/admin.js'></script>
+
+  <link rel="stylesheet" href="~/css/bootstrap-3.4.1.min.css">
+
+  <script src="~/js/bootstrap-3.4.1.min.js"></script>
+*@
+<div class="modal fade" id="addRoleModal" role="dialog" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Role</h4>
+            </div>
+            <form id="addRoleForm" method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">Role Name @* <span class="spanRequired">*</span> *@</label>
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @data_val = "true", id = "name" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label class="form-label">Description </label>
+                                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control", id = "desc" })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <label class="form-label">Permission </label>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @foreach (var item in Model.ModuleList)
+                                    {
+                                        <div class="col-md-4">
+                                            <input type="checkbox" name="SelectedRoles" value="@item.Id" class="checkbox-inline" />
+                                            @item.ModuleName
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row clearfix js-sweetalert divModalFooterButton">
+                        <button type="button" class="btn" id="btnSaveRole" style="color:#fff; background: #E9510E">Save</button>
+                        <button type="button" class="btn " data-dismiss="modal" id="btnclose" style="background: grey;color:white">Close</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnSaveRole").click(function () {
+            var roleName = $('#Name').val();
+            if ($("#name").val() == "") {
+                swal("Info", "Please enter rolename", "info");
+                return false;
+            }
+            else if ($("#desc").val() == "") {
+                swal("Info", "Please enter description", "info");
+                return false;
+            }
+            var flag = false;
+            if (roleName != '') {
+                $(".checkbox-inline").each(function () {
+                    if ($(this).prop('checked') == true) {
+                        flag = true;
+                    }
+                });
+
+                if (flag) {
+                    // $("#loader").modal();
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("CreateRole", "Setting")",
+                        data: $("#addRoleForm").serialize(),
+                        cache: false,
+                        dataType: "json",
+                        success: function (e) {
+                            if (e.code == 200) {
+                                $('#addRoleModal').modal('hide');
+                                showDialog(e.resultDescription, "Role Added", "success", "Setting", "ListRole", 0, false, false);
+                            } else {
+                                showDialog(e.resultDescription, "Add Role", "error", "Setting", "ListRole", 0, false, false);
+                            }
+                        },
+                        error: function (e) {
+                            showDialog(e.statusText, "Role", "error", "", "", 0, false, false);
+                            $('#logoutForm').submit();
+                        },
+                    });
+                }
+                else {
+                    swal("info", "Please tick on at least one checkbox.", "info");
+                    return false;
+                }
+            }
+            else {
+                swal("Warning", "Please provide Role Name.", "error");
+            }
+        });
+    });
+
+    var prevErr = [];
+    function SuccessAddRole(e) {        
+        if (e.code == 200) {
+            $('#addRoleModal').modal('hide');
+            showDialog(e.resultDescription, "Add Role", "success", "Setting", "ListRole", 0, false, false);
+        }
+        else {            
+            showDialog(e.resultDescription, "Add Role", "error", "Setting", "ListRole", 0, false, false);
+        }
+    }
+    function FailAddRole(e) {
+        $("#loader").modal('hide');
+        showDialog(e.statusText, "Role", "error", "", "", 0, false, false);
+        $('#logoutForm').submit()
+    }
+    $('#btnclose').click(function () {
+        $("#addRoleModal").modal('hide');
+    });
+    $('.close').click(function () {
+        $("#addRoleModal").modal('hide');
+    });
+</script>
